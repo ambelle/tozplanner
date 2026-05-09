@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DreamMS TOZ Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient a1"></div><div class="ambient a2"></div><div class="ambient a3"></div>
+  <div class="app-shell">
+    <nav class="topbar">
+      <div>
+        <p class="eyebrow">DreamMS · Tower of ToZ</p>
+        <h1>TOZ Command Center</h1>
+      </div>
+      <div class="top-actions">
+        <button id="openDrawerBtn" class="soft-btn">Players & Sign-ups</button>
+        <button id="autoPlanBtn" class="primary">Auto Plan</button>
+        <button id="optimizeBtn">Replan Unlocked</button>
+        <button id="clearPlanBtn">Clear Plan</button>
+        <button id="hardResetBtn" class="danger">Reset</button>
+      </div>
+    </nav>
+
+    <section class="health-card">
+      <div class="health-title">
+        <span class="pulse"></span>
+        <div><b>Train Health</b><small>Hard validation: Dispel, FMA, SE/TH, SE-only and owner overlap.</small></div>
+      </div>
+      <div id="summary" class="summary"></div>
+    </section>
+
+    <section class="round-strip">
+      <div id="roundTabs" class="round-tabs"></div>
+    </section>
+
+    <main class="command-layout">
+      <section class="focus-card">
+        <div id="rounds"></div>
+      </section>
+      <aside id="assistantPanel" class="assistant-panel"></aside>
+    </main>
+  </div>
+
+  <aside id="drawer" class="drawer">
+    <div class="drawer-head">
+      <div><p class="eyebrow">Lobby</p><h2>Players & Sign-ups</h2></div>
+      <button id="closeDrawerBtn" class="icon-btn">×</button>
+    </div>
+
+    <section class="drawer-section quick-paste-box">
+      <h3>Quick Paste</h3>
+      <p class="mini-help">Paste in-game sign-ups. Flexible classes are grouped by owner, and auto-plan picks what is needed.</p>
+      <textarea id="quickPasteInput" class="quick-paste" placeholder="Examples:
+Random1 join 3 rounds mm/db/drk/aran
+Random2 r3-r7 bs
+Random3 all nl
+Random4 2 rounds sair bucc bw"></textarea>
+      <div class="two-buttons">
+        <button id="parseSignupBtn" class="primary">Parse & Add</button>
+        <button id="clearSignupBtn">Clear</button>
+      </div>
+      <div id="parsePreview" class="parse-preview"></div>
+    </section>
+
+    <section class="drawer-section add-box">
+      <h3>Add Single Character</h3>
+      <div class="form-grid">
+        <label>IGN<input id="ignInput" placeholder="e.g. RandomNL" /></label>
+        <label>Class<select id="classInput"></select></label>
+        <label>Level<input id="levelInput" type="number" value="250" min="1" /></label>
+        <label>Owner / Player<input id="ownerInput" placeholder="real player name" /></label>
+        <label>From<select id="fromRound"></select></label>
+        <label>To<select id="toRound"></select></label>
+      </div>
+      <button id="addPlayerBtn" class="wide primary">Add Player</button>
+    </section>
+
+    <section class="drawer-section tools">
+      <h3>Tools</h3>
+      <div class="tool-grid">
+        <button id="loadDefaultBtn">Restore Core Only</button>
+        <button id="removePublicBtn">Remove Publics</button>
+        <button id="exportBtn">Export</button>
+        <button id="importBtn">Import</button>
+      </div>
+      <textarea id="importBox" placeholder="Export / import JSON"></textarea>
+    </section>
+
+    <section class="drawer-section pool-section">
+      <div class="pool-title"><h3>Player Pool</h3><span id="poolCount"></span></div>
+      <input id="searchInput" class="search" placeholder="Search IGN / class / owner" />
+      <div id="playerPool" class="player-pool"></div>
+    </section>
+  </aside>
+  <div id="drawerShade" class="drawer-shade"></div>
+
+  <template id="playerTemplate">
+    <div class="player-card" draggable="true">
+      <div class="player-main"><strong class="p-ign"></strong><span class="p-class"></span></div>
+      <div class="p-tags"></div>
+      <div class="p-avail"></div>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
