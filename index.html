@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DreamMS TOZ Auto Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">DreamMS · Tower of ToZ</p>
+        <h1>TOZ Auto Planner</h1>
+        <p class="sub">Add player jobs and round availability, then let the planner build all 7 parties with Dispel, FMA, SE/TH, SI and role coverage in mind.</p>
+        <div class="hero-pills">
+          <span>7 rounds</span><span>6 slots each</span><span>Auto role checks</span><span>Soft pastel dashboard</span>
+        </div>
+      </div>
+      <div class="command-card">
+        <p class="command-title">Planning controls</p>
+        <div class="actions">
+          <button id="autoPlanBtn" class="primary">Auto-Plan All 7 Rounds</button>
+          <button id="optimizeBtn">Re-Optimize Empty / Unlocked</button>
+          <button id="clearPlanBtn" class="ghost">Clear Plan</button>
+          <button id="hardResetBtn" class="danger">Reset Everything</button>
+        </div>
+        <p class="hint">Tip: right-click a filled slot to lock it before re-optimizing.</p>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="panel">
+        <section class="panel-section add-box">
+          <div class="section-title">
+            <span class="dot"></span>
+            <h2>Add Player</h2>
+          </div>
+          <div class="form-grid">
+            <label>IGN<input id="ignInput" placeholder="e.g. RandomNL" /></label>
+            <label>Class
+              <select id="classInput"></select>
+            </label>
+            <label>Level<input id="levelInput" type="number" value="250" min="1" /></label>
+            <label>Owner / Player Name<input id="ownerInput" placeholder="Type the player name, e.g. John" /></label>
+            <label>From Round<select id="fromRound"></select></label>
+            <label>To Round<select id="toRound"></select></label>
+          </div>
+          <button id="addPlayerBtn" class="wide primary soft">Add Player to Pool</button>
+          <p class="mini-help">Owner = the real person controlling the character. The auto-planner will never place the same owner twice in the same round.</p>
+        </section>
+
+        <section class="panel-section">
+          <div class="section-title">
+            <span class="dot mint"></span>
+            <h2>Tools</h2>
+          </div>
+          <div class="tools">
+            <button id="loadDefaultBtn">Restore Belle + Gillian Only</button>
+            <button id="removePublicBtn">Remove All Publics</button>
+            <button id="exportBtn">Export</button>
+            <button id="importBtn">Import</button>
+            <textarea id="importBox" placeholder="Paste exported JSON here"></textarea>
+          </div>
+        </section>
+
+        <section class="panel-section pool-section">
+          <div class="section-title">
+            <span class="dot blue"></span>
+            <h2>Player Pool</h2>
+          </div>
+          <div class="filters">
+            <input id="searchInput" placeholder="Search IGN / class / owner" />
+          </div>
+          <div id="playerPool" class="player-pool"></div>
+        </section>
+      </aside>
+
+      <section class="board">
+        <div class="summary-wrap">
+          <div>
+            <p class="eyebrow small-eyebrow">Train overview</p>
+            <h2>Today’s TOZ Plan</h2>
+          </div>
+          <div id="summary" class="summary"></div>
+        </div>
+        <div id="rounds" class="rounds"></div>
+      </section>
+    </main>
+  </div>
+
+  <template id="playerTemplate">
+    <div class="player-card" draggable="true">
+      <div class="player-main">
+        <strong class="p-ign"></strong>
+        <span class="p-class"></span>
+      </div>
+      <div class="p-tags"></div>
+      <div class="p-avail"></div>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
