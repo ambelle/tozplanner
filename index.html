@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TOZ Command Center</title>
+<style>
+
+:root{
+  --bg:#f7f3ed;
+  --paper:#fffdf9;
+  --paper-2:#faf6ef;
+  --ink:#24211e;
+  --muted:#7c7368;
+  --soft:#aaa097;
+  --line:rgba(36,33,30,.09);
+  --line-2:rgba(36,33,30,.14);
+  --accent:#8e6f4e;
+  --accent-2:#c6a47a;
+  --accent-soft:#eee2d2;
+  --green:#6f9e7d;
+  --green-soft:#eaf4ed;
+  --yellow:#b89243;
+  --yellow-soft:#f7edd3;
+  --red:#be7474;
+  --red-soft:#f6e5e2;
+  --blue:#6d8eab;
+  --blue-soft:#e7f0f8;
+  --lav:#8773b7;
+  --lav-soft:#eee9f8;
+  --shadow:0 18px 60px rgba(52,43,34,.075);
+  --shadow-soft:0 8px 26px rgba(52,43,34,.045);
+  --radius:24px;
+  --font:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:var(--font);
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 8% 0%,rgba(142,111,78,.10),transparent 25%),
+    radial-gradient(circle at 92% 10%,rgba(109,142,171,.11),transparent 24%),
+    linear-gradient(180deg,#fbfaf7 0%,var(--bg) 55%,#eee8df 100%);
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(36,33,30,.024) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(36,33,30,.017) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.40),transparent 70%);
+}
+header{
+  position:relative;
+  z-index:1;
+  max-width:1600px;
+  margin:0 auto;
+  padding:42px 32px 22px;
+}
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border-radius:999px;
+  padding:7px 11px;
+  margin-bottom:18px;
+  color:var(--accent);
+  background:rgba(255,255,255,.70);
+  border:1px solid var(--line);
+  box-shadow:var(--shadow-soft);
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:.08em;
+}
+h1{
+  margin:0;
+  font-size:clamp(44px,5vw,78px);
+  line-height:.92;
+  letter-spacing:-.068em;
+  font-weight:800;
+}
+h1::after{
+  content:"";
+  display:block;
+  width:132px;
+  height:2px;
+  margin-top:22px;
+  background:linear-gradient(90deg,var(--accent),transparent);
+  opacity:.55;
+}
+h2{margin:0 0 14px;font-size:20px;line-height:1;font-weight:780;letter-spacing:-.04em}
+h3{margin:0 0 12px;font-size:14px;font-weight:750;letter-spacing:-.02em}
+.sub{
+  max-width:900px;
+  margin:20px 0 0;
+  color:var(--muted);
+  line-height:1.65;
+  font-size:15px;
+  font-weight:500;
+}
+.app-shell{
+  position:relative;
+  z-index:1;
+  max-width:1600px;
+  margin:0 auto;
+  padding:12px 32px 76px;
+  display:grid;
+  grid-template-columns:minmax(700px,1fr) 540px;
+  gap:22px;
+  align-items:start;
+}
+.workspace{min-width:0}
+.side-panel{
+  position:sticky;
+  top:18px;
+  max-height:calc(100vh - 24px);
+  min-width:540px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.card,.side-panel{
+  background:rgba(255,253,249,.88);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-soft);
+  backdrop-filter:blur(16px);
+}
+.card{padding:20px}
+.card:hover,.side-panel:hover{box-shadow:var(--shadow)}
+.panel-head{
+  padding:18px 18px 12px;
+  border-bottom:1px solid var(--line);
+}
+.panel-head p{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.45}
+.tabs{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:6px;
+  padding:12px;
+  border-bottom:1px solid var(--line);
+}
+.tab-btn{
+  padding:10px 8px;
+  border-radius:14px;
+  background:transparent;
+  color:var(--muted);
+  box-shadow:none;
+  border:0;
+  font-size:12px;
+}
+.tab-btn:hover{box-shadow:none;transform:none;background:#f0e8dd}
+.tab-btn.active{
+  background:#24211e;
+  color:#fffdf9;
+}
+.tab-content{
+  display:none;
+  padding:18px;
+  overflow:auto;
+}
+.tab-content.active{display:block}
+label{
+  display:block;
+  margin:15px 0 8px;
+  color:var(--muted);
+  font-size:10.5px;
+  font-weight:850;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+input,select,textarea{
+  width:100%;
+  background:rgba(255,255,255,.78);
+  color:var(--ink);
+  border:1px solid #e7ddd1;
+  border-radius:15px;
+  padding:12px 13px;
+  outline:none;
+  transition:border .18s ease,box-shadow .18s ease,background .18s ease;
+  font-family:var(--font);
+}
+input::placeholder,textarea::placeholder{color:#b0a69c}
+input:focus,select:focus,textarea:focus{
+  border-color:rgba(142,111,78,.58);
+  box-shadow:0 0 0 4px rgba(142,111,78,.11);
+  background:#fff;
+}
+textarea{
+  min-height:112px;
+  resize:vertical;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12px;
+}
+button{
+  cursor:pointer;
+  border:0;
+  border-radius:15px;
+  background:#24211e;
+  color:#fffdf9;
+  padding:11px 15px;
+  font-weight:800;
+  letter-spacing:-.015em;
+  box-shadow:0 12px 26px rgba(36,33,30,.12);
+  transition:transform .16s ease,box-shadow .16s ease,background .16s ease,opacity .16s ease;
+  font-family:var(--font);
+}
+button:hover{transform:translateY(-1px);box-shadow:0 16px 34px rgba(36,33,30,.16)}
+button.secondary{background:#eee8df;color:#3f3830;box-shadow:none}
+button.secondary:hover{background:#e8ded3}
+button.soft{background:var(--accent-soft);color:#5d452f;box-shadow:none}
+button.danger{background:var(--red-soft);color:#8b4242;box-shadow:none}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btnrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:13px}
+.tiny{font-size:12px;color:var(--muted);line-height:1.55;font-weight:500}
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  border-radius:999px;
+  padding:5px 9px;
+  margin:2px;
+  font-size:10.5px;
+  font-weight:800;
+  letter-spacing:.01em;
+  background:#f1ebe4;
+  color:#665c52;
+  border:1px solid rgba(36,33,30,.035);
+}
+.pill.ok{background:var(--green-soft);color:#426d4d}
+.pill.warn{background:var(--yellow-soft);color:#7c5d20}
+.pill.bad{background:var(--red-soft);color:#8a4646}
+.pill.info{background:var(--blue-soft);color:#4f6f88}
+.pill.lav{background:var(--lav-soft);color:#665390}
+.toolbar{
+  position:sticky;
+  top:14px;
+  z-index:20;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:18px;
+  margin-bottom:18px;
+  padding:16px;
+  background:rgba(255,253,249,.82);
+  border:1px solid var(--line);
+  border-radius:26px;
+  backdrop-filter:blur(18px);
+  box-shadow:var(--shadow-soft);
+}
+.toolbar .btnrow{margin:0;justify-content:flex-end}
+.summary-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  margin-bottom:14px;
+}
+.stat{
+  position:relative;
+  overflow:hidden;
+  min-height:84px;
+  background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,250,244,.62));
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:15px;
+}
+.stat::after{
+  content:"";
+  position:absolute;
+  width:94px;
+  height:94px;
+  border-radius:50%;
+  right:-40px;
+  bottom:-42px;
+  background:rgba(142,111,78,.07);
+}
+.stat b{display:block;font-size:30px;line-height:1;letter-spacing:-.055em}
+.stat span{display:block;margin-top:14px;color:#91877d;font-size:9.5px;font-weight:900;letter-spacing:.10em}
+.round-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+  margin-top:14px;
+}
+.round{
+  position:relative;
+  overflow:hidden;
+  background:rgba(255,253,249,.92);
+  border:1px solid var(--line);
+  border-radius:28px;
+  padding:16px;
+  box-shadow:var(--shadow-soft);
+  transition:transform .18s ease,border .18s ease,box-shadow .18s ease;
+}
+.round::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(142,111,78,.065),transparent 28%);
+}
+.round>*{position:relative;z-index:1}
+.round:hover{transform:translateY(-2px);border-color:rgba(142,111,78,.20);box-shadow:var(--shadow)}
+.round.completed{opacity:.76;background:rgba(244,239,232,.82)}
+.round.completed .round-title{text-decoration:line-through;opacity:.58}
+.round-title{font-size:21px;font-weight:800;letter-spacing:-.045em}
+.slots{display:grid;gap:9px;margin-top:13px}
+.slot{
+  min-height:61px;
+  display:grid;
+  grid-template-columns:1fr minmax(185px,42%);
+  gap:10px;
+  align-items:center;
+  padding:10px;
+  background:rgba(255,255,255,.72);
+  border:1px solid var(--line);
+  border-radius:18px;
+  transition:background .16s ease,border .16s ease,transform .16s ease;
+}
+.slot:hover{background:#fff;border-color:rgba(142,111,78,.20)}
+.slot.filled{border-style:solid}
+.slot.duplicate{border-color:rgba(190,116,116,.44);background:rgba(246,229,226,.66)}
+.slot select{padding:9px;font-size:12px;max-width:none}
+.char-name{font-weight:850;letter-spacing:-.025em}
+.char-meta{margin-top:4px;color:var(--muted);font-size:12px;line-height:1.35}
+.warnings{margin-top:12px;display:flex;flex-wrap:wrap;gap:4px}
+.pool{
+  max-height:390px;
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:rgba(255,255,255,.62);
+}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:10px 9px;border-bottom:1px solid rgba(36,33,30,.055);text-align:left;vertical-align:middle}
+th{
+  position:sticky;
+  top:0;
+  background:rgba(255,250,244,.96);
+  color:#91877d;
+  font-size:9.5px;
+  font-weight:900;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  z-index:1;
+}
+tbody tr:hover{background:rgba(142,111,78,.045)}
+.paste-preview,.help,.info-box{
+  margin-top:10px;
+  padding:12px;
+  background:rgba(255,255,255,.68);
+  border:1px solid var(--line);
+  border-radius:18px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.55;
+}
+.help{max-height:255px;overflow:auto}
+.owner-toggles{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.owner-toggles label.pill{cursor:pointer;padding:7px 11px}
+.utility-stack{display:grid;gap:14px}
+.utility-card{
+  background:rgba(255,255,255,.54);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:14px;
+}
+.suggestion-line{padding:8px 0;border-bottom:1px solid rgba(36,33,30,.055)}
+.suggestion-line:last-child{border-bottom:0}
+.info-box b{color:var(--ink)}
+.toast-wrap{position:fixed;right:22px;bottom:22px;z-index:9999;display:grid;gap:10px;max-width:400px}
+.toast{background:rgba(255,253,249,.96);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:18px;box-shadow:var(--shadow);padding:14px 16px;color:var(--ink);transition:.2s ease;animation:toastIn .18s ease-out}
+.toast b{display:block;margin-bottom:4px}
+.toast span{display:block;color:var(--muted);font-size:13px;line-height:1.4}
+.toast.warn{border-left-color:var(--yellow)}
+.toast.bad{border-left-color:var(--red)}
+.toast.ok{border-left-color:var(--green)}
+@keyframes toastIn{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:rgba(36,33,30,.14);border-radius:999px}
+::-webkit-scrollbar-thumb:hover{background:rgba(142,111,78,.28)}
+::-webkit-scrollbar-track{background:rgba(36,33,30,.035)}
+@media(max-width:1220px){
+  .app-shell{grid-template-columns:1fr}
+  .side-panel,.toolbar{position:static;max-height:none}
+}
+@media(max-width:850px){
+  header{padding:30px 18px 14px}
+  .app-shell{padding:10px 18px 52px}
+  .round-grid{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:repeat(2,1fr)}
+  .toolbar{display:block}
+  .slot{grid-template-columns:1fr}
+  .tabs{grid-template-columns:repeat(2,1fr)}
+}
+
+</style>
+</head>
+<body>
+<div id="toastWrap" class="toast-wrap"></div>
+
+<header>
+  <div class="kicker">DREAMMS • TOZ OPS</div>
+  <h1>TOZ Command Center</h1>
+  <p class="sub">A calm DreamMS planning dashboard for live TOZ trains, role coverage, emergency replacements, recruit gaps, and Discord-ready round calls.</p>
+</header>
+
+<main class="app-shell">
+  <section class="workspace">
+    <div class="card">
+      <div class="toolbar">
+        <div>
+          <h2>Auto Planner</h2>
+          <div class="tiny">Plan auto-saves in this browser. Hover over Warnings to see all issues.</div>
+        </div>
+        <div class="btnrow">
+          <button onclick="autoPlan()">Generate Plan</button>
+          <button class="soft" onclick="bestOptimize()">Optimize</button>
+          <button class="secondary" onclick="fillEmptyOnly()">Fill Empty</button>
+          <button class="secondary" onclick="forceRefreshLiveData()">Force Refresh Levels</button>
+          <button class="secondary" onclick="clearPlan()">Clear Plan</button>
+          <button class="secondary" onclick="copyDiscordSummary()">Copy Discord Summary</button>
+          <button class="secondary" onclick="copyNextRound()">Copy Next Round</button>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="stat"><b id="validRounds">0</b><span>VALID ROUNDS</span></div>
+        <div class="stat"><b id="missingDispel">0</b><span>MISSING DISPEL</span></div>
+        <div class="stat"><b id="missingFma">0</b><span>MISSING FMA</span></div>
+        <div class="stat"><b id="babyIssues">0</b><span>BABY ISSUES</span></div>
+        <div class="stat" id="warningsStat"><b id="warningsCount">0</b><span>WARNINGS</span></div>
+      </div>
+
+      <div class="paste-preview" id="liveStatus">Live data: not loaded yet.</div>
+      <div id="roundGrid" class="round-grid"></div>
+    </div>
+  </section>
+
+  <aside class="side-panel">
+    <div class="panel-head">
+      <h2>Control Panel</h2>
+      <p>Use tabs to manage imports, roster, utilities, and live status without cluttering the rounds.</p>
+    </div>
+
+    <div class="tabs">
+      <button type="button" class="tab-btn active" onclick="switchTab('input', this)">Input</button>
+      <button type="button" class="tab-btn" onclick="switchTab('roster', this)">Roster</button>
+      <button type="button" class="tab-btn" onclick="switchTab('utilities', this)">Utilities</button>
+      <button type="button" class="tab-btn" onclick="switchTab('live', this)">Live</button>
+    </div>
+
+    <div id="tab-input" class="tab-content active">
+      <h2>Input</h2>
+      <label>Quick Import</label>
+      <textarea id="quickText" placeholder="Example:\ngil j>5r bm/th/bsp/shad/il"></textarea>
+      <div class="btnrow">
+        <button class="soft" onclick="parseQuickText()">Import</button>
+        <button class="secondary" onclick="document.getElementById('quickText').value=''">Clear</button>
+      </div>
+
+      <hr>
+
+      <h3>Add public player's character</h3>
+      <div class="row">
+        <div><label>Owner</label><input id="owner" placeholder="Player name"></div>
+        <div><label>IGN</label><input id="ign" placeholder="IGN or auto"></div>
+      </div>
+      <div class="row">
+        <div><label>Class</label><select id="job"></select></div>
+        <div><label>Level</label><input id="level" type="number" placeholder="250"></div>
+      </div>
+      <div class="row">
+        <div><label>Available rounds</label><input id="rounds" placeholder="1-7, or 3,4,5"></div>
+        <div><label>MW40?</label><select id="mw"><option value="false">No</option><option value="true">Yes</option></select></div>
+      </div>
+      <div class="btnrow">
+        <button onclick="addManualCharacter()">Add Character</button>
+        <button class="secondary" onclick="clearTemporary()">Clear Public</button>
+      </div>
+
+      <div class="help">
+        <b>Hard validation:</b><br>
+        • 6 members per round<br>
+        • At least 1 Dispel<br>
+        • At least 1 FMA, 2 preferred<br>
+        • Every owner max 1 character per round<br>
+        • Completed characters cannot be used again<br>
+        • Completed rounds are locked<br>
+        • NL / NW / Evan require SE, not TH<br>
+        • Max 1 Baby per round<br>
+        • Baby strongly prefers HB / Dark Knight<br><br>
+        <b>Optimization:</b><br>
+        • Avoids redundant support stacking<br>
+        • 1 Dispel is enough; extra Dispel is penalized
+      </div>
+    </div>
+
+    <div id="tab-roster" class="tab-content">
+      <h2>Roster</h2>
+      <div class="tiny">Saved characters and active characters are managed here.</div>
+
+      <div class="utility-card" style="margin-top:12px">
+        <h3>Saved Pool</h3>
+        <div class="tiny">Tick a whole owner, or tick specific characters only.</div>
+        <div id="ownerToggles" class="owner-toggles"></div>
+        <div class="btnrow">
+          <button class="secondary" onclick="disableAllSaved()">Untick All</button>
+          <button class="secondary" onclick="enableAllSaved()">Tick All</button>
+        </div>
+        <div class="pool" style="margin-top:12px">
+          <table>
+            <thead><tr><th>Use</th><th>Owner</th><th>IGN</th><th>Class</th><th>Lv</th><th>MW40</th><th>Tags</th></tr></thead>
+            <tbody id="poolBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="utility-card" style="margin-top:14px">
+        <h3>Active Roster</h3>
+        <div class="tiny">Only active characters are used by the optimizer.</div>
+        <div class="pool" style="margin-top:12px">
+          <table>
+            <thead><tr><th>Owner</th><th>IGN</th><th>Class</th><th>Lv</th><th>Rounds</th><th>Tags</th><th></th></tr></thead>
+            <tbody id="activeBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-utilities" class="tab-content">
+      <h2>Utilities</h2>
+      <div class="utility-stack">
+        <div class="utility-card">
+          <h3>Recruit Assistant</h3>
+          <div id="recruitAssistant" class="info-box">Generate a plan to see what each round is missing.</div>
+        </div>
+
+        <div class="utility-card">
+          <h3>Auto Slot Suggestions</h3>
+          <div id="slotSuggestions" class="info-box">Tick saved characters or import public joins to see best usage suggestions.</div>
+        </div>
+
+        <div class="utility-card">
+          <h3>Remaining TOZ Left</h3>
+          <div id="remainingToz" class="info-box">Completed rounds update this automatically.</div>
+        </div>
+
+        <div class="utility-card">
+          <h3>Emergency Replace</h3>
+          <div class="tiny">Removes an owner from unfinished rounds and blocks them from being reused. Completed rounds stay untouched.</div>
+          <div id="replaceOwners" class="owner-toggles"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-live" class="tab-content">
+      <h2>Live Status</h2>
+      <div class="info-box">
+        <b>Live data</b><br>
+        <span id="liveStatusMirror">Status appears above the rounds. Use Force Refresh Levels if needed.</span>
+      </div>
+      <div class="info-box">
+        <b>Current workflow</b><br>
+        1. Tick owners in Roster<br>
+        2. Generate Plan<br>
+        3. Mark completed rounds<br>
+        4. Use Utilities for recruit gaps or emergency replacement
+      </div>
+    </div>
+  </aside>
+</main>
+
+<script>
+function switchTab(name, btn){
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el=>el.classList.remove('active'));
+  const panel=document.getElementById('tab-'+name);
+  if(panel)panel.classList.add('active');
+  if(btn)btn.classList.add('active');
+}
+
+const JOBS=['Bishop','Bowmaster','Marksman','Wind Archer','Buccaneer','Thunder Breaker','Dual Blade','Fire/Poison Mage','Ice/Lightning Mage','Blaze Wizard','Evan','Dawn Warrior','Paladin','Dark Knight','Aran','Hero','Shadower','Night Lord','Night Walker','Corsair'];
+const ALIAS={bsp:'Bishop',bs:'Bishop',bishop:'Bishop',hs:'Bishop',bm:'Bowmaster',se:'Bowmaster',bowmaster:'Bowmaster',mm:'Marksman',mmse:'Marksman',marksman:'Marksman',wa:'Wind Archer',wase:'Wind Archer',windarcher:'Wind Archer',bucc:'Buccaneer',si:'Buccaneer',buccaneer:'Buccaneer',tb:'Thunder Breaker',tbsi:'Thunder Breaker',thunderbreaker:'Thunder Breaker',db:'Dual Blade',th:'Dual Blade',dualblade:'Dual Blade',fp:'Fire/Poison Mage',fpmage:'Fire/Poison Mage',il:'Ice/Lightning Mage','i/l':'Ice/Lightning Mage',ilmage:'Ice/Lightning Mage',bw:'Blaze Wizard',blazewizard:'Blaze Wizard',evan:'Evan',dw:'Dawn Warrior',ec:'Dawn Warrior',dawnwarrior:'Dawn Warrior',pala:'Paladin',pally:'Paladin',paladin:'Paladin',dk:'Dark Knight',drk:'Dark Knight',hb:'Dark Knight',darkknight:'Dark Knight',aran:'Aran',hero:'Hero',shad:'Shadower',shadower:'Shadower',nl:'Night Lord',nightlord:'Night Lord',nw:'Night Walker',nightwalker:'Night Walker',sair:'Corsair',corsair:'Corsair'};
+const ROLE={'Bishop':{dispel:1,fma:1},'Bowmaster':{seProvider:1,self:1},'Marksman':{seProvider:1,wantsSI:2},'Wind Archer':{seProvider:1,wantsSI:2},'Buccaneer':{siProvider:1,tl:1,wantsCrit:1},'Thunder Breaker':{siProvider:1,wantsCrit:1},'Dual Blade':{thProvider:1,self:1},'Fire/Poison Mage':{fma:1,wantsCrit:1},'Ice/Lightning Mage':{fma:1,wantsCrit:1},'Blaze Wizard':{fma:1,wantsCrit:1},'Evan':{fma:1,wantsSEOnly:1},'Dawn Warrior':{halfSI:1,stance:1,wantsCrit:1},'Paladin':{threaten:1,wantsCrit:1,wantsSI:1},'Dark Knight':{dispel:1,hb:1,wantsCrit:1,wantsSI:2},'Aran':{cb:1,wantsCrit:2,wantsSI:1},'Hero':{wantsCrit:1,wantsSI:1},'Shadower':{smoke:1,wantsCrit:.3},'Night Lord':{wantsSEOnly:3},'Night Walker':{wantsSEOnly:4},'Corsair':{wantsCrit:1,wantsSI:1}};
+const savedRaw=[{"owner": "Belle", "ign": "Thocky", "job": "Aran", "level": 291}, {"owner": "Belle", "ign": "Tock", "job": "Night Walker", "level": 263}, {"owner": "Belle", "ign": "Tocki", "job": "Bowmaster", "level": 254}, {"owner": "Belle", "ign": "Tork", "job": "Blaze Wizard", "level": 261}, {"owner": "Belle", "ign": "Tokk", "job": "Buccaneer", "level": 209}, {"owner": "Belle", "ign": "Hell", "job": "Fire/Poison Mage", "level": 276}, {"owner": "Belle", "ign": "Tocky", "job": "Bishop", "level": 265}, {"owner": "Gillian", "ign": "Gillian", "job": "Dual Blade", "level": 284}, {"owner": "Gillian", "ign": "ggil", "job": "Bowmaster", "level": 265}, {"owner": "Gillian", "ign": "ggill", "job": "Buccaneer", "level": 247}, {"owner": "Gillian", "ign": "Leaw", "job": "Aran", "level": 265}, {"owner": "Gillian", "ign": "Gill", "job": "Fire/Poison Mage", "level": 276}, {"owner": "Gillian", "ign": "Kaiko", "job": "Bishop", "level": 267}, {"owner": "Gillian", "ign": "Arun", "job": "Dawn Warrior", "level": 243}, {"owner": "Winst", "ign": "Veggie", "job": "Night Lord", "level": 289}, {"owner": "Winst", "ign": "Roomie", "job": "Marksman", "level": 285}, {"owner": "Winst", "ign": "Meanie", "job": "Buccaneer", "level": 277}, {"owner": "Winst", "ign": "Quackie", "job": "Dual Blade", "level": 273}, {"owner": "Winst", "ign": "Owie", "job": "Dark Knight", "level": 261}, {"owner": "Winst", "ign": "Caterpie", "job": "Paladin", "level": 261}, {"owner": "Winst", "ign": "Eerie", "job": "Bishop", "level": 273}, {"owner": "Winst", "ign": "Doorie", "job": "Bishop", "level": 234}, {"owner": "Thom", "ign": "oof", "job": "Aran", "level": 272}, {"owner": "Thom", "ign": "Looted", "job": "Shadower", "level": 274}, {"owner": "Thom", "ign": "Cronut", "job": "Buccaneer", "level": 267}, {"owner": "Thom", "ign": "Churro", "job": "Bowmaster", "level": 271}, {"owner": "Thom", "ign": "Zooted", "job": "Marksman", "level": 267}, {"owner": "Thom", "ign": "Macaroon", "job": "Bishop", "level": 262}, {"owner": "Thom", "ign": "Sundaes", "job": "Ice/Lightning Mage", "level": 244}, {"owner": "Thom", "ign": "Cruller", "job": "Corsair", "level": 235}, {"owner": "Thom", "ign": "Saltbread", "job": "Evan", "level": 203}, {"owner": "BK", "ign": "Miffyy", "job": "Bishop", "level": 275}, {"owner": "BK", "ign": "54o88", "job": "Wind Archer", "level": 269}, {"owner": "BK", "ign": "Diuz", "job": "Thunder Breaker", "level": 260}, {"owner": "BK", "ign": "Chageee", "job": "Bowmaster", "level": 254}, {"owner": "BK", "ign": "Lormee", "job": "Buccaneer", "level": 233}, {"owner": "KC", "ign": "SEhoon", "job": "Bowmaster", "level": 280}, {"owner": "KC", "ign": "Ryoji", "job": "Night Lord", "level": 270}, {"owner": "KC", "ign": "Voxous", "job": "Dual Blade", "level": 260}, {"owner": "KC", "ign": "n00n", "job": "Paladin", "level": 262}, {"owner": "KC", "ign": "Orien", "job": "Aran", "level": 257}, {"owner": "KC", "ign": "Voxi", "job": "Thunder Breaker", "level": 246}, {"owner": "KC", "ign": "Sunshines", "job": "Bishop", "level": 266}, {"owner": "KC", "ign": "Grimstep", "job": "Shadower", "level": 235}, {"owner": "KC", "ign": "Nocti", "job": "Dark Knight", "level": 214}, {"owner": "KC", "ign": "Jegiee", "job": "Corsair", "level": 240}, {"owner": "KC", "ign": "Dimz", "job": "Shadower", "level": 150}, {"owner": "Liss", "ign": "Pinkberry", "job": "Bishop", "level": 278}, {"owner": "Liss", "ign": "Lisette", "job": "Bowmaster", "level": 268}, {"owner": "Liss", "ign": "Elissybeth", "job": "Paladin", "level": 259}, {"owner": "Liss", "ign": "Luminosa", "job": "Dawn Warrior", "level": 253}, {"owner": "Liss", "ign": "Lissie", "job": "Dark Knight", "level": 270}, {"owner": "Liss", "ign": "Hibana", "job": "Fire/Poison Mage", "level": 235}, {"owner": "Liss", "ign": "Lisseria", "job": "Dual Blade", "level": 261}, {"owner": "Liss", "ign": "Lissy", "job": "Night Walker", "level": 249}, {"owner": "Liss", "ign": "Liselle", "job": "Shadower", "level": 234}, {"owner": "Liss", "ign": "Lissi", "job": "Buccaneer", "level": 226}, {"owner": "Liss", "ign": "Lissiel", "job": "Evan", "level": 203}, {"owner": "Liss", "ign": "Lissea", "job": "Corsair", "level": 175}, {"owner": "Unk", "ign": "UnknownBM", "job": "Bowmaster", "level": 265}, {"owner": "Unk", "ign": "Lasting", "job": "Fire/Poison Mage", "level": 240}, {"owner": "Unk", "ign": "Bishophs", "job": "Bishop", "level": 240}, {"owner": "Kerm", "ign": "iKermy", "job": "Evan", "level": 252}, {"owner": "Kerm", "ign": "xKermy", "job": "Paladin", "level": 263}, {"owner": "Kerm", "ign": "ImKerming", "job": "Shadower", "level": 234}, {"owner": "Kerm", "ign": "Pingsoo", "job": "Bishop", "level": 225}, {"owner": "Kerm", "ign": "KermySE", "job": "Bowmaster", "level": 214}, {"owner": "Lucy", "ign": "Rurni", "job": "Dawn Warrior", "level": 231}, {"owner": "Lucy", "ign": "iiLucy", "job": "Bishop", "level": 286}, {"owner": "Lucy", "ign": "iabu", "job": "Thunder Breaker", "level": 270}, {"owner": "Lucy", "ign": "LalaL00psy", "job": "Fire/Poison Mage", "level": 246}, {"owner": "Juls", "ign": "Motive", "job": "Bowmaster", "level": 283}, {"owner": "Juls", "ign": "Doubtful", "job": "Buccaneer", "level": 272}, {"owner": "Juls", "ign": "Resource", "job": "Marksman", "level": 263}, {"owner": "Juls", "ign": "Gracee", "job": "Bishop", "level": 275}, {"owner": "DY", "ign": "mellowdy", "job": "Corsair", "level": 260}, {"owner": "DY", "ign": "8lo8lo8lowme", "job": "Buccaneer", "level": 250}, {"owner": "DY", "ign": "sunbaedy", "job": "Bowmaster", "level": 227}, {"owner": "DY", "ign": "okdy", "job": "Bishop", "level": 257}, {"owner": "DY", "ign": "mabokdy", "job": "Fire/Poison Mage", "level": 230}, {"owner": "DY", "ign": "Afersie", "job": "Bishop", "level": 234}, {"owner": "DY", "ign": "Wookimo", "job": "Dual Blade", "level": 218}, {"owner": "Andy", "ign": "Shibe", "job": "Shadower", "level": 291}, {"owner": "Andy", "ign": "Shiba", "job": "Night Lord", "level": 291}, {"owner": "Andy", "ign": "Shibah", "job": "Dual Blade", "level": 289}, {"owner": "Andy", "ign": "Shibao", "job": "Paladin", "level": 256}, {"owner": "Andy", "ign": "Krce", "job": "Bowmaster", "level": 276}, {"owner": "Lior", "ign": "Leal", "job": "Night Lord", "level": 295}, {"owner": "Lior", "ign": "Ayala", "job": "Bishop", "level": 289}, {"owner": "Lior", "ign": "Blending", "job": "Shadower", "level": 289}, {"owner": "Lior", "ign": "Ayara", "job": "Blaze Wizard", "level": 254}];
+const savedPool=savedRaw.map((x,i)=>({id:'saved_'+i,owner:x.owner,ign:x.ign,job:x.job,level:x.level,mw40:Number(x.level)>=275,rounds:[1,2,3,4,5,6,7],saved:true}));
+let chars=[];let plan=Array.from({length:7},()=>Array(6).fill(null));let completedRounds=Array(7).fill(false);const ownerQuota={};const replacedOwners=new Set();let isRestoring=false;const STORAGE_KEY='dreamms_toz_planner_v5';
+
+function notify(title,msg,type='warn'){const wrap=document.getElementById('toastWrap');const box=document.createElement('div');box.className='toast '+type;box.innerHTML='<b>'+title+'</b><span>'+msg+'</span>';wrap.appendChild(box);setTimeout(()=>{box.style.opacity='0';box.style.transform='translateY(8px)';setTimeout(()=>box.remove(),220)},4200)}
+function formatLocalDateTime(value){const d=new Date(value);if(Number.isNaN(d.getTime()))return String(value||'');const weekday=new Intl.DateTimeFormat(undefined,{weekday:'long'}).format(d);const day=d.getDate();const month=d.getMonth()+1;const year=d.getFullYear();let hour=d.getHours();const min=String(d.getMinutes()).padStart(2,'0');const sec=String(d.getSeconds()).padStart(2,'0');const suffix=hour>=12?'pm':'am';hour=hour%12||12;return `${weekday}, ${day}/${month}/${year}, ${hour}:${min}:${sec}${suffix}`;}
+function updateLiveStatus(payload){const el=document.getElementById('liveStatus');if(!el)return;if(!payload||!payload.updatedAt){el.textContent='Live data: waiting for first GitHub refresh.';return}el.textContent='Live data updated: '+formatLocalDateTime(payload.updatedAt);}
+function serializeState(){return {chars,plan:plan.map(r=>r.map(c=>c?c.id:null)),completedRounds,ownerQuota,replacedOwners:[...replacedOwners]}}
+function saveState(){if(isRestoring)return;try{localStorage.setItem(STORAGE_KEY,JSON.stringify(serializeState()))}catch(e){console.warn(e)}}
+function restoreState(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;const data=JSON.parse(raw);isRestoring=true;Object.keys(ownerQuota).forEach(k=>delete ownerQuota[k]);Object.assign(ownerQuota,data.ownerQuota||{});replacedOwners.clear();(data.replacedOwners||[]).forEach(o=>replacedOwners.add(o));chars=(data.chars||[]).map(c=>({...c}));const byId={};chars.forEach(c=>byId[c.id]=c);completedRounds=(data.completedRounds||Array(7).fill(false)).slice(0,7);while(completedRounds.length<7)completedRounds.push(false);plan=(data.plan||[]).slice(0,7).map(r=>(r||[]).slice(0,6).map(id=>byId[id]||null));while(plan.length<7)plan.push(Array(6).fill(null));plan=plan.map(r=>{while(r.length<6)r.push(null);return r});isRestoring=false}catch(e){isRestoring=false;console.warn(e)}}
+function clearSavedState(){localStorage.removeItem(STORAGE_KEY)}
+function init(){document.getElementById('job').innerHTML=JOBS.map(j=>'<option>'+j+'</option>').join('');restoreState();renderAll();loadLiveCharacterData(false)}
+
+function normalizeLiveJob(job){const s=String(job||'').trim();const compact=s.toLowerCase().replace(/[^a-z0-9]/g,'');const map={bishop:'Bishop',bowmaster:'Bowmaster',marksman:'Marksman',windarcher:'Wind Archer',buccaneer:'Buccaneer',thunderbreaker:'Thunder Breaker',dualblade:'Dual Blade',firepoisonmage:'Fire/Poison Mage',firepoisonarchmage:'Fire/Poison Mage',icelightningmage:'Ice/Lightning Mage',icelightningarchmage:'Ice/Lightning Mage',blazewizard:'Blaze Wizard',evan:'Evan',dawnwarrior:'Dawn Warrior',paladin:'Paladin',darkknight:'Dark Knight',aran:'Aran',hero:'Hero',shadower:'Shadower',nightlord:'Night Lord',nightwalker:'Night Walker',corsair:'Corsair'};return map[compact]||s;}
+async function loadLiveCharacterData(showToast=false){try{const res=await fetch('characters.json?v='+Date.now(),{cache:'no-store'});if(!res.ok)throw new Error('characters.json not found');const payload=await res.json();updateLiveStatus(payload);const records=Array.isArray(payload.characters)?payload.characters:[];const byName={};records.forEach(r=>{if(r&&r.name)byName[String(r.name).toLowerCase()]=r});let updated=0;savedPool.forEach(c=>{const r=byName[String(c.ign).toLowerCase()];if(!r)return;if(r.level!==undefined&&r.level!==null&&r.level!==''){c.level=Number(r.level)||c.level;updated++}if(r.job)c.job=normalizeLiveJob(r.job);c.mw40=Number(c.level)>=275});chars.forEach(c=>{const live=savedPool.find(s=>s.id===c.id)||savedPool.find(s=>s.ign.toLowerCase()===String(c.ign).toLowerCase());if(live){c.level=live.level;c.job=live.job;c.mw40=live.mw40}});renderAll();if(showToast)notify('Live levels refreshed',updated+' saved characters updated from DreamMS.','ok')}catch(err){const el=document.getElementById('liveStatus');if(el)el.textContent='Live data: unavailable. Check characters.json / GitHub Action.';console.warn(err);if(showToast)notify('Live refresh failed','Could not load characters.json.','bad')}}
+function forceRefreshLiveData(){loadLiveCharacterData(true)}
+
+function parseRounds(str){if(!str)return[1,2,3,4,5,6,7];const s=String(str).toLowerCase();if(/all|full|whole|any/.test(s))return[1,2,3,4,5,6,7];const nums=new Set();const quota=s.match(/([1-7])\s*r\b/);if(quota&&!/(?:from|to|-|~)/.test(s))return[1,2,3,4,5,6,7];const range=s.match(/([1-7])\s*(?:-|to|~)\s*([1-7])/);if(range){for(let i=Math.min(+range[1],+range[2]);i<=Math.max(+range[1],+range[2]);i++)nums.add(i)}s.replace(/rounds?|runs?|rds?|r/g,' ').split(/[\s,\/]+/).forEach(p=>{const n=+p;if(n>=1&&n<=7)nums.add(n)});return nums.size?[...nums].sort((a,b)=>a-b):[1,2,3,4,5,6,7]}
+function parseQuota(line){const s=line.toLowerCase();if(/all|full|whole/.test(s))return 7;const m=s.match(/([1-7])\s*(?:r|rounds?|runs?)\b/);return m?+m[1]:7}
+function parseAvailability(line){const s=line.toLowerCase();const m=s.match(/(?:from|r)?\s*([1-7])\s*(?:-|to|~)\s*(?:r)?\s*([1-7])/);if(m)return parseRounds(m[1]+'-'+m[2]);const a=s.match(/(?:from|start(?:ing)?|r)\s*([1-7])\s*(?:onwards?|\+|and after)/);if(a)return parseRounds(a[1]+'-7');return[1,2,3,4,5,6,7]}
+function normJob(token){const k=String(token||'').toLowerCase().replace(/[^a-z/]/g,'');return ALIAS[k]||null}
+function extractJobs(line){const lower=line.toLowerCase();const focused=(lower.match(/(?:j>|join>|jobs?:|chars?:|char:|classes?:)\s*([^\n]+)/)||[null,lower])[1];const found=[];function add(j){if(j&&!found.includes(j))found.push(j)}focused.split(/[\s,\/\+]+/).forEach(t=>add(normJob(t)));lower.split(/[\s,\/\+]+/).forEach(t=>add(normJob(t)));return found}
+function cleanOwner(line){return(line.split(/j>|join>|jobs?:|chars?:|char:|classes?:/i)[0].trim().split(/[\s:,-]+/).filter(Boolean)[0])||'Public'}
+function addManualCharacter(){const owner=document.getElementById('owner').value.trim()||'Public';const job=document.getElementById('job').value;const ign=document.getElementById('ign').value.trim()||owner+'-'+job.split(' ')[0];const level=Number(document.getElementById('level').value)||'';const rounds=parseRounds(document.getElementById('rounds').value);const mw40=document.getElementById('mw').value==='true'||Number(level)>=275;chars.push({id:'pub_'+Date.now()+Math.random(),owner,ign,job,level,mw40,rounds,temp:true});replacedOwners.delete(owner);['owner','ign','level','rounds'].forEach(id=>document.getElementById(id).value='');renderAll()}
+function parseQuickText(){const text=document.getElementById('quickText').value.trim();if(!text)return;let added=[];text.split(/\n+/).forEach((line,idx)=>{line=line.trim();if(!line)return;const owner=cleanOwner(line);const quota=parseQuota(line);const availability=parseAvailability(line);const level=Number((line.match(/(?:lv|level)\s*(\d+)/i)||[,''])[1])||'';const jobs=extractJobs(line);ownerQuota[owner]=Math.min(ownerQuota[owner]||7,quota);replacedOwners.delete(owner);jobs.forEach((job,j)=>{const short=job.split(/[ /]+/).map(x=>x[0]).join('').toUpperCase();const c={id:'pub_'+Date.now()+Math.random()+idx+j,owner,ign:owner+'-'+short+(jobs.length>1?j+1:''),job,level,mw40:Number(level)>=275,rounds:availability,maxRuns:quota,temp:true};chars.push(c);added.push(c)})});if(added.length)notify('Quick Import added',added.length+' character option(s) added.','ok');else notify('Quick Import found nothing','Try: gil j>5r bm/th/bsp/shad/il','warn');renderAll()}
+function clearTemporary(){Object.keys(ownerQuota).forEach(k=>delete ownerQuota[k]);chars=chars.filter(c=>!c.temp);plan=plan.map(r=>r.map(c=>c&&c.temp?null:c));renderAll()}
+function toggleSaved(id,on){const s=savedPool.find(x=>x.id===id);if(!s)return;if(on){replacedOwners.delete(s.owner);if(!chars.some(c=>c.id===id))chars.push({...s})}else{chars=chars.filter(c=>c.id!==id);plan=plan.map(r=>r.map(c=>c&&c.id===id?null:c))}renderAll()}
+function toggleOwner(owner,on){if(on)replacedOwners.delete(owner);savedPool.filter(f=>f.owner===owner).forEach(f=>{if(on){if(!chars.some(c=>c.id===f.id))chars.push({...f})}else{chars=chars.filter(c=>c.id!==f.id);plan=plan.map(r=>r.map(c=>c&&c.id===f.id?null:c))}});renderAll()}
+function disableAllSaved(){savedPool.forEach(f=>{chars=chars.filter(c=>c.id!==f.id)});plan=plan.map(r=>r.map(c=>c&&c.saved?null:c));renderAll()}
+function enableAllSaved(){savedPool.forEach(f=>{replacedOwners.delete(f.owner);if(!chars.some(c=>c.id===f.id))chars.push({...f})});renderAll()}
+
+function charTags(c){const r=ROLE[c.job]||{};const tags=[];if(Number(c.level)<225)tags.push('Baby');if(r.dispel)tags.push('Dispel');if(r.fma)tags.push('FMA');if(r.seProvider)tags.push('SE');if(r.thProvider)tags.push('TH');if(r.siProvider)tags.push('SI');if(r.halfSI)tags.push('EC');if(r.hb)tags.push('HB');if(r.cb)tags.push('CB');if(r.smoke)tags.push('Smoke');if(c.mw40)tags.push('MW40');return tags}
+function evaluateParty(party){const filled=party.filter(Boolean);const roles={dispel:0,fma:0,se:0,th:0,si:0,halfSI:0,mw40:0,smoke:0,tl:0,hb:0,cb:0,babies:0};filled.forEach(c=>{const r=ROLE[c.job]||{};roles.dispel+=r.dispel||0;roles.fma+=r.fma||0;roles.se+=r.seProvider||0;roles.th+=r.thProvider||0;roles.si+=r.siProvider||0;roles.halfSI+=r.halfSI||0;roles.mw40+=c.mw40?1:0;roles.smoke+=r.smoke||0;roles.tl+=r.tl||0;roles.hb+=r.hb||0;roles.cb+=r.cb||0;roles.babies+=Number(c.level)<225?1:0});const hard=[],warnings=[];if(filled.length<6)hard.push((6-filled.length)+' empty slot'+(6-filled.length>1?'s':''));if(roles.dispel<1)hard.push('Missing Dispel');if(roles.fma<1)hard.push('Missing FMA');if(roles.babies>1)hard.push('Too many babies');if(roles.fma===1)warnings.push('Only 1 FMA');if(roles.dispel>1)warnings.push('Extra Dispel not needed');if(roles.se>1)warnings.push('Extra SE not needed');if(roles.si>1)warnings.push('Extra SI not needed');if(roles.babies===1&&roles.hb<1)warnings.push('Baby prefers HB / Dark Knight');const owners={};filled.forEach(c=>owners[c.owner]=(owners[c.owner]||0)+1);Object.entries(owners).forEach(([o,n])=>{if(n>1)hard.push(o+' has >1 character')});const hasSE=roles.se>0,hasTH=roles.th>0,hasCrit=hasSE||hasTH,hasSI=roles.si>0||roles.halfSI>0;filled.forEach(c=>{const r=ROLE[c.job]||{};if(r.wantsSEOnly&&!hasSE)hard.push(c.ign+' needs SE');if(r.wantsCrit&&!hasCrit)warnings.push(c.ign+' wants SE/TH');if(r.wantsSI&&!hasSI)warnings.push(c.ign+' wants SI/EC')});return{filled,roles,hard,warnings,valid:hard.length===0}}
+function priorityBonus(c){if(!c)return 0;if(c.owner==='Gillian'||c.owner==='Belle')return 12000;if(c.saved)return 6000;return 0}
+function scoreParty(party){const e=evaluateParty(party);let s=e.valid?100000:0;s+=Math.min(e.roles.dispel,1)*5000+Math.min(e.roles.fma,2)*3600+Math.min(e.roles.se,1)*3200+Math.min(e.roles.th,1)*2200+Math.min(e.roles.si+e.roles.halfSI,1)*2200+Math.min(e.roles.mw40,1)*600+Math.min(e.roles.smoke,1)*800+Math.min(e.roles.tl,1)*500+Math.min(e.roles.cb,1)*500+Math.min(e.roles.hb,1)*900;s-=Math.max(0,e.roles.dispel-1)*3800;s-=Math.max(0,e.roles.se-1)*1800;s-=Math.max(0,e.roles.si-1)*1500;s-=Math.max(0,e.roles.babies-1)*30000;if(e.roles.babies===1&&e.roles.hb<1)s-=2500;s-=e.hard.length*20000+e.warnings.length*350;party.filter(Boolean).forEach(c=>s+=(Number(c.level)||200)*4+priorityBonus(c));return s}
+function getCompletedUsedIds(){const ids=new Set();for(let r=0;r<7;r++){if(completedRounds[r])plan[r].filter(Boolean).forEach(c=>ids.add(c.id))}return ids}
+function getDuplicateOpenIds(){const map={};for(let r=0;r<7;r++){if(completedRounds[r])continue;plan[r].filter(Boolean).forEach(c=>{map[c.id]=map[c.id]||[];map[c.id].push(r+1)})}const dup={};Object.entries(map).forEach(([id,rs])=>{if(rs.length>1)dup[id]=rs});return dup}
+function ownerSafeCombos(arr,maxK){if(maxK<=0)return[[]];const res=[];function rec(start,combo,owners){if(res.length>=3000)return;if(combo.length===maxK){res.push([...combo]);return}for(let i=start;i<arr.length;i++){if(owners.has(arr[i].owner))continue;owners.add(arr[i].owner);combo.push(arr[i]);rec(i+1,combo,owners);combo.pop();owners.delete(arr[i].owner);if(res.length>=3000)return}}rec(0,[],new Set());if(!res.length)res.push([]);return res}
+function autoPlan(){const oldPlan=plan.map(r=>[...r]);const usedIds=new Set();const ownerUsedRounds={};for(let r=0;r<7;r++){if(completedRounds[r])oldPlan[r].filter(Boolean).forEach(c=>{usedIds.add(c.id);ownerUsedRounds[c.owner]=(ownerUsedRounds[c.owner]||0)+1})}const quotaFor=o=>ownerQuota[o]||7;const canUse=(c,round,owners)=>c&&!replacedOwners.has(c.owner)&&!usedIds.has(c.id)&&c.rounds.includes(round)&&!owners.has(c.owner)&&((ownerUsedRounds[c.owner]||0)<quotaFor(c.owner));for(let round=1;round<=7;round++){if(completedRounds[round-1]){plan[round-1]=oldPlan[round-1];continue}let best=null,bestScore=-Infinity;const available=chars.filter(c=>canUse(c,round,new Set()));const targetSize=Math.min(6,available.length,new Set(available.map(c=>c.owner)).size);const combos=ownerSafeCombos(available,targetSize);for(const combo of combos){const party=combo.slice(0,6);while(party.length<6)party.push(null);const sc=scoreParty(party);if(sc>bestScore){bestScore=sc;best=party}}plan[round-1]=best||Array(6).fill(null);plan[round-1].filter(Boolean).forEach(c=>{usedIds.add(c.id);ownerUsedRounds[c.owner]=(ownerUsedRounds[c.owner]||0)+1})}renderAll()}
+function fillEmptyOnly(){const usedIds=new Set();const ownerUsedRounds={};for(let r=0;r<7;r++)plan[r].filter(Boolean).forEach(c=>{usedIds.add(c.id);ownerUsedRounds[c.owner]=(ownerUsedRounds[c.owner]||0)+1});const quotaFor=o=>ownerQuota[o]||7;const canUse=(c,round,owners)=>c&&!replacedOwners.has(c.owner)&&!usedIds.has(c.id)&&c.rounds.includes(round)&&!owners.has(c.owner)&&((ownerUsedRounds[c.owner]||0)<quotaFor(c.owner));for(let round=1;round<=7;round++){if(completedRounds[round-1])continue;const current=plan[round-1];const emptyCount=current.filter(x=>!x).length;if(!emptyCount)continue;const locked=current.filter(Boolean);const lockedOwners=new Set(locked.map(c=>c.owner));const available=chars.filter(c=>canUse(c,round,lockedOwners));const targetSize=Math.min(emptyCount,available.length,new Set(available.map(c=>c.owner)).size);const combos=ownerSafeCombos(available,targetSize);let best=[],bestScore=-Infinity;for(const combo of combos){const test=[...locked,...combo];while(test.length<6)test.push(null);const sc=scoreParty(test);if(sc>bestScore){bestScore=sc;best=combo}}let idx=0;for(let s=0;s<6;s++){if(!current[s]&&best[idx]){current[s]=best[idx++];usedIds.add(current[s].id);ownerUsedRounds[current[s].owner]=(ownerUsedRounds[current[s].owner]||0)+1}}}renderAll();notify('Fill Empty Only done','Existing slots were kept. Empty slots were filled where possible.','ok')}
+function bestOptimize(){autoPlan();notify('Best Optimize done','Completed rounds were kept locked. Remaining rounds were rebuilt.','ok')}
+function clearPlan(doRender=true){plan=Array.from({length:7},()=>Array(6).fill(null));completedRounds=Array(7).fill(false);replacedOwners.clear();clearSavedState();if(doRender)renderAll()}
+function setSlot(r,s,id){if(completedRounds[r]){notify('Round locked','Round '+(r+1)+' is completed. Untick Completed first if needed.','bad');renderAll();return}if(!id){plan[r][s]=null;renderAll();return}const chosen=chars.find(c=>c.id===id);if(!chosen)return;for(let rr=0;rr<7;rr++){if(!completedRounds[rr])continue;for(let ss=0;ss<6;ss++){const existing=plan[rr][ss];if(existing&&existing.id===id){notify('Already completed',chosen.ign+' was already completed in Round '+(rr+1)+'.','bad');renderAll();return}}}for(let ss=0;ss<6;ss++){const existing=plan[r][ss];if(existing&&existing.owner===chosen.owner&&ss!==s){notify('Same owner in round',chosen.owner+' already has a character in Round '+(r+1)+'.','bad');renderAll();return}}const other=[];for(let rr=0;rr<7;rr++){if(completedRounds[rr])continue;for(let ss=0;ss<6;ss++){const existing=plan[rr][ss];if(existing&&existing.id===id&&!(rr===r&&ss===s))other.push(rr+1)}}if(other.length)notify('Already slotted',chosen.ign+' is also in Round '+other.join(', Round ')+'.','warn');plan[r][s]=chosen;renderAll()}
+function toggleCompletedRound(r,on){completedRounds[r]=on;renderAll()}
+function removeActive(id){chars=chars.filter(c=>c.id!==id);plan=plan.map(r=>r.map(c=>c&&c.id===id?null:c));renderAll()}
+
+function getRoundNeeds(e){const needs=[];if(e.filled.length<6)needs.push((6-e.filled.length)+' more member'+(6-e.filled.length>1?'s':''));if(e.roles.dispel<1)needs.push('Dispel / Bishop / Dark Knight');if(e.roles.fma<1)needs.push('FMA');else if(e.roles.fma===1)needs.push('2nd FMA preferred');if(e.roles.se<1&&e.filled.some(c=>ROLE[c.job]&&ROLE[c.job].wantsSEOnly))needs.push('SE for NL / NW / Evan');if(e.roles.babies>0&&e.roles.hb<1)needs.push('HB / Dark Knight for baby');if(e.roles.si+e.roles.halfSI<1&&e.filled.some(c=>ROLE[c.job]&&ROLE[c.job].wantsSI))needs.push('SI / EC preferred');return needs}
+function bestRoundForCharacter(c){let bestRound=-1,bestScore=-Infinity,bestReason='';for(let r=0;r<7;r++){if(completedRounds[r]||!c.rounds.includes(r+1)||replacedOwners.has(c.owner)||plan[r].some(x=>x&&x.owner===c.owner)||plan[r].findIndex(x=>!x)<0)continue;const before=evaluateParty(plan[r]);const test=[...plan[r]];test[test.findIndex(x=>!x)]=c;const after=evaluateParty(test);let gain=scoreParty(test)-scoreParty(plan[r]);let reason='best score gain';if(before.roles.dispel<1&&after.roles.dispel>=1){gain+=8000;reason='fills Dispel'}if(before.roles.fma<1&&after.roles.fma>=1){gain+=6000;reason='fills FMA'}if(before.roles.se<1&&after.roles.se>=1){gain+=5000;reason='adds SE'}if(before.roles.th<1&&after.roles.th>=1){gain+=3500;reason='adds TH'}if(before.roles.si+before.roles.halfSI<1&&after.roles.si+after.roles.halfSI>=1){gain+=3500;reason='adds SI/EC'}if(before.roles.babies>0&&before.roles.hb<1&&after.roles.hb>=1){gain+=5000;reason='adds HB for baby'}if(gain>bestScore){bestScore=gain;bestRound=r;bestReason=reason}}return bestRound>=0?{round:bestRound+1,reason:bestReason,score:bestScore}:null}
+function emergencyReplace(owner){if(!owner)return;replacedOwners.add(owner);for(let r=0;r<7;r++){if(completedRounds[r])continue;for(let s=0;s<6;s++)if(plan[r][s]&&plan[r][s].owner===owner)plan[r][s]=null}fillEmptyOnly();notify('Emergency Replace','Removed '+owner+' from unfinished rounds and blocked them from being reused.','warn')}
+function unreplaceOwner(owner){replacedOwners.delete(owner);renderAll();notify('Owner unblocked',owner+' can be used again.','ok')}
+
+function renderRounds(){const grid=document.getElementById('roundGrid');grid.innerHTML='';const completedUsed=getCompletedUsedIds();const duplicateOpen=getDuplicateOpenIds();for(let r=0;r<7;r++){const e=evaluateParty(plan[r]);const div=document.createElement('div');div.className='round'+(completedRounds[r]?' completed':'');const badges=[e.valid?'<span class="pill ok">Valid</span>':'<span class="pill bad">Needs Fix</span>','<span class="pill '+(e.roles.dispel===1?'ok':e.roles.dispel>1?'warn':'bad')+'">Dispel '+e.roles.dispel+'</span>','<span class="pill '+(e.roles.fma>=2?'ok':e.roles.fma>=1?'warn':'bad')+'">FMA '+e.roles.fma+'</span>','<span class="pill '+(e.roles.se?'ok':'warn')+'">SE '+e.roles.se+'</span>','<span class="pill '+(e.roles.th?'ok':'warn')+'">TH '+e.roles.th+'</span>','<span class="pill '+(e.roles.si||e.roles.halfSI?'ok':'warn')+'">SI/EC '+(e.roles.si+e.roles.halfSI)+'</span>','<span class="pill '+(e.roles.babies>1?'bad':e.roles.babies===1?'warn':'ok')+'">Baby '+e.roles.babies+'</span>','<span class="pill lav">MW40 '+e.roles.mw40+'</span>'].join('');div.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div class="round-title">Round '+(r+1)+'</div><label class="pill '+(completedRounds[r]?'ok':'')+'" style="cursor:pointer;margin:0"><input type="checkbox" '+(completedRounds[r]?'checked':'')+' onchange="toggleCompletedRound('+r+',this.checked)"> Completed</label></div><div>'+badges+'</div><div class="slots"></div><div class="warnings"></div>';const slots=div.querySelector('.slots');for(let s=0;s<6;s++){const c=plan[r][s];const ownerUsedThisRound=new Set(plan[r].filter(Boolean).map(x=>x.owner));if(c)ownerUsedThisRound.delete(c.owner);const available=chars.filter(x=>x.rounds.includes(r+1)&&(!completedUsed.has(x.id)||(c&&c.id===x.id))&&(!ownerUsedThisRound.has(x.owner)||(c&&c.owner===x.owner))&&!replacedOwners.has(x.owner));const slot=document.createElement('div');const isDup=c&&duplicateOpen[c.id];slot.className='slot'+(c?' filled':'')+(isDup?' duplicate':'');const dupText=isDup?'<div class="pill bad">Also slotted R'+duplicateOpen[c.id].filter(x=>x!==r+1).join('/R')+'</div>':'';slot.innerHTML='<div>'+(c?'<div class="char-name">'+c.ign+'</div><div class="char-meta">'+c.owner+' • '+c.job+' • Lv '+(c.level||'?')+(c.mw40?' • MW40':'')+'</div>'+dupText:'<div class="char-meta">Empty slot</div>')+'</div><select '+(completedRounds[r]?'disabled':'')+' onchange="setSlot('+r+','+s+',this.value)"><option value="">Empty</option>'+available.map(x=>'<option value="'+x.id+'" '+(c&&c.id===x.id?'selected':'')+'>'+x.owner+' - '+x.ign+' ('+x.job+')</option>').join('')+'</select>';slots.appendChild(slot)}const dupWarnings=[];plan[r].filter(Boolean).forEach(c=>{if(duplicateOpen[c.id])dupWarnings.push(c.ign+' also in R'+duplicateOpen[c.id].filter(x=>x!==r+1).join('/R'))});div.querySelector('.warnings').innerHTML=[...e.hard.map(x=>'<span class="pill bad">'+x+'</span>'),...e.warnings.map(x=>'<span class="pill warn">'+x+'</span>'),...dupWarnings.map(x=>'<span class="pill bad">'+x+'</span>')].join('');grid.appendChild(div)}}
+function renderSavedPool(){const body=document.getElementById('poolBody');const toggles=document.getElementById('ownerToggles');const owners=[...new Set(savedPool.map(f=>f.owner))];toggles.innerHTML=owners.map(owner=>{const list=savedPool.filter(f=>f.owner===owner);const allOn=list.every(f=>chars.some(c=>c.id===f.id));const someOn=list.some(f=>chars.some(c=>c.id===f.id));return '<label class="pill '+(allOn?'ok':someOn?'warn':'')+'" style="cursor:pointer"><input type="checkbox" '+(allOn?'checked':'')+' onchange="toggleOwner(\''+owner+'\',this.checked)"> '+owner+'</label>'}).join('');body.innerHTML=savedPool.map(c=>'<tr><td><input type="checkbox" '+(chars.some(x=>x.id===c.id)?'checked':'')+' onchange="toggleSaved(\''+c.id+'\',this.checked)"></td><td>'+c.owner+'</td><td><b>'+c.ign+'</b></td><td>'+c.job+'</td><td>'+c.level+'</td><td>'+(c.mw40?'Yes':'No')+'</td><td>'+charTags(c).map(t=>'<span class="pill info">'+t+'</span>').join('')+'</td></tr>').join('')}
+function renderActive(){document.getElementById('activeBody').innerHTML=chars.map(c=>'<tr><td>'+c.owner+'</td><td><b>'+c.ign+'</b></td><td>'+c.job+'</td><td>'+(c.level||'')+'</td><td>R'+c.rounds.join('/')+'</td><td>'+charTags(c).map(t=>'<span class="pill info">'+t+'</span>').join('')+'</td><td><button class="danger" onclick="removeActive(\''+c.id+'\')">Remove</button></td></tr>').join('')}
+function renderSummary(){const evals=plan.map(evaluateParty);document.getElementById('validRounds').textContent=evals.filter(e=>e.valid).length;document.getElementById('missingDispel').textContent=evals.filter(e=>e.roles.dispel<1).length;document.getElementById('missingFma').textContent=evals.filter(e=>e.roles.fma<1).length;document.getElementById('babyIssues').textContent=evals.filter(e=>e.roles.babies>1||(e.roles.babies===1&&e.roles.hb<1)).length;const total=evals.reduce((a,e)=>a+e.hard.length+e.warnings.length,0);const list=[];evals.forEach((e,i)=>{e.hard.forEach(w=>list.push('R'+(i+1)+': '+w));e.warnings.forEach(w=>list.push('R'+(i+1)+': '+w))});document.getElementById('warningsCount').textContent=total;document.getElementById('warningsStat').title=list.length?list.join('\n'):'No warnings'}
+function renderRecruitAssistant(){const el=document.getElementById('recruitAssistant');if(!el)return;const lines=[];plan.forEach((round,i)=>{if(completedRounds[i])return;const needs=getRoundNeeds(evaluateParty(round));if(needs.length)lines.push('<div class="suggestion-line"><b>R'+(i+1)+'</b> → '+needs.join(', ')+'</div>')});el.innerHTML=lines.length?lines.join(''):'All unfinished planned rounds have core requirements covered.'}
+function renderSlotSuggestions(){const el=document.getElementById('slotSuggestions');if(!el)return;const suggestions=[];chars.filter(c=>!plan.flat().some(x=>x&&x.id===c.id)&&!replacedOwners.has(c.owner)).forEach(c=>{const best=bestRoundForCharacter(c);if(best)suggestions.push({c,best})});suggestions.sort((a,b)=>b.best.score-a.best.score);el.innerHTML=suggestions.slice(0,10).map(x=>'<div class="suggestion-line"><b>'+x.c.owner+' - '+x.c.ign+'</b> ('+jobShort(x.c.job)+') → R'+x.best.round+' <span class="pill info">'+x.best.reason+'</span></div>').join('')||'No unused active characters can currently improve an unfinished round.'}
+function renderRemainingToz(){const el=document.getElementById('remainingToz');if(!el)return;const owners=[...new Set(chars.map(c=>c.owner))].sort((a,b)=>((a==='Gillian'||a==='Belle')?0:1)-((b==='Gillian'||b==='Belle')?0:1)||a.localeCompare(b));const doneIds=new Set();completedRounds.forEach((done,i)=>{if(done)plan[i].filter(Boolean).forEach(c=>doneIds.add(c.id))});el.innerHTML=owners.map(o=>{const left=chars.filter(c=>c.owner===o&&!doneIds.has(c.id));return '<div class="suggestion-line"><b>'+o+'</b> → '+(left.length?left.map(c=>c.ign+' ('+jobShort(c.job)+')').join(', '):'All done ✓')+'</div>'}).join('')||'No active characters selected.'}
+function renderReplaceOwners(){const el=document.getElementById('replaceOwners');if(!el)return;const owners=[...new Set(plan.flat().filter(Boolean).map(c=>c.owner).concat([...replacedOwners]))].sort();el.innerHTML=owners.map(o=>'<button class="secondary" onclick="emergencyReplace(\''+o.replace(/'/g,"\\'")+'\')">Replace '+o+'</button>'+(replacedOwners.has(o)?' <button class="soft" onclick="unreplaceOwner(\''+o.replace(/'/g,"\\'")+'\')">Unblock '+o+'</button>':'')).join('')||'No slotted owners yet.'}
+function renderAll(){renderRounds();renderSavedPool();renderActive();renderSummary();renderRecruitAssistant();renderSlotSuggestions();renderRemainingToz();renderReplaceOwners();saveState()}
+
+function ownerShort(c){if(c.owner==='Belle')return'B';if(c.owner==='Gillian')return'G';return c.owner}
+function jobShort(job){const map={'Bishop':'Bsp','Bowmaster':'SE','Marksman':'MM','Wind Archer':'WA','Buccaneer':'SI','Thunder Breaker':'TB','Dual Blade':'DB','Fire/Poison Mage':'FP','Ice/Lightning Mage':'IL','Blaze Wizard':'BW','Evan':'EVAN','Dawn Warrior':'DW','Paladin':'PALA','Dark Knight':'DK','Aran':'ARAN','Hero':'HERO','Shadower':'SHAD','Night Lord':'NL','Night Walker':'NW','Corsair':'SAIR'};return map[job]||job}
+function discordEmoji(job){const map={'Aran':':aran:','Dual Blade':':db:','Night Lord':':nl:','Night Walker':':nw:','Bowmaster':':bm:','Marksman':':mm:','Wind Archer':':wa:','Buccaneer':':bucc:','Thunder Breaker':':tb:','Bishop':':bsp:','Fire/Poison Mage':':fp:','Ice/Lightning Mage':':il:','Blaze Wizard':':bw:','Evan':':evan:','Dawn Warrior':':dw:','Paladin':':pally:','Dark Knight':':drk:','Hero':':hero:','Shadower':':shad:','Corsair':':sair:'};return map[job]||''}
+function supportEmoji(job){return {'Bowmaster':' :se:','Marksman':' :se:','Wind Archer':' :se:','Dual Blade':' :th:'}[job]||''}
+function mwEmoji(c){return c.mw40?' :mw:':''}
+function copyDiscordSummary(){const lines=[];for(let r=0;r<7;r++){const members=plan[r].filter(Boolean).map(c=>discordEmoji(c.job)+' '+c.ign+supportEmoji(c.job)+mwEmoji(c));const line='R'+(r+1)+': '+(members.length?members.join(' | '):'Empty');lines.push(completedRounds[r]?'~~'+line+'~~':line)}navigator.clipboard.writeText(lines.join('\n'));notify('Discord summary copied','All 7 rounds copied with emoji format.','ok')}
+function copyNextRound(){const next=completedRounds.findIndex(x=>!x);if(next===-1){navigator.clipboard.writeText('All TOZ rounds completed.');notify('All completed','All TOZ rounds are completed.','ok');return}const members=plan[next].filter(Boolean).map(c=>ownerShort(c)+' ('+jobShort(c.job)+')');const line='R'+(next+1)+': '+(members.length?members.join(' | '):'Empty');navigator.clipboard.writeText(line);notify('Next round copied','Copied Round '+(next+1)+' only for in-game paste.','ok')}
+function copyPlan(){copyDiscordSummary()}
+init();
+
+</script>
+</body>
+</html>
