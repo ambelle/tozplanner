@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOZ Command Center</title>
+<style>
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:#f6f3ee;
+  color:#23211f;
+}
+.wrapper{
+  max-width:1400px;
+  margin:auto;
+  padding:32px;
+}
+.top{
+  display:flex;
+  justify-content:space-between;
+  gap:24px;
+  align-items:flex-start;
+  margin-bottom:28px;
+}
+h1{
+  margin:0;
+  font-size:64px;
+  letter-spacing:-0.08em;
+}
+.sub{
+  color:#7d746a;
+  max-width:760px;
+  line-height:1.7;
+}
+.toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+button{
+  border:none;
+  border-radius:16px;
+  padding:12px 16px;
+  background:#23211f;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+.secondary{
+  background:white;
+  color:#23211f;
+  border:1px solid #e8dfd4;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:14px;
+  margin-bottom:24px;
+}
+.stat{
+  background:white;
+  border-radius:22px;
+  padding:18px;
+  border:1px solid #eee5da;
+}
+.stat b{
+  display:block;
+  font-size:32px;
+}
+.stat span{
+  color:#7d746a;
+  font-size:12px;
+  text-transform:uppercase;
+}
+.layout{
+  display:grid;
+  grid-template-columns:1fr 340px;
+  gap:22px;
+}
+.rounds{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+}
+.round{
+  background:white;
+  border-radius:26px;
+  border:1px solid #eee5da;
+  padding:18px;
+}
+.round-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+}
+.round-header h2{
+  margin:0;
+}
+.status{
+  background:#e5f3e8;
+  color:#41684b;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+}
+.slot{
+  border:1px solid #eee5da;
+  border-radius:16px;
+  padding:12px;
+  margin-bottom:10px;
+}
+.slot b{
+  display:block;
+}
+.meta{
+  color:#7d746a;
+  font-size:13px;
+  margin-top:4px;
+}
+.panel{
+  background:white;
+  border-radius:24px;
+  border:1px solid #eee5da;
+  padding:18px;
+  margin-bottom:18px;
+}
+.panel h3{
+  margin-top:0;
+}
+textarea,input{
+  width:100%;
+  border:1px solid #e8dfd4;
+  border-radius:14px;
+  padding:12px;
+  font-family:inherit;
+}
+textarea{
+  min-height:120px;
+}
+@media(max-width:1100px){
+  .layout{
+    grid-template-columns:1fr;
+  }
+}
+@media(max-width:800px){
+  .top{
+    flex-direction:column;
+  }
+  .rounds{
+    grid-template-columns:1fr;
+  }
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+  h1{
+    font-size:44px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<div class="top">
+  <div>
+    <h1>TOZ Command Center</h1>
+    <p class="sub">
+      Clean operational workspace for DreamMS TOZ planning, optimization, emergency replacements, recruit gaps, and live round coordination.
+    </p>
+  </div>
+
+  <div class="toolbar">
+    <button>Generate Plan</button>
+    <button class="secondary">Optimize</button>
+    <button class="secondary">Fill Empty</button>
+    <button class="secondary">Discord Summary</button>
+    <button class="secondary">Next Round</button>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><b>7</b><span>Rounds</span></div>
+  <div class="stat"><b>3</b><span>Completed</span></div>
+  <div class="stat"><b>2</b><span>Warnings</span></div>
+  <div class="stat"><b>4</b><span>Missing Roles</span></div>
+  <div class="stat"><b>18</b><span>Active Characters</span></div>
+</div>
+
+<div class="layout">
+
+  <div class="rounds">
+
+    <div class="round">
+      <div class="round-header">
+        <h2>Round 1</h2>
+        <div class="status">Completed</div>
+      </div>
+
+      <div class="slot">
+        <b>Gillian</b>
+        <div class="meta">Dual Blade • Lv.284 • MW40</div>
+      </div>
+
+      <div class="slot">
+        <b>Thocky</b>
+        <div class="meta">Aran • Lv.291 • MW40</div>
+      </div>
+
+      <div class="slot">
+        <b>Tocky</b>
+        <div class="meta">Bishop • Lv.265</div>
+      </div>
+    </div>
+
+    <div class="round">
+      <div class="round-header">
+        <h2>Round 2</h2>
+        <div class="status">Ready</div>
+      </div>
+
+      <div class="slot">
+        <b>Hell</b>
+        <div class="meta">Fire Poison • Lv.276 • MW40</div>
+      </div>
+
+      <div class="slot">
+        <b>SEhoon</b>
+        <div class="meta">Bowmaster • Lv.280 • MW40</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div>
+
+    <div class="panel">
+      <h3>Quick Import</h3>
+      <textarea placeholder="gil j>5r bm/th/bsp/shad"></textarea>
+    </div>
+
+    <div class="panel">
+      <h3>Recruit Needs</h3>
+      <p>• Round 2 missing Dispel</p>
+      <p>• Round 4 prefer SE</p>
+      <p>• Round 6 need SI</p>
+    </div>
+
+    <div class="panel">
+      <h3>Utilities</h3>
+      <div class="toolbar">
+        <button class="secondary">Saved Pool</button>
+        <button class="secondary">Emergency Replace</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</div>
+</body>
+</html>
