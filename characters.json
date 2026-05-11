@@ -1,0 +1,551 @@
+{
+  "updatedAt": null,
+  "characters": [
+    {
+      "owner": "Belle",
+      "name": "Thocky",
+      "job": "Aran",
+      "level": 291
+    },
+    {
+      "owner": "Belle",
+      "name": "Tock",
+      "job": "Night Walker",
+      "level": 263
+    },
+    {
+      "owner": "Belle",
+      "name": "Tocki",
+      "job": "Bowmaster",
+      "level": 254
+    },
+    {
+      "owner": "Belle",
+      "name": "Tork",
+      "job": "Blaze Wizard",
+      "level": 261
+    },
+    {
+      "owner": "Belle",
+      "name": "Tokk",
+      "job": "Buccaneer",
+      "level": 209
+    },
+    {
+      "owner": "Belle",
+      "name": "Hell",
+      "job": "Fire/Poison Mage",
+      "level": 276
+    },
+    {
+      "owner": "Belle",
+      "name": "Tocky",
+      "job": "Bishop",
+      "level": 265
+    },
+    {
+      "owner": "Gillian",
+      "name": "Gillian",
+      "job": "Dual Blade",
+      "level": 284
+    },
+    {
+      "owner": "Gillian",
+      "name": "ggil",
+      "job": "Bowmaster",
+      "level": 265
+    },
+    {
+      "owner": "Gillian",
+      "name": "ggill",
+      "job": "Buccaneer",
+      "level": 247
+    },
+    {
+      "owner": "Gillian",
+      "name": "Leaw",
+      "job": "Aran",
+      "level": 265
+    },
+    {
+      "owner": "Gillian",
+      "name": "Gill",
+      "job": "Fire/Poison Mage",
+      "level": 276
+    },
+    {
+      "owner": "Gillian",
+      "name": "Kaiko",
+      "job": "Bishop",
+      "level": 267
+    },
+    {
+      "owner": "Gillian",
+      "name": "Arun",
+      "job": "Dawn Warrior",
+      "level": 243
+    },
+    {
+      "owner": "Winst",
+      "name": "Veggie",
+      "job": "Night Lord",
+      "level": 289
+    },
+    {
+      "owner": "Winst",
+      "name": "Roomie",
+      "job": "Marksman",
+      "level": 285
+    },
+    {
+      "owner": "Winst",
+      "name": "Meanie",
+      "job": "Buccaneer",
+      "level": 277
+    },
+    {
+      "owner": "Winst",
+      "name": "Quackie",
+      "job": "Dual Blade",
+      "level": 273
+    },
+    {
+      "owner": "Winst",
+      "name": "Owie",
+      "job": "Dark Knight",
+      "level": 261
+    },
+    {
+      "owner": "Winst",
+      "name": "Caterpie",
+      "job": "Paladin",
+      "level": 261
+    },
+    {
+      "owner": "Winst",
+      "name": "Eerie",
+      "job": "Bishop",
+      "level": 273
+    },
+    {
+      "owner": "Winst",
+      "name": "Doorie",
+      "job": "Bishop",
+      "level": 234
+    },
+    {
+      "owner": "Thom",
+      "name": "oof",
+      "job": "Aran",
+      "level": 272
+    },
+    {
+      "owner": "Thom",
+      "name": "Looted",
+      "job": "Shadower",
+      "level": 274
+    },
+    {
+      "owner": "Thom",
+      "name": "Cronut",
+      "job": "Buccaneer",
+      "level": 267
+    },
+    {
+      "owner": "Thom",
+      "name": "Churro",
+      "job": "Bowmaster",
+      "level": 271
+    },
+    {
+      "owner": "Thom",
+      "name": "Zooted",
+      "job": "Marksman",
+      "level": 267
+    },
+    {
+      "owner": "Thom",
+      "name": "Macaroon",
+      "job": "Bishop",
+      "level": 262
+    },
+    {
+      "owner": "Thom",
+      "name": "Sundaes",
+      "job": "Ice/Lightning Mage",
+      "level": 244
+    },
+    {
+      "owner": "Thom",
+      "name": "Cruller",
+      "job": "Corsair",
+      "level": 235
+    },
+    {
+      "owner": "Thom",
+      "name": "Saltbread",
+      "job": "Evan",
+      "level": 203
+    },
+    {
+      "owner": "BK",
+      "name": "Miffyy",
+      "job": "Bishop",
+      "level": 275
+    },
+    {
+      "owner": "BK",
+      "name": "54o88",
+      "job": "Wind Archer",
+      "level": 269
+    },
+    {
+      "owner": "BK",
+      "name": "Diuz",
+      "job": "Thunder Breaker",
+      "level": 260
+    },
+    {
+      "owner": "BK",
+      "name": "Chageee",
+      "job": "Bowmaster",
+      "level": 254
+    },
+    {
+      "owner": "BK",
+      "name": "Lormee",
+      "job": "Buccaneer",
+      "level": 233
+    },
+    {
+      "owner": "KC",
+      "name": "SEhoon",
+      "job": "Bowmaster",
+      "level": 280
+    },
+    {
+      "owner": "KC",
+      "name": "Ryoji",
+      "job": "Night Lord",
+      "level": 270
+    },
+    {
+      "owner": "KC",
+      "name": "Voxous",
+      "job": "Dual Blade",
+      "level": 260
+    },
+    {
+      "owner": "KC",
+      "name": "n00n",
+      "job": "Paladin",
+      "level": 262
+    },
+    {
+      "owner": "KC",
+      "name": "Orien",
+      "job": "Aran",
+      "level": 257
+    },
+    {
+      "owner": "KC",
+      "name": "Voxi",
+      "job": "Thunder Breaker",
+      "level": 246
+    },
+    {
+      "owner": "KC",
+      "name": "Sunshines",
+      "job": "Bishop",
+      "level": 266
+    },
+    {
+      "owner": "KC",
+      "name": "Grimstep",
+      "job": "Shadower",
+      "level": 235
+    },
+    {
+      "owner": "KC",
+      "name": "Nocti",
+      "job": "Dark Knight",
+      "level": 214
+    },
+    {
+      "owner": "KC",
+      "name": "Jegiee",
+      "job": "Corsair",
+      "level": 240
+    },
+    {
+      "owner": "KC",
+      "name": "Dimz",
+      "job": "Shadower",
+      "level": 150
+    },
+    {
+      "owner": "Liss",
+      "name": "Pinkberry",
+      "job": "Bishop",
+      "level": 278
+    },
+    {
+      "owner": "Liss",
+      "name": "Lisette",
+      "job": "Bowmaster",
+      "level": 268
+    },
+    {
+      "owner": "Liss",
+      "name": "Elissybeth",
+      "job": "Paladin",
+      "level": 259
+    },
+    {
+      "owner": "Liss",
+      "name": "Luminosa",
+      "job": "Dawn Warrior",
+      "level": 253
+    },
+    {
+      "owner": "Liss",
+      "name": "Lissie",
+      "job": "Dark Knight",
+      "level": 270
+    },
+    {
+      "owner": "Liss",
+      "name": "Hibana",
+      "job": "Fire/Poison Mage",
+      "level": 235
+    },
+    {
+      "owner": "Liss",
+      "name": "Lisseria",
+      "job": "Dual Blade",
+      "level": 261
+    },
+    {
+      "owner": "Liss",
+      "name": "Lissy",
+      "job": "Night Walker",
+      "level": 249
+    },
+    {
+      "owner": "Liss",
+      "name": "Liselle",
+      "job": "Shadower",
+      "level": 234
+    },
+    {
+      "owner": "Liss",
+      "name": "Lissi",
+      "job": "Buccaneer",
+      "level": 226
+    },
+    {
+      "owner": "Liss",
+      "name": "Lissiel",
+      "job": "Evan",
+      "level": 203
+    },
+    {
+      "owner": "Liss",
+      "name": "Lissea",
+      "job": "Corsair",
+      "level": 175
+    },
+    {
+      "owner": "Unk",
+      "name": "UnknownBM",
+      "job": "Bowmaster",
+      "level": 265
+    },
+    {
+      "owner": "Unk",
+      "name": "Lasting",
+      "job": "Fire/Poison Mage",
+      "level": 240
+    },
+    {
+      "owner": "Unk",
+      "name": "Bishophs",
+      "job": "Bishop",
+      "level": 240
+    },
+    {
+      "owner": "Kerm",
+      "name": "iKermy",
+      "job": "Evan",
+      "level": 252
+    },
+    {
+      "owner": "Kerm",
+      "name": "xKermy",
+      "job": "Paladin",
+      "level": 263
+    },
+    {
+      "owner": "Kerm",
+      "name": "ImKerming",
+      "job": "Shadower",
+      "level": 234
+    },
+    {
+      "owner": "Kerm",
+      "name": "Pingsoo",
+      "job": "Bishop",
+      "level": 225
+    },
+    {
+      "owner": "Kerm",
+      "name": "KermySE",
+      "job": "Bowmaster",
+      "level": 214
+    },
+    {
+      "owner": "Lucy",
+      "name": "Rurni",
+      "job": "Dawn Warrior",
+      "level": 231
+    },
+    {
+      "owner": "Lucy",
+      "name": "iiLucy",
+      "job": "Bishop",
+      "level": 286
+    },
+    {
+      "owner": "Lucy",
+      "name": "iabu",
+      "job": "Thunder Breaker",
+      "level": 270
+    },
+    {
+      "owner": "Lucy",
+      "name": "LalaL00psy",
+      "job": "Fire/Poison Mage",
+      "level": 246
+    },
+    {
+      "owner": "Juls",
+      "name": "Motive",
+      "job": "Bowmaster",
+      "level": 283
+    },
+    {
+      "owner": "Juls",
+      "name": "Doubtful",
+      "job": "Buccaneer",
+      "level": 272
+    },
+    {
+      "owner": "Juls",
+      "name": "Resource",
+      "job": "Marksman",
+      "level": 263
+    },
+    {
+      "owner": "Juls",
+      "name": "Gracee",
+      "job": "Bishop",
+      "level": 275
+    },
+    {
+      "owner": "DY",
+      "name": "mellowdy",
+      "job": "Corsair",
+      "level": 260
+    },
+    {
+      "owner": "DY",
+      "name": "8lo8lo8lowme",
+      "job": "Buccaneer",
+      "level": 250
+    },
+    {
+      "owner": "DY",
+      "name": "sunbaedy",
+      "job": "Bowmaster",
+      "level": 227
+    },
+    {
+      "owner": "DY",
+      "name": "okdy",
+      "job": "Bishop",
+      "level": 257
+    },
+    {
+      "owner": "DY",
+      "name": "mabokdy",
+      "job": "Fire/Poison Mage",
+      "level": 230
+    },
+    {
+      "owner": "DY",
+      "name": "Afersie",
+      "job": "Bishop",
+      "level": 234
+    },
+    {
+      "owner": "DY",
+      "name": "Wookimo",
+      "job": "Dual Blade",
+      "level": 218
+    },
+    {
+      "owner": "Andy",
+      "name": "Shibe",
+      "job": "Shadower",
+      "level": 291
+    },
+    {
+      "owner": "Andy",
+      "name": "Shiba",
+      "job": "Night Lord",
+      "level": 291
+    },
+    {
+      "owner": "Andy",
+      "name": "Shibah",
+      "job": "Dual Blade",
+      "level": 289
+    },
+    {
+      "owner": "Andy",
+      "name": "Shibao",
+      "job": "Paladin",
+      "level": 256
+    },
+    {
+      "owner": "Andy",
+      "name": "Krce",
+      "job": "Bowmaster",
+      "level": 276
+    },
+    {
+      "owner": "Lior",
+      "name": "Leal",
+      "job": "Night Lord",
+      "level": 295
+    },
+    {
+      "owner": "Lior",
+      "name": "Ayala",
+      "job": "Bishop",
+      "level": 289
+    },
+    {
+      "owner": "Lior",
+      "name": "Blending",
+      "job": "Shadower",
+      "level": 289
+    },
+    {
+      "owner": "Lior",
+      "name": "Ayara",
+      "job": "Blaze Wizard",
+      "level": 254
+    }
+  ]
+}
