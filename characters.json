@@ -1,551 +1,643 @@
 {
-  "updatedAt": null,
+  "updatedAt": "2026-05-11T14:19:20.842Z",
   "characters": [
     {
       "owner": "Belle",
       "name": "Thocky",
       "job": "Aran",
-      "level": 291
+      "level": 291,
+      "source": "https://dreamms.gg/index.php?stats=Thocky"
     },
     {
       "owner": "Belle",
       "name": "Tock",
       "job": "Night Walker",
-      "level": 263
+      "level": 264,
+      "source": "https://dreamms.gg/index.php?stats=Tock"
     },
     {
       "owner": "Belle",
       "name": "Tocki",
-      "job": "Bowmaster",
-      "level": 254
+      "job": "Bow Master",
+      "level": 254,
+      "source": "https://dreamms.gg/index.php?stats=Tocki"
     },
     {
       "owner": "Belle",
       "name": "Tork",
       "job": "Blaze Wizard",
-      "level": 261
+      "level": 261,
+      "source": "https://dreamms.gg/index.php?stats=Tork"
     },
     {
       "owner": "Belle",
       "name": "Tokk",
       "job": "Buccaneer",
-      "level": 209
+      "level": 209,
+      "source": "https://dreamms.gg/index.php?stats=Tokk"
     },
     {
       "owner": "Belle",
       "name": "Hell",
-      "job": "Fire/Poison Mage",
-      "level": 276
+      "job": "Beginner",
+      "level": 1,
+      "source": "https://dreamms.gg/index.php?stats=Hell"
     },
     {
       "owner": "Belle",
       "name": "Tocky",
       "job": "Bishop",
-      "level": 265
+      "level": 266,
+      "source": "https://dreamms.gg/index.php?stats=Tocky"
     },
     {
       "owner": "Gillian",
       "name": "Gillian",
-      "job": "Dual Blade",
-      "level": 284
+      "job": "Blade Master",
+      "level": 284,
+      "source": "https://dreamms.gg/index.php?stats=Gillian"
     },
     {
       "owner": "Gillian",
       "name": "ggil",
-      "job": "Bowmaster",
-      "level": 265
+      "job": "Bow Master",
+      "level": 266,
+      "source": "https://dreamms.gg/index.php?stats=ggil"
     },
     {
       "owner": "Gillian",
       "name": "ggill",
       "job": "Buccaneer",
-      "level": 247
+      "level": 248,
+      "source": "https://dreamms.gg/index.php?stats=ggill"
     },
     {
       "owner": "Gillian",
       "name": "Leaw",
       "job": "Aran",
-      "level": 265
+      "level": 265,
+      "source": "https://dreamms.gg/index.php?stats=Leaw"
     },
     {
       "owner": "Gillian",
       "name": "Gill",
-      "job": "Fire/Poison Mage",
-      "level": 276
+      "job": "F/P Arch Mage",
+      "level": 276,
+      "source": "https://dreamms.gg/index.php?stats=Gill"
     },
     {
       "owner": "Gillian",
       "name": "Kaiko",
       "job": "Bishop",
-      "level": 267
+      "level": 268,
+      "source": "https://dreamms.gg/index.php?stats=Kaiko"
     },
     {
       "owner": "Gillian",
       "name": "Arun",
       "job": "Dawn Warrior",
-      "level": 243
+      "level": 243,
+      "source": "https://dreamms.gg/index.php?stats=Arun"
     },
     {
       "owner": "Winst",
       "name": "Veggie",
       "job": "Night Lord",
-      "level": 289
+      "level": 289,
+      "source": "https://dreamms.gg/index.php?stats=Veggie"
     },
     {
       "owner": "Winst",
       "name": "Roomie",
       "job": "Marksman",
-      "level": 285
+      "level": 285,
+      "source": "https://dreamms.gg/index.php?stats=Roomie"
     },
     {
       "owner": "Winst",
       "name": "Meanie",
       "job": "Buccaneer",
-      "level": 277
+      "level": 277,
+      "source": "https://dreamms.gg/index.php?stats=Meanie"
     },
     {
       "owner": "Winst",
       "name": "Quackie",
-      "job": "Dual Blade",
-      "level": 273
+      "job": "Blade Master",
+      "level": 273,
+      "source": "https://dreamms.gg/index.php?stats=Quackie"
     },
     {
       "owner": "Winst",
       "name": "Owie",
       "job": "Dark Knight",
-      "level": 261
+      "level": 260,
+      "source": "https://dreamms.gg/index.php?stats=Owie"
     },
     {
       "owner": "Winst",
       "name": "Caterpie",
       "job": "Paladin",
-      "level": 261
+      "level": 261,
+      "source": "https://dreamms.gg/index.php?stats=Caterpie"
     },
     {
       "owner": "Winst",
       "name": "Eerie",
       "job": "Bishop",
-      "level": 273
+      "level": 273,
+      "source": "https://dreamms.gg/index.php?stats=Eerie"
     },
     {
       "owner": "Winst",
       "name": "Doorie",
       "job": "Bishop",
-      "level": 234
+      "level": 234,
+      "source": "https://dreamms.gg/index.php?stats=Doorie"
     },
     {
       "owner": "Thom",
       "name": "oof",
       "job": "Aran",
-      "level": 272
+      "level": 272,
+      "source": "https://dreamms.gg/index.php?stats=oof"
     },
     {
       "owner": "Thom",
       "name": "Looted",
       "job": "Shadower",
-      "level": 274
+      "level": 274,
+      "source": "https://dreamms.gg/index.php?stats=Looted"
     },
     {
       "owner": "Thom",
       "name": "Cronut",
       "job": "Buccaneer",
-      "level": 267
+      "level": 267,
+      "source": "https://dreamms.gg/index.php?stats=Cronut"
     },
     {
       "owner": "Thom",
       "name": "Churro",
-      "job": "Bowmaster",
-      "level": 271
+      "job": "Bow Master",
+      "level": 271,
+      "source": "https://dreamms.gg/index.php?stats=Churro"
     },
     {
       "owner": "Thom",
       "name": "Zooted",
       "job": "Marksman",
-      "level": 267
+      "level": 267,
+      "source": "https://dreamms.gg/index.php?stats=Zooted"
     },
     {
       "owner": "Thom",
       "name": "Macaroon",
       "job": "Bishop",
-      "level": 262
+      "level": 262,
+      "source": "https://dreamms.gg/index.php?stats=Macaroon"
     },
     {
       "owner": "Thom",
       "name": "Sundaes",
-      "job": "Ice/Lightning Mage",
-      "level": 244
+      "job": "I/L Arch Mage",
+      "level": 244,
+      "source": "https://dreamms.gg/index.php?stats=Sundaes"
     },
     {
       "owner": "Thom",
       "name": "Cruller",
       "job": "Corsair",
-      "level": 235
+      "level": 235,
+      "source": "https://dreamms.gg/index.php?stats=Cruller"
     },
     {
       "owner": "Thom",
-      "name": "Saltbread",
+      "name": "SaltBread",
       "job": "Evan",
-      "level": 203
+      "level": 203,
+      "source": "https://dreamms.gg/index.php?stats=Saltbread"
     },
     {
       "owner": "BK",
-      "name": "Miffyy",
+      "name": "miffyy",
       "job": "Bishop",
-      "level": 275
+      "level": 275,
+      "source": "https://dreamms.gg/index.php?stats=Miffyy"
     },
     {
       "owner": "BK",
       "name": "54o88",
       "job": "Wind Archer",
-      "level": 269
+      "level": 269,
+      "source": "https://dreamms.gg/index.php?stats=54o88"
     },
     {
       "owner": "BK",
       "name": "Diuz",
       "job": "Thunder Breaker",
-      "level": 260
+      "level": 260,
+      "source": "https://dreamms.gg/index.php?stats=Diuz"
     },
     {
       "owner": "BK",
       "name": "Chageee",
-      "job": "Bowmaster",
-      "level": 254
+      "job": "Bow Master",
+      "level": 254,
+      "source": "https://dreamms.gg/index.php?stats=Chageee"
     },
     {
       "owner": "BK",
-      "name": "Lormee",
+      "name": "LorMee",
       "job": "Buccaneer",
-      "level": 233
+      "level": 233,
+      "source": "https://dreamms.gg/index.php?stats=Lormee"
     },
     {
       "owner": "KC",
       "name": "SEhoon",
-      "job": "Bowmaster",
-      "level": 280
+      "job": "Bow Master",
+      "level": 280,
+      "source": "https://dreamms.gg/index.php?stats=SEhoon"
     },
     {
       "owner": "KC",
       "name": "Ryoji",
       "job": "Night Lord",
-      "level": 270
+      "level": 270,
+      "source": "https://dreamms.gg/index.php?stats=Ryoji"
     },
     {
       "owner": "KC",
       "name": "Voxous",
-      "job": "Dual Blade",
-      "level": 260
+      "job": "Blade Master",
+      "level": 260,
+      "source": "https://dreamms.gg/index.php?stats=Voxous"
     },
     {
       "owner": "KC",
       "name": "n00n",
       "job": "Paladin",
-      "level": 262
+      "level": 262,
+      "source": "https://dreamms.gg/index.php?stats=n00n"
     },
     {
       "owner": "KC",
       "name": "Orien",
       "job": "Aran",
-      "level": 257
+      "level": 257,
+      "source": "https://dreamms.gg/index.php?stats=Orien"
     },
     {
       "owner": "KC",
       "name": "Voxi",
       "job": "Thunder Breaker",
-      "level": 246
+      "level": 246,
+      "source": "https://dreamms.gg/index.php?stats=Voxi"
     },
     {
       "owner": "KC",
       "name": "Sunshines",
       "job": "Bishop",
-      "level": 266
+      "level": 266,
+      "source": "https://dreamms.gg/index.php?stats=Sunshines"
     },
     {
       "owner": "KC",
       "name": "Grimstep",
       "job": "Shadower",
-      "level": 235
+      "level": 235,
+      "source": "https://dreamms.gg/index.php?stats=Grimstep"
     },
     {
       "owner": "KC",
       "name": "Nocti",
       "job": "Dark Knight",
-      "level": 214
+      "level": 214,
+      "source": "https://dreamms.gg/index.php?stats=Nocti"
     },
     {
       "owner": "KC",
       "name": "Jegiee",
       "job": "Corsair",
-      "level": 240
+      "level": 240,
+      "source": "https://dreamms.gg/index.php?stats=Jegiee"
     },
     {
       "owner": "KC",
       "name": "Dimz",
-      "job": "Shadower",
-      "level": 150
+      "job": "Dawn Warrior",
+      "level": 150,
+      "source": "https://dreamms.gg/index.php?stats=Dimz"
     },
     {
       "owner": "Liss",
       "name": "Pinkberry",
-      "job": "Bishop",
-      "level": 278
+      "job": "Dark Knight",
+      "level": 170,
+      "source": "https://dreamms.gg/index.php?stats=Pinkberry"
     },
     {
       "owner": "Liss",
-      "name": "Lisette",
-      "job": "Bowmaster",
-      "level": 268
+      "name": "Home",
+      "job": "Features",
+      "level": null,
+      "source": "https://dreamms.gg/index.php?stats=Lisette"
     },
     {
       "owner": "Liss",
       "name": "Elissybeth",
       "job": "Paladin",
-      "level": 259
+      "level": 259,
+      "source": "https://dreamms.gg/index.php?stats=Elissybeth"
     },
     {
       "owner": "Liss",
       "name": "Luminosa",
       "job": "Dawn Warrior",
-      "level": 253
+      "level": 253,
+      "source": "https://dreamms.gg/index.php?stats=Luminosa"
     },
     {
       "owner": "Liss",
       "name": "Lissie",
       "job": "Dark Knight",
-      "level": 270
+      "level": 270,
+      "source": "https://dreamms.gg/index.php?stats=Lissie"
     },
     {
       "owner": "Liss",
       "name": "Hibana",
-      "job": "Fire/Poison Mage",
-      "level": 235
+      "job": "F/P Arch Mage",
+      "level": 235,
+      "source": "https://dreamms.gg/index.php?stats=Hibana"
     },
     {
       "owner": "Liss",
       "name": "Lisseria",
-      "job": "Dual Blade",
-      "level": 261
+      "job": "Blade Master",
+      "level": 261,
+      "source": "https://dreamms.gg/index.php?stats=Lisseria"
     },
     {
       "owner": "Liss",
       "name": "Lissy",
       "job": "Night Walker",
-      "level": 249
+      "level": 249,
+      "source": "https://dreamms.gg/index.php?stats=Lissy"
     },
     {
       "owner": "Liss",
-      "name": "Liselle",
-      "job": "Shadower",
-      "level": 234
+      "name": "Home",
+      "job": "Features",
+      "level": null,
+      "source": "https://dreamms.gg/index.php?stats=Liselle"
     },
     {
       "owner": "Liss",
       "name": "Lissi",
       "job": "Buccaneer",
-      "level": 226
+      "level": 226,
+      "source": "https://dreamms.gg/index.php?stats=Lissi"
     },
     {
       "owner": "Liss",
       "name": "Lissiel",
       "job": "Evan",
-      "level": 203
+      "level": 203,
+      "source": "https://dreamms.gg/index.php?stats=Lissiel"
     },
     {
       "owner": "Liss",
       "name": "Lissea",
       "job": "Corsair",
-      "level": 175
+      "level": 175,
+      "source": "https://dreamms.gg/index.php?stats=Lissea"
     },
     {
       "owner": "Unk",
       "name": "UnknownBM",
-      "job": "Bowmaster",
-      "level": 265
+      "job": "Bow Master",
+      "level": 265,
+      "source": "https://dreamms.gg/index.php?stats=UnknownBM"
     },
     {
       "owner": "Unk",
       "name": "Lasting",
-      "job": "Fire/Poison Mage",
-      "level": 240
+      "job": "F/P Arch Mage",
+      "level": 240,
+      "source": "https://dreamms.gg/index.php?stats=Lasting"
     },
     {
       "owner": "Unk",
-      "name": "Bishophs",
+      "name": "BishopHS",
       "job": "Bishop",
-      "level": 240
+      "level": 240,
+      "source": "https://dreamms.gg/index.php?stats=Bishophs"
     },
     {
       "owner": "Kerm",
       "name": "iKermy",
       "job": "Evan",
-      "level": 252
+      "level": 252,
+      "source": "https://dreamms.gg/index.php?stats=iKermy"
     },
     {
       "owner": "Kerm",
       "name": "xKermy",
       "job": "Paladin",
-      "level": 263
+      "level": 263,
+      "source": "https://dreamms.gg/index.php?stats=xKermy"
     },
     {
       "owner": "Kerm",
       "name": "ImKerming",
       "job": "Shadower",
-      "level": 234
+      "level": 234,
+      "source": "https://dreamms.gg/index.php?stats=ImKerming"
     },
     {
       "owner": "Kerm",
-      "name": "Pingsoo",
+      "name": "PIngsoo",
       "job": "Bishop",
-      "level": 225
+      "level": 225,
+      "source": "https://dreamms.gg/index.php?stats=Pingsoo"
     },
     {
       "owner": "Kerm",
       "name": "KermySE",
-      "job": "Bowmaster",
-      "level": 214
+      "job": "Bow Master",
+      "level": 214,
+      "source": "https://dreamms.gg/index.php?stats=KermySE"
     },
     {
       "owner": "Lucy",
       "name": "Rurni",
       "job": "Dawn Warrior",
-      "level": 231
+      "level": 231,
+      "source": "https://dreamms.gg/index.php?stats=Rurni"
     },
     {
       "owner": "Lucy",
       "name": "iiLucy",
       "job": "Bishop",
-      "level": 286
+      "level": 286,
+      "source": "https://dreamms.gg/index.php?stats=iiLucy"
     },
     {
       "owner": "Lucy",
-      "name": "iabu",
+      "name": "Iabu",
       "job": "Thunder Breaker",
-      "level": 270
+      "level": 270,
+      "source": "https://dreamms.gg/index.php?stats=iabu"
     },
     {
       "owner": "Lucy",
       "name": "LalaL00psy",
-      "job": "Fire/Poison Mage",
-      "level": 246
+      "job": "F/P Arch Mage",
+      "level": 246,
+      "source": "https://dreamms.gg/index.php?stats=LalaL00psy"
     },
     {
       "owner": "Juls",
       "name": "Motive",
-      "job": "Bowmaster",
-      "level": 283
+      "job": "Bow Master",
+      "level": 283,
+      "source": "https://dreamms.gg/index.php?stats=Motive"
     },
     {
       "owner": "Juls",
-      "name": "Doubtful",
+      "name": "doubtful",
       "job": "Buccaneer",
-      "level": 272
+      "level": 272,
+      "source": "https://dreamms.gg/index.php?stats=Doubtful"
     },
     {
       "owner": "Juls",
-      "name": "Resource",
+      "name": "resource",
       "job": "Marksman",
-      "level": 263
+      "level": 263,
+      "source": "https://dreamms.gg/index.php?stats=Resource"
     },
     {
       "owner": "Juls",
       "name": "Gracee",
       "job": "Bishop",
-      "level": 275
+      "level": 275,
+      "source": "https://dreamms.gg/index.php?stats=Gracee"
     },
     {
       "owner": "DY",
-      "name": "mellowdy",
+      "name": "Mellowdy",
       "job": "Corsair",
-      "level": 260
+      "level": 260,
+      "source": "https://dreamms.gg/index.php?stats=mellowdy"
     },
     {
       "owner": "DY",
       "name": "8lo8lo8lowme",
       "job": "Buccaneer",
-      "level": 250
+      "level": 250,
+      "source": "https://dreamms.gg/index.php?stats=8lo8lo8lowme"
     },
     {
       "owner": "DY",
       "name": "sunbaedy",
-      "job": "Bowmaster",
-      "level": 227
+      "job": "Bow Master",
+      "level": 227,
+      "source": "https://dreamms.gg/index.php?stats=sunbaedy"
     },
     {
       "owner": "DY",
       "name": "okdy",
       "job": "Bishop",
-      "level": 257
+      "level": 257,
+      "source": "https://dreamms.gg/index.php?stats=okdy"
     },
     {
       "owner": "DY",
       "name": "mabokdy",
-      "job": "Fire/Poison Mage",
-      "level": 230
+      "job": "F/P Arch Mage",
+      "level": 230,
+      "source": "https://dreamms.gg/index.php?stats=mabokdy"
     },
     {
       "owner": "DY",
       "name": "Afersie",
       "job": "Bishop",
-      "level": 234
+      "level": 234,
+      "source": "https://dreamms.gg/index.php?stats=Afersie"
     },
     {
       "owner": "DY",
-      "name": "Wookimo",
-      "job": "Dual Blade",
-      "level": 218
+      "name": "wookimo",
+      "job": "Blade Master",
+      "level": 218,
+      "source": "https://dreamms.gg/index.php?stats=Wookimo"
     },
     {
       "owner": "Andy",
       "name": "Shibe",
       "job": "Shadower",
-      "level": 291
+      "level": 291,
+      "source": "https://dreamms.gg/index.php?stats=Shibe"
     },
     {
       "owner": "Andy",
       "name": "Shiba",
       "job": "Night Lord",
-      "level": 291
+      "level": 291,
+      "source": "https://dreamms.gg/index.php?stats=Shiba"
     },
     {
       "owner": "Andy",
       "name": "Shibah",
-      "job": "Dual Blade",
-      "level": 289
+      "job": "Blade Master",
+      "level": 289,
+      "source": "https://dreamms.gg/index.php?stats=Shibah"
     },
     {
       "owner": "Andy",
       "name": "Shibao",
       "job": "Paladin",
-      "level": 256
+      "level": 256,
+      "source": "https://dreamms.gg/index.php?stats=Shibao"
     },
     {
       "owner": "Andy",
-      "name": "Krce",
-      "job": "Bowmaster",
-      "level": 276
+      "name": "krce",
+      "job": "Bow Master",
+      "level": 276,
+      "source": "https://dreamms.gg/index.php?stats=Krce"
     },
     {
       "owner": "Lior",
       "name": "Leal",
       "job": "Night Lord",
-      "level": 295
+      "level": 295,
+      "source": "https://dreamms.gg/index.php?stats=Leal"
     },
     {
       "owner": "Lior",
       "name": "Ayala",
       "job": "Bishop",
-      "level": 289
+      "level": 289,
+      "source": "https://dreamms.gg/index.php?stats=Ayala"
     },
     {
       "owner": "Lior",
       "name": "Blending",
       "job": "Shadower",
-      "level": 289
+      "level": 289,
+      "source": "https://dreamms.gg/index.php?stats=Blending"
     },
     {
       "owner": "Lior",
       "name": "Ayara",
       "job": "Blaze Wizard",
-      "level": 254
+      "level": 254,
+      "source": "https://dreamms.gg/index.php?stats=Ayara"
     }
-  ]
+  ],
+  "failures": []
 }
