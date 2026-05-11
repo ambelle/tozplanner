@@ -368,7 +368,6 @@ const characters = [
 ];
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
 function stripTags(html) {
   return html
     .replace(/<script[\s\S]*?<\/script>/gi, "")
@@ -381,11 +380,9 @@ function stripTags(html) {
     .replace(/\s+/g, " ")
     .trim();
 }
-
 function normalizeLabel(s) {
   return String(s || "").toLowerCase().replace(/[^a-z]/g, "");
 }
-
 function pickValue(items, label, fallbackIndex) {
   const wanted = normalizeLabel(label);
   for (const item of items) {
@@ -396,42 +393,26 @@ function pickValue(items, label, fallbackIndex) {
   }
   return items[fallbackIndex] || "";
 }
-
 async function fetchCharacter(character) {
   const url = `https://dreamms.gg/index.php?stats=${encodeURIComponent(character.name)}`;
-  const res = await fetch(url, {
-    headers: { "user-agent": "DreamMS-ToZ-Planner-Level-Updater/1.0" }
-  });
-
+  const res = await fetch(url, { headers: { "user-agent": "DreamMS-ToZ-Planner-Level-Updater/1.0" } });
   if (!res.ok) throw new Error(`${character.name}: HTTP ${res.status}`);
-
   const html = await res.text();
   const lists = [...html.matchAll(/<(ul|ol)\b[^>]*>([\s\S]*?)<\/\1>/gi)].map((m) => m[2]);
   const chosenList = lists[2] || lists[0] || html;
-
   let items = [...chosenList.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi)].map((m) => stripTags(m[1]));
   if (items.length < 3) {
     items = stripTags(chosenList).split(/\s{2,}|\n+/).map((x) => x.trim()).filter(Boolean);
   }
-
   const name = pickValue(items, "name", 0) || character.name;
   const job = pickValue(items, "job", 1);
   const levelText = pickValue(items, "level", 2);
   const level = Number(String(levelText).replace(/[^\d]/g, ""));
-
-  return {
-    owner: character.owner,
-    name,
-    job,
-    level: Number.isFinite(level) && level > 0 ? level : null,
-    source: url
-  };
+  return { owner: character.owner, name, job, level: Number.isFinite(level) && level > 0 ? level : null, source: url };
 }
-
 async function main() {
   const output = [];
   const failures = [];
-
   for (const character of characters) {
     try {
       const data = await fetchCharacter(character);
@@ -444,11 +425,6 @@ async function main() {
     }
     await sleep(350);
   }
-
   await fs.writeFile("characters.json", JSON.stringify({ updatedAt: new Date().toISOString(), characters: output, failures }, null, 2));
 }
-
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+main().catch((err) => { console.error(err); process.exit(1); });
