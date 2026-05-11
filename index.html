@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DreamMS Tower of ToZ Planner</title>
+  <style>
+    :root{
+      --bg:#f8f5f1;
+      --panel:#fffdf9;
+      --panel2:#f1ede8;
+      --ink:#2f2a28;
+      --muted:#7b716c;
+      --line:#e6ded5;
+      --rose:#efd9d7;
+      --sage:#dce8da;
+      --blue:#dce7f2;
+      --lav:#e7dff0;
+      --sand:#efe2c9;
+      --mint:#d9ede7;
+      --warn:#f7ded8;
+      --bad:#efd1d1;
+      --good:#d9ead7;
+      --shadow:0 18px 50px rgba(64,48,36,.10);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(239,217,215,.55), transparent 28%),
+        radial-gradient(circle at 85% 8%, rgba(220,231,242,.7), transparent 30%),
+        radial-gradient(circle at 65% 80%, rgba(217,237,231,.65), transparent 35%),
+        var(--bg);
+      min-height:100vh;
+    }
+    header{
+      padding:28px clamp(18px,3vw,42px) 12px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:18px;
+    }
+    h1{font-size:clamp(28px,4vw,52px);margin:0;letter-spacing:-.05em;line-height:.95}
+    .subtitle{color:var(--muted);margin-top:12px;max-width:820px;line-height:1.55}
+    .top-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    button,.pill-btn{
+      border:1px solid var(--line);
+      background:var(--panel);
+      color:var(--ink);
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:750;
+      cursor:pointer;
+      box-shadow:0 8px 18px rgba(64,48,36,.06);
+      transition:.18s ease;
+    }
+    button:hover{transform:translateY(-1px);box-shadow:0 12px 24px rgba(64,48,36,.1)}
+    button.primary{background:#2f2a28;color:white;border-color:#2f2a28}
+    button.soft{background:var(--sage)}
+    button.danger{background:var(--bad)}
+    main{padding:14px clamp(18px,3vw,42px) 40px;display:grid;grid-template-columns:390px 1fr;gap:18px;align-items:start}
+    .card{background:rgba(255,253,249,.84);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .card h2{font-size:18px;margin:0 0 12px;letter-spacing:-.02em}
+    .card-inner{padding:18px}
+    .stack{display:flex;flex-direction:column;gap:14px}
+    textarea,input,select{
+      width:100%;border:1px solid var(--line);border-radius:16px;padding:12px 13px;background:#fffdfa;color:var(--ink);font:inherit;outline:none;
+    }
+    textarea{min-height:150px;resize:vertical;line-height:1.45}
+    label{font-size:12px;color:var(--muted);font-weight:750;text-transform:uppercase;letter-spacing:.08em}
+    .hint{font-size:12px;color:var(--muted);line-height:1.45}
+    .toggle-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+    .toggle-row input{width:auto}
+    .roster-list{display:flex;flex-direction:column;gap:8px;max-height:370px;overflow:auto;padding-right:4px}
+    .person{border:1px solid var(--line);background:#fffdfa;border-radius:18px;padding:10px 11px;display:grid;gap:7px}
+    .person-top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+    .name{font-weight:850;letter-spacing:-.02em}.small{font-size:12px;color:var(--muted)}
+    .tags{display:flex;gap:6px;flex-wrap:wrap}.tag{font-size:11px;font-weight:800;border-radius:999px;padding:5px 8px;background:var(--panel2);border:1px solid var(--line)}
+    .tag.good{background:var(--good)}.tag.warn{background:var(--warn)}.tag.blue{background:var(--blue)}.tag.rose{background:var(--rose)}.tag.lav{background:var(--lav)}.tag.sand{background:var(--sand)}
+    .round-grid{display:grid;grid-template-columns:repeat(7,minmax(230px,1fr));gap:14px;overflow-x:auto;padding-bottom:10px}
+    .round{min-width:230px;background:rgba(255,253,249,.9);border:1px solid var(--line);border-radius:22px;box-shadow:0 12px 34px rgba(64,48,36,.07);overflow:hidden}
+    .round-head{padding:13px 14px;background:linear-gradient(180deg,#fffdf9,#f5efe8);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:8px;align-items:center}
+    .round-title{font-size:18px;font-weight:900;letter-spacing:-.03em}.score{font-size:12px;color:var(--muted);font-weight:800}
+    .slots{display:flex;flex-direction:column;gap:8px;padding:12px}.slot{border:1px dashed #d9cec3;border-radius:16px;min-height:72px;background:#fffdfa;padding:9px;display:flex;flex-direction:column;gap:5px}
+    .slot.filled{border-style:solid;background:#fffefb}.slot select{padding:7px 8px;border-radius:12px;font-size:12px}.slot-name{font-weight:900;font-size:13px}.slot-meta{font-size:11px;color:var(--muted)}
+    .status{padding:11px 12px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:6px;background:#fbf7f0}.need{font-size:11px;font-weight:900;border-radius:999px;padding:5px 8px;border:1px solid var(--line);background:var(--bad)}.ok{background:var(--good)}.prefer{background:var(--sand)}
+    .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}.summary .mini{padding:14px;border-radius:20px;border:1px solid var(--line);background:rgba(255,253,249,.85)}.mini b{font-size:25px;display:block;letter-spacing:-.05em}.mini span{font-size:12px;color:var(--muted);font-weight:750}
+    .section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+    .legend{display:flex;gap:7px;flex-wrap:wrap}.footer-note{font-size:12px;color:var(--muted);text-align:center;margin-top:18px}
+    @media(max-width:1100px){main{grid-template-columns:1fr}.round-grid{grid-template-columns:repeat(7,260px)}}
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>DreamMS ToZ Train Planner</h1>
+      <p class="subtitle">Auto-plan 7 Tower of ToZ rounds with strict role checks: 6 members, Dispel, SE/TH logic, FMA balance, SI needs, Gillian/Belle one character per round, MW40 spread preference, and public signup parsing like <b>j&gt;th/bm/bsp</b>.</p>
+    </div>
+    <div class="top-actions">
+      <button class="primary" onclick="autoPlan()">Auto Generate Best Setup</button>
+      <button onclick="saveState()">Save</button>
+      <button class="danger" onclick="resetAll()">Reset</button>
+    </div>
+  </header>
+
+  <main>
+    <aside class="stack">
+      <section class="card"><div class="card-inner stack">
+        <h2>Public signup input</h2>
+        <div>
+          <label>Paste signup text</label>
+          <textarea id="signupText" placeholder="Examples:\nAlice j>th/bm/bsp all 7\nBob j>se 3 rounds\nCathy j>si/fma r3-r7\nDan j>nl lvl 250 r1,r2"></textarea>
+          <p class="hint">Supported short forms: bsp/bs/hs, bm/se, mm/mmse, wa/wase, bucc/si, tb/tbsi, db/th, fp, il, bw, dw/ec, dk/drk/hb, nl, nw, sair, fma.</p>
+        </div>
+        <button class="soft" onclick="parseSignups()">Add / Update Public Players</button>
+      </div></section>
+
+      <section class="card"><div class="card-inner stack">
+        <h2>Strict validation rules</h2>
+        <div class="toggle-row"><div><b>Require 6 members</b><div class="hint">Every round must be full.</div></div><input id="ruleFull" type="checkbox" checked /></div>
+        <div class="toggle-row"><div><b>Require Dispel</b><div class="hint">Bishop or Dark Knight.</div></div><input id="ruleDispel" type="checkbox" checked /></div>
+        <div class="toggle-row"><div><b>Require at least 1 FMA</b><div class="hint">Prefer 2 FMA, but 1 passes.</div></div><input id="ruleFma" type="checkbox" checked /></div>
+        <div class="toggle-row"><div><b>Strict SE/TH dependency</b><div class="hint">NL/NW/Evan must have SE. Other buff-reliant jobs need SE or TH.</div></div><input id="ruleCrit" type="checkbox" checked /></div>
+        <div class="toggle-row"><div><b>Strict SI for MM/WA</b><div class="hint">MM and WA strongly prefer SI, so treat as hard rule.</div></div><input id="ruleSiArchers" type="checkbox" checked /></div>
+      </div></section>
+
+      <section class="card"><div class="card-inner stack">
+        <div class="section-title"><h2>Available roster</h2><button onclick="clearPublic()">Clear public</button></div>
+        <div id="roster" class="roster-list"></div>
+      </div></section>
+    </aside>
+
+    <section class="stack">
+      <div class="summary">
+        <div class="mini"><b id="filledCount">0</b><span>Filled slots</span></div>
+        <div class="mini"><b id="validCount">0</b><span>Valid rounds</span></div>
+        <div class="mini"><b id="missingCount">0</b><span>Missing hard roles</span></div>
+        <div class="mini"><b id="mwCount">0</b><span>MW40 rounds</span></div>
+      </div>
+      <section class="card"><div class="card-inner">
+        <div class="section-title">
+          <h2>7-round ToZ setup</h2>
+          <div class="legend">
+            <span class="tag good">Pass</span><span class="tag warn">Preference</span><span class="tag rose">Needs fixing</span>
+          </div>
+        </div>
+        <div id="rounds" class="round-grid"></div>
+        <p class="footer-note">Community planner only • Not official server data • You can manually override any slot after auto-generation.</p>
+      </div></section>
+    </section>
+  </main>
+
+<script>
+const JOBS={
+  bishop:{label:'Bishop',abbr:['bishop','bsp','bs','hs'],roles:['dispel','fma'],critNeed:'any',mw:false},
+  bm:{label:'Bowmaster',abbr:['bm','se','bowmaster'],roles:['se','self'],critNeed:'none'},
+  mm:{label:'Marksman',abbr:['mm','mmse','marksman'],roles:['se'],critNeed:'none',siNeed:true},
+  wa:{label:'Wind Archer',abbr:['wa','wase','wind archer'],roles:['se'],critNeed:'none',siNeed:true},
+  bucc:{label:'Buccaneer',abbr:['bucc','si','buccaneer'],roles:['si','tl'],critNeed:'any'},
+  tb:{label:'Thunder Breaker',abbr:['tb','tbsi','thunder breaker'],roles:['si'],critNeed:'any'},
+  db:{label:'Dual Blade',abbr:['db','th','dual blade'],roles:['th','self'],critNeed:'none'},
+  fp:{label:'Fire/Poison Mage',abbr:['fp','f/p','fire poison','fire/poison'],roles:['fma'],critNeed:'any'},
+  il:{label:'Ice/Lightning Mage',abbr:['il','i/l','ice lightning','ice/lightning'],roles:['fma'],critNeed:'any'},
+  bw:{label:'Blaze Wizard',abbr:['bw','blaze wizard'],roles:['fma'],critNeed:'any'},
+  evan:{label:'Evan',abbr:['evan'],roles:['fma'],critNeed:'seOnly'},
+  dw:{label:'Dawn Warrior',abbr:['dw','ec','dawn warrior'],roles:['halfsi','stance'],critNeed:'any'},
+  pala:{label:'Paladin',abbr:['pala','pally','paladin'],roles:['threaten'],critNeed:'any',siNeed:true},
+  dk:{label:'Dark Knight',abbr:['dk','drk','hb','dark knight'],roles:['dispel','hb'],critNeed:'any',siNeed:true},
+  aran:{label:'Aran',abbr:['aran'],roles:['cb'],critNeed:'any',siNeed:true},
+  hero:{label:'Hero',abbr:['hero'],roles:[],critNeed:'any',siNeed:true},
+  shad:{label:'Shadower',abbr:['shad','shadower','smoke','ss'],roles:['smoke'],critNeed:'low'},
+  nl:{label:'Night Lord',abbr:['nl','night lord'],roles:[],critNeed:'seOnly'},
+  nw:{label:'Night Walker',abbr:['nw','night walker'],roles:[],critNeed:'seOnly'},
+  sair:{label:'Corsair',abbr:['sair','corsair'],roles:[],critNeed:'any',siNeed:true}
+};
+const baseRoster=[
+  {id:'b-thocky',owner:'Belle',name:'Thocky',job:'aran',level:291,mw40:true,rounds:[1,2,3,4,5,6,7],fixed:false},
+  {id:'b-tock',owner:'Belle',name:'Tock',job:'nw',level:263,mw40:false,rounds:[1,2,3,4,5,6,7],fixed:false},
+  {id:'b-tocki',owner:'Belle',name:'Tocki',job:'bm',level:254,mw40:false,rounds:[1,2,3,4,5,6,7],fixed:false},
+  {id:'b-tork',owner:'Belle',name:'Tork',job:'bw',level:261,mw40:false,rounds:[1,2,3,4,5,6,7],fixed:false},
+  {id:'b-tokk',owner:'Belle',name:'Tokk',job:'bucc',level:209,mw40:false,rounds:[1,2,3,4,5,6,7],fixed:false},
+  {id:'b-hell',owner:'Belle',name:'Hell',job:'fp',level:276,mw40:true,rounds:[1,2,3,4,5,6,7],fixed:false},
+  {id:'b-tocky',owner:'Belle',name:'Tocky',job:'bishop',level:265,mw40:false,rounds:[1,2,3,4,5,6,7],fixed:false},
+  {id:'g-gillian',owner:'Gillian',name:'Gillian',job:'db',level:284,mw40:true,rounds:[1,2,3,4,5,6,7],fixed:false},
+  {id:'g-ggil',owner:'Gillian',name:'ggil',job:'bm',level:265,mw40:false,rounds:[1,2,3,4,5,6,7],fixed:false},
+  {id:'g-ggill',owner:'Gillian',name:'ggill',job:'bucc',level:247,mw40:false,rounds:[1,2,3,4,5,6,7],fixed:false},
+  {id:'g-leaw',owner:'Gillian',name:'Leaw',job:'aran',level:265,mw40:false,rounds:[1,2,3,4,5,6,7],fixed:false},
+  {id:'g-gill',owner:'Gillian',name:'Gill',job:'fp',level:276,mw40:true,rounds:[1,2,3,4,5,6,7],fixed:false},
+  {id:'g-kaiko',owner:'Gillian',name:'Kaiko',job:'bishop',level:267,mw40:false,rounds:[1,2,3,4,5,6,7],fixed:false},
+  {id:'g-arun',owner:'Gillian',name:'Arun',job:'dw',level:243,mw40:false,rounds:[1,2,3,4,5,6,7],fixed:false}
+];
+let roster=JSON.parse(localStorage.getItem('tozRoster')||'null')||structuredClone(baseRoster);
+let plan=JSON.parse(localStorage.getItem('tozPlan')||'null')||Array.from({length:7},()=>Array(6).fill(null));
+
+function jobInfo(job){return JOBS[job]||JOBS.bm}
+function hasRole(p,role){return jobInfo(p.job).roles.includes(role)}
+function roleSet(party){const s=new Set();party.filter(Boolean).forEach(p=>jobInfo(p.job).roles.forEach(r=>s.add(r)));return s}
+function hasSE(party){return party.some(p=>p&&hasRole(p,'se'))}
+function hasTH(party){return party.some(p=>p&&hasRole(p,'th'))}
+function hasSI(party){return party.some(p=>p&&(hasRole(p,'si')||hasRole(p,'halfsi')))}
+function isFMA(p){return p&&hasRole(p,'fma')}
+function byId(id){return roster.find(p=>p.id===id)}
+function rules(){return ['ruleFull','ruleDispel','ruleFma','ruleCrit','ruleSiArchers'].reduce((a,id)=>(a[id]=document.getElementById(id).checked,a),{})}
+
+function validateParty(party){
+  const r=rules(), filled=party.filter(Boolean), roles=roleSet(party), issues=[], prefs=[];
+  if(r.ruleFull && filled.length<6) issues.push(`Need ${6-filled.length} more`);
+  if(r.ruleDispel && !roles.has('dispel')) issues.push('Need Dispel');
+  const fma=filled.filter(isFMA).length;
+  if(r.ruleFma && fma<1) issues.push('Need FMA');
+  if(fma<2) prefs.push('Prefer 2 FMA');
+  const se=hasSE(party), th=hasTH(party), si=hasSI(party);
+  if(r.ruleCrit){
+    filled.forEach(p=>{
+      const need=jobInfo(p.job).critNeed;
+      if(need==='seOnly'&&!se) issues.push(`${p.name} needs SE`);
+      if(need==='any'&&!se&&!th) issues.push(`${p.name} needs SE/TH`);
+    });
+  }
+  if(r.ruleSiArchers){
+    filled.forEach(p=>{ if(jobInfo(p.job).siNeed&&!si) issues.push(`${p.name} needs SI`); });
+  }
+  const owners={}; filled.forEach(p=>{owners[p.owner]=(owners[p.owner]||0)+1});
+  Object.entries(owners).forEach(([o,c])=>{ if((o==='Gillian'||o==='Belle')&&c>1) issues.push(`${o} has ${c} chars`); });
+  return {issues:[...new Set(issues)],prefs:[...new Set(prefs)],valid:issues.length===0,filled:filled.length,fma,mw:filled.some(p=>p.mw40)};
+}
+function scoreParty(party){
+  const v=validateParty(party), filled=party.filter(Boolean), roles=roleSet(party);
+  let score=0;
+  score += v.valid?1000:-v.issues.length*300;
+  score += Math.min(v.fma,2)*60;
+  ['se','th','si','dispel','tl','smoke','hb','cb','threaten'].forEach(x=>{if(roles.has(x))score+=25});
+  score += filled.reduce((a,p)=>a+(p.level||200)/20,0);
+  if(v.mw) score+=20;
+  return score;
+}
+
+function candidatesForRound(roundNum, usedIds){
+  return roster.filter(p=>p.rounds.includes(roundNum)&&!usedIds.has(p.id));
+}
+function autoPlan(){
+  const used=new Set(); const newPlan=[];
+  for(let r=1;r<=7;r++){
+    let best=null, bestScore=-Infinity;
+    const cand=candidatesForRound(r,used);
+    const forcedOwners=['Gillian','Belle'];
+    const g=cand.filter(p=>p.owner==='Gillian');
+    const b=cand.filter(p=>p.owner==='Belle');
+    const pub=cand.filter(p=>!forcedOwners.includes(p.owner));
+    // Try one Gillian + one Belle + four public/remaining where possible.
+    const pools=[];
+    g.forEach(gp=>b.forEach(bp=>pools.push([gp,bp])));
+    if(!pools.length) pools.push([]);
+    for(const base of pools){
+      let pool=pub.filter(p=>!base.includes(p));
+      const combos=choose(pool, Math.max(0,6-base.length)).slice(0,6500);
+      combos.forEach(c=>{
+        const party=[...base,...c].slice(0,6);
+        const s=scoreParty(party);
+        if(s>bestScore){bestScore=s;best=party;}
+      });
+    }
+    if(!best){best=cand.slice(0,6)}
+    best.forEach(p=>used.add(p.id));
+    while(best.length<6) best.push(null);
+    newPlan.push(best.map(p=>p?p.id:null));
+  }
+  plan=newPlan; saveState(); render();
+}
+function choose(arr,k){
+  if(k<=0) return [[]]; if(arr.length<k) return [];
+  const out=[]; const max=9000;
+  function rec(start,path){
+    if(out.length>=max) return;
+    if(path.length===k){out.push([...path]);return;}
+    for(let i=start;i<arr.length;i++){path.push(arr[i]);rec(i+1,path);path.pop();}
+  }
+  rec(0,[]); return out;
+}
+
+function parseJobToken(t){
+  t=t.toLowerCase().trim();
+  for(const [key,j] of Object.entries(JOBS)) if(j.abbr.includes(t)) return key;
+  if(t==='fma') return 'fp'; if(t==='mage') return 'fp';
+  return null;
+}
+function parseRounds(line){
+  const lower=line.toLowerCase();
+  if(/all\s*7|7\s*round/.test(lower)) return [1,2,3,4,5,6,7];
+  let m=lower.match(/r\s*(\d)\s*[-~to]+\s*r?\s*(\d)/); if(m){let a=+m[1],b=+m[2];return range(a,b)}
+  m=lower.match(/r(?:ound)?s?\s*([1-7](?:\s*,\s*[1-7])*)/); if(m) return m[1].split(',').map(x=>+x.trim());
+  m=lower.match(/(\d)\s*(?:round|rds|runs)/); if(m) return range(1,+m[1]);
+  return [1,2,3,4,5,6,7];
+}
+function range(a,b){const out=[]; for(let i=Math.min(a,b);i<=Math.max(a,b);i++)out.push(i); return out;}
+function parseSignups(){
+  const lines=document.getElementById('signupText').value.split('\n').map(x=>x.trim()).filter(Boolean);
+  lines.forEach((line,idx)=>{
+    const name=(line.split(/\s+/)[0]||`Public${idx+1}`).replace(/[^a-z0-9_]/ig,'');
+    const after=(line.match(/j\s*>\s*([^\s]+)/i)||[])[1]||line;
+    const jobs=[...new Set(after.split(/[\/|,]/).map(parseJobToken).filter(Boolean))];
+    const selected=jobs[0]||'bm';
+    const rounds=parseRounds(line);
+    const id='p-'+name.toLowerCase();
+    const existing=roster.find(p=>p.id===id);
+    const obj={id,owner:name,name,job:selected,level:+((line.match(/lvl\s*(\d+)|level\s*(\d+)/i)||[]).filter(Boolean)[1]||250),mw40:/mw40|mw\s*40/i.test(line),rounds,public:true,options:jobs.length?jobs:[selected]};
+    if(existing) Object.assign(existing,obj); else roster.push(obj);
+  });
+  saveState(); render();
+}
+function clearPublic(){roster=roster.filter(p=>!p.public); plan=plan.map(row=>row.map(id=>roster.some(p=>p.id===id)?id:null)); saveState(); render();}
+function resetAll(){ if(confirm('Reset planner to default Gillian/Belle roster?')){roster=structuredClone(baseRoster);plan=Array.from({length:7},()=>Array(6).fill(null));localStorage.clear();render();}}
+function saveState(){localStorage.setItem('tozRoster',JSON.stringify(roster));localStorage.setItem('tozPlan',JSON.stringify(plan));}
+function setSlot(r,s,id){plan[r][s]=id||null; saveState(); render();}
+function changeJob(id,job){const p=byId(id); if(p){p.job=job; saveState(); render();}}
+
+function renderRoster(){
+  document.getElementById('roster').innerHTML=roster.map(p=>`<div class="person"><div class="person-top"><div><div class="name">${p.name}</div><div class="small">${p.owner} • Lv ${p.level} • ${jobInfo(p.job).label}</div></div>${p.public?`<button onclick="removePerson('${p.id}')">×</button>`:''}</div><div class="tags">${jobInfo(p.job).roles.map(role=>`<span class="tag blue">${role.toUpperCase()}</span>`).join('')} ${p.mw40?'<span class="tag sand">MW40</span>':''}<span class="tag">R${p.rounds.join(',')}</span></div>${p.public&&p.options?.length>1?`<select onchange="changeJob('${p.id}',this.value)">${p.options.map(j=>`<option value="${j}" ${j===p.job?'selected':''}>${jobInfo(j).label}</option>`).join('')}</select>`:''}</div>`).join('');
+}
+function removePerson(id){roster=roster.filter(p=>p.id!==id);plan=plan.map(row=>row.map(x=>x===id?null:x));saveState();render();}
+function renderRounds(){
+  const allOptions=`<option value="">Empty slot</option>`+roster.map(p=>`<option value="${p.id}">${p.name} — ${jobInfo(p.job).label} (${p.owner})</option>`).join('');
+  document.getElementById('rounds').innerHTML=plan.map((row,r)=>{
+    const party=row.map(byId); const v=validateParty(party);
+    return `<div class="round"><div class="round-head"><div class="round-title">Round ${r+1}</div><div class="score">${v.valid?'VALID':'FIX'}</div></div><div class="slots">${row.map((id,s)=>{const p=byId(id);return `<div class="slot ${p?'filled':''}">${p?`<div class="slot-name">${p.name}</div><div class="slot-meta">${jobInfo(p.job).label} • Lv ${p.level} • ${p.owner}${p.mw40?' • MW40':''}</div>`:`<div class="slot-meta">Open slot</div>`}<select onchange="setSlot(${r},${s},this.value)">${allOptions.replace(`value="${id||''}"`,`value="${id||''}" selected`)}</select></div>`}).join('')}</div><div class="status">${v.issues.length?v.issues.map(x=>`<span class="need">${x}</span>`).join(''):'<span class="need ok">All hard rules passed</span>'}${v.prefs.map(x=>`<span class="need prefer">${x}</span>`).join('')}</div></div>`
+  }).join('');
+}
+function renderSummary(){
+  let filled=0,valid=0,missing=0,mw=0;
+  plan.forEach(row=>{const v=validateParty(row.map(byId));filled+=v.filled;if(v.valid)valid++;missing+=v.issues.length;if(v.mw)mw++;});
+  filledCount.textContent=filled; validCount.textContent=valid+'/7'; missingCount.textContent=missing; mwCount.textContent=mw+'/7';
+}
+function render(){renderRoster();renderRounds();renderSummary();}
+render();
+</script>
+</body>
+</html
