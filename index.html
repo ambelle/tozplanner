@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOZ Command Center</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<style>
+:root{
+  --bg:#f5f1eb;
+  --surface:#fffdf9;
+  --surface2:#faf7f2;
+  --text:#23211f;
+  --muted:#7d746a;
+  --line:#e9dfd2;
+  --shadow:0 12px 38px rgba(34,28,20,.06);
+  --radius:24px;
+
+  --green:#dfeee4;
+  --yellow:#f5ebd0;
+  --red:#f5dddd;
+  --blue:#dfeaf5;
+  --purple:#ebe5f8;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,system-ui,sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(180,160,120,.08), transparent 30%),
+    linear-gradient(180deg,#faf8f4 0%, #f2ede5 100%);
+  color:var(--text);
+}
+
+.app{
+  max-width:1600px;
+  margin:auto;
+  padding:28px;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:24px;
+  margin-bottom:28px;
+}
+
+.title h1{
+  margin:0;
+  font-size:62px;
+  line-height:.92;
+  letter-spacing:-.08em;
+  font-weight:800;
+}
+
+.title p{
+  margin:16px 0 0;
+  color:var(--muted);
+  max-width:760px;
+  line-height:1.7;
+}
+
+.toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:flex-end;
+}
+
+button{
+  border:none;
+  border-radius:16px;
+  padding:12px 16px;
+  font-weight:600;
+  background:#252320;
+  color:white;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+}
+
+button.secondary{
+  background:white;
+  color:var(--text);
+  border:1px solid var(--line);
+  box-shadow:none;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:14px;
+  margin-bottom:26px;
+}
+
+.stat{
+  background:rgba(255,255,255,.72);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(0,0,0,.04);
+  border-radius:22px;
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+
+.stat b{
+  display:block;
+  font-size:34px;
+  letter-spacing:-.05em;
+}
+
+.stat span{
+  color:var(--muted);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.workspace{
+  display:grid;
+  grid-template-columns:1fr 360px;
+  gap:22px;
+}
+
+.rounds{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+}
+
+.round{
+  background:rgba(255,255,255,.76);
+  backdrop-filter:blur(12px);
+  border-radius:28px;
+  padding:20px;
+  border:1px solid rgba(0,0,0,.04);
+  box-shadow:var(--shadow);
+}
+
+.round-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+}
+
+.round-header h2{
+  margin:0;
+  font-size:26px;
+  letter-spacing:-.05em;
+}
+
+.status{
+  padding:6px 10px;
+  border-radius:999px;
+  background:var(--green);
+  font-size:12px;
+  font-weight:600;
+}
+
+.slots{
+  display:grid;
+  gap:10px;
+}
+
+.slot{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:12px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.slot-left{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.slot-left b{
+  font-size:15px;
+}
+
+.slot-left span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.badges{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.badge{
+  padding:5px 8px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:600;
+}
+
+.green{background:var(--green)}
+.yellow{background:var(--yellow)}
+.red{background:var(--red)}
+.blue{background:var(--blue)}
+.purple{background:var(--purple)}
+
+.round-footer{
+  margin-top:16px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.sidebar{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.panel{
+  background:rgba(255,255,255,.76);
+  backdrop-filter:blur(12px);
+  border-radius:24px;
+  padding:20px;
+  border:1px solid rgba(0,0,0,.04);
+  box-shadow:var(--shadow);
+}
+
+.panel h3{
+  margin:0 0 16px;
+  font-size:20px;
+  letter-spacing:-.04em;
+}
+
+.panel p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.drawer-btn{
+  width:100%;
+  margin-top:10px;
+}
+
+.quick{
+  display:grid;
+  gap:10px;
+}
+
+input, textarea{
+  width:100%;
+  border-radius:16px;
+  border:1px solid var(--line);
+  padding:12px;
+  font-family:inherit;
+  background:white;
+}
+
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+.next-round{
+  background:#252320;
+  color:white;
+}
+
+.next-round p{
+  color:rgba(255,255,255,.72);
+}
+
+.mini-list{
+  display:grid;
+  gap:10px;
+}
+
+.mini-item{
+  padding:12px;
+  border-radius:16px;
+  background:var(--surface2);
+}
+
+@media(max-width:1200px){
+  .workspace{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:900px){
+  .topbar{
+    flex-direction:column;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .rounds{
+    grid-template-columns:1fr;
+  }
+
+  .title h1{
+    font-size:44px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="topbar">
+    <div class="title">
+      <h1>TOZ Command Center</h1>
+      <p>
+        A cleaner operational workspace for managing DreamMS TOZ trains, round planning, emergency replacements, recruit gaps, and live raid coordination.
+      </p>
+    </div>
+
+    <div class="toolbar">
+      <button>Generate Plan</button>
+      <button class="secondary">Optimize</button>
+      <button class="secondary">Fill Empty</button>
+      <button class="secondary">Discord Summary</button>
+      <button class="secondary">Next Round</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <b>7</b>
+      <span>Rounds</span>
+    </div>
+
+    <div class="stat">
+      <b>3</b>
+      <span>Completed</span>
+    </div>
+
+    <div class="stat">
+      <b>2</b>
+      <span>Warning Issues</span>
+    </div>
+
+    <div class="stat">
+      <b>4</b>
+      <span>Missing Roles</span>
+    </div>
+
+    <div class="stat">
+      <b>18</b>
+      <span>Active Characters</span>
+    </div>
+  </div>
+
+  <div class="workspace">
+
+    <div class="rounds">
+
+      <div class="round">
+        <div class="round-header">
+          <h2>Round 1</h2>
+          <div class="status">Completed</div>
+        </div>
+
+        <div class="slots">
+
+          <div class="slot">
+            <div class="slot-left">
+              <b>Gillian</b>
+              <span>Dual Blade • Lv.284</span>
+            </div>
+
+            <div class="badges">
+              <div class="badge purple">TH</div>
+              <div class="badge yellow">MW40</div>
+            </div>
+          </div>
+
+          <div class="slot">
+            <div class="slot-left">
+              <b>Thocky</b>
+              <span>Aran • Lv.291</span>
+            </div>
+
+            <div class="badges">
+              <div class="badge yellow">MW40</div>
+            </div>
+          </div>
+
+          <div class="slot">
+            <div class="slot-left">
+              <b>Tocky</b>
+              <span>Bishop • Lv.265</span>
+            </div>
+
+            <div class="badges">
+              <div class="badge green">Dispel</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="round-footer">
+          <div class="badge green">SE ✓</div>
+          <div class="badge green">TH ✓</div>
+          <div class="badge green">Dispel ✓</div>
+          <div class="badge blue">FMA: 2</div>
+        </div>
+      </div>
+
+      <div class="round">
+        <div class="round-header">
+          <h2>Round 2</h2>
+          <div class="status">Ready</div>
+        </div>
+
+        <div class="slots">
+
+          <div class="slot">
+            <div class="slot-left">
+              <b>Hell</b>
+              <span>Fire Poison • Lv.276</span>
+            </div>
+
+            <div class="badges">
+              <div class="badge yellow">MW40</div>
+            </div>
+          </div>
+
+          <div class="slot">
+            <div class="slot-left">
+              <b>SEhoon</b>
+              <span>Bowmaster • Lv.280</span>
+            </div>
+
+            <div class="badges">
+              <div class="badge green">SE</div>
+              <div class="badge yellow">MW40</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="round-footer">
+          <div class="badge green">SE ✓</div>
+          <div class="badge red">Missing Dispel</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sidebar">
+
+      <div class="panel next-round">
+        <h3>Next Round</h3>
+        <p>Quick copy list for in-game coordination.</p>
+
+        <div class="mini-list">
+          <div class="mini-item">:db: Gillian :th: :mw40:</div>
+          <div class="mini-item">:aran: Thocky :mw40:</div>
+          <div class="mini-item">:bsp: Tocky</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Quick Import</h3>
+
+        <div class="quick">
+          <textarea placeholder="gil j&gt;5r bm/th/bsp/shad"></textarea>
+
+          <button>Import Players</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Recruit Needs</h3>
+
+        <div class="mini-list">
+          <div class="mini-item">Round 2 • Missing Dispel</div>
+          <div class="mini-item">Round 4 • Prefer SE</div>
+          <div class="mini-item">Round 6 • Need SI</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Utilities</h3>
+
+        <button class="secondary drawer-btn">Saved Pool</button>
+        <button class="secondary drawer-btn">Emergency Replace</button>
+        <button class="secondary drawer-btn">Active Roster</button>
+        <button class="secondary drawer-btn">Focus Mode</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
