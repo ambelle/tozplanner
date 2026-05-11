@@ -383,6 +383,19 @@ function stripTags(html) {
 function normalizeLabel(s) {
   return String(s || "").toLowerCase().replace(/[^a-z]/g, "");
 }
+function normalizeJob(job) {
+  const compact = String(job || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const map = {
+    bishop:"Bishop", bowmaster:"Bowmaster", marksman:"Marksman", windarcher:"Wind Archer",
+    buccaneer:"Buccaneer", thunderbreaker:"Thunder Breaker", blademaster:"Dual Blade", dualblade:"Dual Blade",
+    firepoisonarchmage:"Fire/Poison Mage", firepoisonmage:"Fire/Poison Mage", fparchmage:"Fire/Poison Mage",
+    icelightningarchmage:"Ice/Lightning Mage", icelightningmage:"Ice/Lightning Mage", ilarchmage:"Ice/Lightning Mage",
+    blazewizard:"Blaze Wizard", evan:"Evan", dawnwarrior:"Dawn Warrior", paladin:"Paladin", darkknight:"Dark Knight",
+    aran:"Aran", hero:"Hero", shadower:"Shadower", nightlord:"Night Lord", nightwalker:"Night Walker", corsair:"Corsair"
+  };
+  return map[compact] || String(job || "").trim();
+}
+
 function pickValue(items, label, fallbackIndex) {
   const wanted = normalizeLabel(label);
   for (const item of items) {
@@ -399,7 +412,7 @@ async function fetchCharacter(character) {
   if (!res.ok) throw new Error(`${character.name}: HTTP ${res.status}`);
   const html = await res.text();
   const lists = [...html.matchAll(/<(ul|ol)\b[^>]*>([\s\S]*?)<\/\1>/gi)].map((m) => m[2]);
-  const chosenList = lists[2] || lists[0] || html;
+  const chosenList = lists.find(x => /level|job|name/i.test(stripTags(x))) || lists[2] || lists[0] || html;
   let items = [...chosenList.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi)].map((m) => stripTags(m[1]));
   if (items.length < 3) {
     items = stripTags(chosenList).split(/\s{2,}|\n+/).map((x) => x.trim()).filter(Boolean);
@@ -408,7 +421,7 @@ async function fetchCharacter(character) {
   const job = pickValue(items, "job", 1);
   const levelText = pickValue(items, "level", 2);
   const level = Number(String(levelText).replace(/[^\d]/g, ""));
-  return { owner: character.owner, name, job, level: Number.isFinite(level) && level > 0 ? level : null, source: url };
+  return { owner: character.owner, name, job: normalizeJob(job), level: Number.isFinite(level) && level > 0 ? level : null, source: url };
 }
 async function main() {
   const output = [];
