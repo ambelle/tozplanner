@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DreamMS TOZ Party Planner</title>
+  <style>
+    :root {
+      --bg: #f8f5f1;
+      --panel: #fffaf5;
+      --panel-2: #ffffff;
+      --ink: #332f2b;
+      --muted: #8b8178;
+      --line: #eadfd4;
+      --pink: #f3c7d3;
+      --blue: #c9ddf3;
+      --green: #cde7d7;
+      --yellow: #f5e1a8;
+      --lav: #d9cdf3;
+      --peach: #f4d1bd;
+      --danger: #e88989;
+      --ok: #85b99a;
+      --shadow: 0 14px 38px rgba(70, 52, 34, 0.08);
+      --radius: 22px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(243,199,211,.36), transparent 34%),
+        radial-gradient(circle at 90% 20%, rgba(201,221,243,.48), transparent 30%),
+        linear-gradient(180deg, #fbf7f1 0%, var(--bg) 100%);
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 32px 28px 18px;
+      max-width: 1480px;
+      margin: 0 auto;
+    }
+
+    h1 { margin: 0; font-size: clamp(28px, 4vw, 48px); letter-spacing: -0.04em; }
+    h2 { margin: 0 0 14px; font-size: 20px; letter-spacing: -0.02em; }
+    h3 { margin: 0 0 10px; font-size: 15px; }
+    p { color: var(--muted); line-height: 1.55; }
+
+    .sub { max-width: 920px; margin-top: 10px; font-size: 15px; }
+
+    main {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 12px 28px 60px;
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .card {
+      background: rgba(255,250,245,.88);
+      border: 1px solid rgba(234,223,212,.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      backdrop-filter: blur(12px);
+    }
+
+    .sticky { position: sticky; top: 16px; }
+
+    label { display: block; font-size: 12px; color: var(--muted); font-weight: 700; margin: 12px 0 6px; }
+
+    input, select, textarea, button {
+      font: inherit;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background: var(--panel-2);
+      color: var(--ink);
+      padding: 10px 12px;
+      outline: none;
+    }
+
+    textarea { min-height: 92px; resize: vertical; font-family: var(--mono); font-size: 12px; }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      background: #3d3935;
+      color: white;
+      padding: 10px 13px;
+      font-weight: 800;
+      transition: transform .12s ease, opacity .12s ease;
+    }
+
+    button:hover { transform: translateY(-1px); opacity: .92; }
+    button.secondary { background: #eee4da; color: #4d4741; }
+    button.soft { background: #f3c7d3; color: #51343d; }
+    button.danger { background: #e88989; }
+
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .btnrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+    .tiny { font-size: 11px; color: var(--muted); }
+    .pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      border-radius: 999px; padding: 5px 9px; font-size: 11px; font-weight: 800;
+      background: #f2ebe4; color: #5d554d; margin: 2px;
+    }
+    .pill.ok { background: var(--green); color: #2f6542; }
+    .pill.warn { background: var(--yellow); color: #7b5a12; }
+    .pill.bad { background: #f6caca; color: #8a3333; }
+    .pill.info { background: var(--blue); color: #335c83; }
+    .pill.lav { background: var(--lav); color: #594587; }
+
+    .toolbar {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px;
+    }
+
+    .round-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+
+    .round {
+      background: rgba(255,255,255,.74);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 14px;
+      min-height: 250px;
+    }
+
+    .round-head { display: flex; align-items: start; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+    .round-title { font-weight: 900; font-size: 18px; letter-spacing: -0.03em; }
+
+    .slots { display: grid; gap: 8px; }
+
+    .slot {
+      background: #fffaf6;
+      border: 1px dashed #dfd2c6;
+      border-radius: 16px;
+      padding: 9px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      min-height: 56px;
+    }
+
+    .slot.filled { border-style: solid; background: #fff; }
+    .slot select { padding: 8px; font-size: 12px; }
+    .char-name { font-weight: 900; }
+    .char-meta { color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+    .warnings { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 4px; }
+
+    .roster { max-height: 260px; overflow: auto; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th, td { padding: 8px; border-bottom: 1px solid #f0e8df; text-align: left; vertical-align: top; }
+    th { position: sticky; top: 0; background: #fff8f1; z-index: 1; color: var(--muted); font-size: 11px; }
+    td button { padding: 5px 8px; font-size: 11px; }
+
+    .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+    .stat { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 12px; }
+    .stat b { display: block; font-size: 22px; }
+    .stat span { color: var(--muted); font-size: 11px; font-weight: 800; }
+
+    .paste-preview {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 12px;
+      min-height: 42px;
+    }
+
+    .help {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 12px;
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1100px) {
+      main { grid-template-columns: 1fr; }
+      .sticky { position: static; }
+      .round-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>DreamMS Tower of ToZ Planner</h1>
+    <p class="sub">Strict 7-round party planner for 6-member TOZ trains. Add public players, paste quick join messages, auto-generate parties, and instantly see missing Dispel / FMA / SE / TH / SI / MW40 coverage.</p>
+  </header>
+
+  <main>
+    <aside class="card sticky">
+      <h2>Input Panel</h2>
+
+      <label>Quick paste parser</label>
+      <textarea id="quickText" placeholder="Examples:\nAlice j>th/bm/bsp 3 rounds\nBob j>nl 1-2\nCara j>fp/bw all\nDan j>mm lv250 3 rounds"></textarea>
+      <div class="btnrow">
+        <button class="soft" onclick="parseQuickText()">Parse Text</button>
+        <button class="secondary" onclick="document.getElementById('quickText').value=''">Clear</button>
+      </div>
+      <div id="pastePreview" class="paste-preview tiny">Paste “j&gt;th/bm/bsp” messages here. The page will convert aliases into possible character entries.</div>
+
+      <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+
+      <h3>Add / edit public character</h3>
+      <div class="row">
+        <div><label>Owner</label><input id="owner" placeholder="Player name"></div>
+        <div><label>IGN</label><input id="ign" placeholder="IGN or auto"></div>
+      </div>
+      <div class="row">
+        <div><label>Class</label><select id="job"></select></div>
+        <div><label>Level</label><input id="level" type="number" placeholder="250"></div>
+      </div>
+      <div class="row">
+        <div><label>Available rounds</label><input id="rounds" placeholder="1-7, or 3,4,5"></div>
+        <div><label>MW40?</label><select id="mw"><option value="false">No</option><option value="true">Yes</option></select></div>
+      </div>
+      <div class="btnrow">
+        <button onclick="addManualCharacter()">Add Character</button>
+        <button class="secondary" onclick="resetPublic()">Clear Public</button>
+      </div>
+
+      <div class="help">
+        <b>Strict rules used:</b><br>
+        • 6 members per round<br>
+        • At least 1 Dispel class per round<br>
+        • At least 1 FMA per round, 2 preferred<br>
+        • Gillian max 1 character per round<br>
+        • Belle max 1 character per round<br>
+        • Same exact character cannot be used twice<br>
+        • SE-only jobs must get SE, not TH<br>
+        • TH cannot replace SE for Night Lord, Night Walker, or Evan
+      </div>
+    </aside>
+
+    <section>
+      <div class="card">
+        <div class="toolbar">
+          <div>
+            <h2>Auto Planner</h2>
+            <div class="tiny">Auto plan chooses one Gillian + one Belle character per round first, then fills public slots by role needs.</div>
+          </div>
+          <div class="btnrow" style="margin:0">
+            <button onclick="autoPlan()">Auto Generate</button>
+            <button class="secondary" onclick="clearPlan()">Clear Plan</button>
+            <button class="secondary" onclick="copyPlan()">Copy Discord Summary</button>
+          </div>
+        </div>
+
+        <div class="summary-grid">
+          <div class="stat"><b id="validRounds">0</b><span>VALID ROUNDS</span></div>
+          <div class="stat"><b id="missingDispel">0</b><span>MISSING DISPEL</span></div>
+          <div class="stat"><b id="missingFma">0</b><span>MISSING FMA</span></div>
+          <div class="stat"><b id="warningsCount">0</b><span>WARNINGS</span></div>
+        </div>
+
+        <div id="roundGrid" class="round-grid"></div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h2>Roster</h2>
+        <div class="tiny">Owned characters are locked in the default roster. Public characters can be added/removed below.</div>
+        <div class="roster" style="margin-top:12px">
+          <table>
+            <thead><tr><th>Owner</th><th>IGN</th><th>Class</th><th>Lv</th><th>MW40</th><th>Rounds</th><th>Tags</th><th></th></tr></thead>
+            <tbody id="rosterBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const JOBS = [
+      'Bishop','Bowmaster','Marksman','Wind Archer','Buccaneer','Thunder Breaker','Dual Blade','Fire/Poison Mage','Ice/Lightning Mage','Blaze Wizard','Evan','Dawn Warrior','Paladin','Dark Knight','Aran','Hero','Shadower','Night Lord','Night Walker','Corsair'
+    ];
+
+    const ALIAS = {
+      bsp:'Bishop', bs:'Bishop', bishop:'Bishop', hs:'Bishop',
+      bm:'Bowmaster', se:'Bowmaster', bowmaster:'Bowmaster',
+      mm:'Marksman', mmse:'Marksman', marksman:'Marksman',
+      wa:'Wind Archer', wase:'Wind Archer', windarcher:'Wind Archer',
+      bucc:'Buccaneer', si:'Buccaneer', buccaneer:'Buccaneer',
+      tb:'Thunder Breaker', tbsi:'Thunder Breaker', thunderbreaker:'Thunder Breaker',
+      db:'Dual Blade', th:'Dual Blade', dualblade:'Dual Blade',
+      fp:'Fire/Poison Mage', fpmage:'Fire/Poison Mage',
+      il:'Ice/Lightning Mage', 'i/l':'Ice/Lightning Mage', ilmage:'Ice/Lightning Mage',
+      bw:'Blaze Wizard', blazewizard:'Blaze Wizard',
+      evan:'Evan',
+      dw:'Dawn Warrior', ec:'Dawn Warrior', dawnwarrior:'Dawn Warrior',
+      pala:'Paladin', pally:'Paladin', paladin:'Paladin',
+      dk:'Dark Knight', drk:'Dark Knight', hb:'Dark Knight', darkknight:'Dark Knight',
+      aran:'Aran', hero:'Hero', shad:'Shadower', shadower:'Shadower',
+      nl:'Night Lord', nightlord:'Night Lord',
+      nw:'Night Walker', nightwalker:'Night Walker',
+      sair:'Corsair', corsair:'Corsair'
+    };
+
+    const ROLE = {
+      'Bishop': {dispel:1, fma:1, mwNeed:0, se:0, th:0, si:0, note:'Dispel / FMA'},
+      'Bowmaster': {seProvider:1, self:1, note:'SE / self-reliant'},
+      'Marksman': {seProvider:1, wantsSI:2, note:'SE / wants SI'},
+      'Wind Archer': {seProvider:1, wantsSI:2, note:'SE / wants SI'},
+      'Buccaneer': {siProvider:1, tl:1, wantsCrit:1, note:'SI / TL'},
+      'Thunder Breaker': {siProvider:1, wantsCrit:1, note:'SI'},
+      'Dual Blade': {thProvider:1, self:1, note:'TH / self-reliant'},
+      'Fire/Poison Mage': {fma:1, wantsCrit:1, note:'FMA / wants SE or TH'},
+      'Ice/Lightning Mage': {fma:1, wantsCrit:1, note:'FMA / wants SE or TH'},
+      'Blaze Wizard': {fma:1, wantsCrit:1, note:'FMA / wants SE or TH'},
+      'Evan': {fma:1, wantsSEOnly:1, note:'FMA / SE only'},
+      'Dawn Warrior': {halfSI:1, stance:1, wantsCrit:1, note:'EC / stance'},
+      'Paladin': {threaten:1, wantsCrit:1, wantsSI:1, note:'Threaten'},
+      'Dark Knight': {dispel:1, hb:1, wantsCrit:1, wantsSI:2, note:'Dispel / HB'},
+      'Aran': {cb:1, wantsCrit:2, wantsSI:1, note:'CB / buff hungry'},
+      'Hero': {wantsCrit:1, wantsSI:1, note:'DPS'},
+      'Shadower': {smoke:1, wantsCrit:.3, note:'Smoke'},
+      'Night Lord': {wantsSEOnly:3, note:'SE only'},
+      'Night Walker': {wantsSEOnly:4, note:'SE only'},
+      'Corsair': {wantsCrit:1, wantsSI:1, note:'DPS / wants SI'}
+    };
+
+    let chars = [];
+    let plan = Array.from({length:7}, () => Array(6).fill(null));
+    const ownerQuota = {};
+
+    const owned = [
+      {owner:'Belle', ign:'Thocky', job:'Aran', level:291, mw40:true, rounds:[1,2,3,4,5,6,7]},
+      {owner:'Belle', ign:'Tock', job:'Night Walker', level:263, mw40:false, rounds:[1,2,3,4,5,6,7]},
+      {owner:'Belle', ign:'Tocki', job:'Bowmaster', level:254, mw40:false, rounds:[1,2,3,4,5,6,7]},
+      {owner:'Belle', ign:'Tork', job:'Blaze Wizard', level:261, mw40:false, rounds:[1,2,3,4,5,6,7]},
+      {owner:'Belle', ign:'Tokk', job:'Buccaneer', level:209, mw40:false, rounds:[1,2,3,4,5,6,7]},
+      {owner:'Belle', ign:'Hell', job:'Fire/Poison Mage', level:276, mw40:true, rounds:[1,2,3,4,5,6,7]},
+      {owner:'Belle', ign:'Tocky', job:'Bishop', level:265, mw40:false, rounds:[1,2,3,4,5,6,7]},
+      {owner:'Gillian', ign:'Gillian', job:'Dual Blade', level:284, mw40:true, rounds:[1,2,3,4,5,6,7]},
+      {owner:'Gillian', ign:'ggil', job:'Bowmaster', level:265, mw40:false, rounds:[1,2,3,4,5,6,7]},
+      {owner:'Gillian', ign:'ggill', job:'Buccaneer', level:247, mw40:false, rounds:[1,2,3,4,5,6,7]},
+      {owner:'Gillian', ign:'Leaw', job:'Aran', level:265, mw40:false, rounds:[1,2,3,4,5,6,7]},
+      {owner:'Gillian', ign:'Gill', job:'Fire/Poison Mage', level:276, mw40:true, rounds:[1,2,3,4,5,6,7]},
+      {owner:'Gillian', ign:'Kaiko', job:'Bishop', level:267, mw40:false, rounds:[1,2,3,4,5,6,7]},
+      {owner:'Gillian', ign:'Arun', job:'Dawn Warrior', level:243, mw40:false, rounds:[1,2,3,4,5,6,7]}
+    ].map((c,i)=>({...c, id:'owned_'+i, locked:true}));
+
+    function init() {
+      chars = [...owned];
+      const jobSelect = document.getElementById('job');
+      jobSelect.innerHTML = JOBS.map(j => `<option>${j}</option>`).join('');
+      renderAll();
+    }
+
+    function parseRounds(str) {
+      if (!str) return [1,2,3,4,5,6,7];
+      const s = String(str).toLowerCase().replace(/rounds?|runs?|rds?/g, '').trim();
+      if (/all|full|whole|any|1 *- *7/.test(s)) return [1,2,3,4,5,6,7];
+      const nums = new Set();
+      s.split(/[ ,/+]+/).filter(Boolean).forEach(part => {
+        if (/^[0-9] *- *[0-9]$/.test(part)) {
+          const bits = part.split('-').map(x => Number(x.trim()));
+          const a = bits[0], b = bits[1];
+          for (let i=Math.min(a,b); i<=Math.max(a,b); i++) if (i>=1&&i<=7) nums.add(i);
+        } else {
+          const n = Number(part.replace(/[^0-9]/g,''));
+          if (n>=1&&n<=7) nums.add(n);
+        }
+      });
+      return nums.size ? [...nums].sort((a,b)=>a-b) : [1,2,3,4,5,6,7];
+    }
+
+    function parseQuota(line) {
+      const s = line.toLowerCase();
+      if (/all|full|whole|7 *r|7 *round/.test(s)) return 7;
+      const m = s.match(/(?:join(?:ing)?|j>|for|x)? *([0-9]+) *(?:r|round|rounds|run|runs)/);
+      if (m) return Math.max(1, Math.min(7, Number(m[1])));
+      return 7;
+    }
+
+    function parseAvailability(line) {
+      const s = line.toLowerCase();
+      const fromTo = s.match(/(?:from|r)? *([0-9]) *(?:-|to|~) *(?:r)? *([0-9])/);
+      if (fromTo) return parseRounds(`${fromTo[1]}-${fromTo[2]}`);
+      const after = s.match(/(?:from|start(?:ing)?|r) *([0-9]) *(?:onwards?|[+]|and after)/);
+      if (after) return parseRounds(`${after[1]}-7`);
+      const only = s.match(/(?:only|rounds?|r) *((?:[0-9][ ,/]+)*[0-9])/);
+      if (only) return parseRounds(only[1]);
+      return [1,2,3,4,5,6,7];
+    }
+
+    function normJob(token) {
+      const raw = String(token || '').toLowerCase().trim();
+      const k = raw.replace(/[^a-z/]/g,'');
+      return ALIAS[k] || null;
+    }
+
+    function extractJobs(line) {
+      const lower = line.toLowerCase();
+      const found = [];
+      const pushJob = (j) => { if (j && !found.includes(j)) found.push(j); };
+      const focused = (lower.match(/(?:j>|join>|jobs?:|chars?:|char:|classes?:) *([^
+]+)/i) || [null, lower])[1];
+      focused.split(/[ ,/+]+/).forEach(tok => pushJob(normJob(tok)));
+      lower.split(/[ ,/+]+/).forEach(tok => pushJob(normJob(tok)));
+      return found;
+    }
+
+    function cleanOwner(line) {
+      const beforeJoin = line.split(/j>|join>|jobs?:|chars?:|char:|classes?:/i)[0].trim();
+      const first = beforeJoin.split(/[ :,-]+/).filter(Boolean)[0];
+      return first || 'Public';
+    }
+
+    function addManualCharacter() {
+      const owner = document.getElementById('owner').value.trim() || 'Public';
+      const job = document.getElementById('job').value;
+      const ign = document.getElementById('ign').value.trim() || `${owner}-${job.split(' ')[0]}`;
+      const level = Number(document.getElementById('level').value) || '';
+      const rounds = parseRounds(document.getElementById('rounds').value);
+      const mw40 = document.getElementById('mw').value === 'true';
+      chars.push({id:'pub_'+Date.now()+Math.random(), owner, ign, job, level, mw40, rounds, locked:false});
+      ['owner','ign','level','rounds'].forEach(id=>document.getElementById(id).value='');
+      renderAll();
+    }
+
+    function parseQuickText() {
+      const text = document.getElementById('quickText').value.trim();
+      if (!text) return;
+      let added = [];
+      text.split(/
++/).forEach((line, idx) => {
+        line = line.trim();
+        if (!line) return;
+        const owner = cleanOwner(line);
+        const quota = parseQuota(line);
+        const availability = parseAvailability(line);
+        const level = Number((line.match(/(?:lv|level) *([0-9]+)/i) || [,''])[1]) || '';
+        const jobs = extractJobs(line);
+        ownerQuota[owner] = Math.min(ownerQuota[owner] || 7, quota);
+        jobs.forEach((job, j) => {
+          const short = job.split(/[ /]+/).map(x=>x[0]).join('').toUpperCase();
+          const ign = `${owner}-${short}${jobs.length>1?j+1:''}`;
+          const c = {id:'pub_'+Date.now()+Math.random()+idx+j, owner, ign, job, level, mw40:false, rounds:availability, maxRuns:quota, locked:false};
+          chars.push(c); added.push(c);
+        });
+      });
+      document.getElementById('pastePreview').innerHTML = added.length
+        ? added.map(c => `<span class="pill info">${c.owner}: ${c.job} max ${ownerQuota[c.owner] || c.maxRuns || 7}R • avail R${c.rounds.join('/')}</span>`).join('')
+        : '<span class="pill bad">No valid jobs found. Try: kc j&gt;th/se/bsp 3r, wk j&gt;3 to 6 dw/bm/mm/bsp/shad, or bk join 4 to 6 fp/fp/il</span>';
+      renderAll();
+    }
+
+    function resetPublic() {
+      Object.keys(ownerQuota).forEach(k => delete ownerQuota[k]);
+      chars = chars.filter(c=>c.locked);
+      clearPlan();
+      renderAll();
+    }
+
+    function charTags(c) {
+      const r = ROLE[c.job] || {};
+      const tags = [];
+      if (r.dispel) tags.push('Dispel');
+      if (r.fma) tags.push('FMA');
+      if (r.seProvider) tags.push('SE');
+      if (r.thProvider) tags.push('TH');
+      if (r.siProvider) tags.push('SI');
+      if (r.halfSI) tags.push('EC');
+      if (r.hb) tags.push('HB');
+      if (r.cb) tags.push('CB');
+      if (r.smoke) tags.push('Smoke');
+      if (c.mw40) tags.push('MW40');
+      return tags;
+    }
+
+    function evaluateParty(party) {
+      const filled = party.filter(Boolean);
+      const roles = {dispel:0,fma:0,se:0,th:0,si:0,halfSI:0,mw40:0,smoke:0,tl:0,hb:0,cb:0};
+      filled.forEach(c => {
+        const r = ROLE[c.job] || {};
+        roles.dispel += r.dispel || 0;
+        roles.fma += r.fma || 0;
+        roles.se += r.seProvider || 0;
+        roles.th += r.thProvider || 0;
+        roles.si += r.siProvider || 0;
+        roles.halfSI += r.halfSI || 0;
+        roles.mw40 += c.mw40 ? 1 : 0;
+        roles.smoke += r.smoke || 0;
+        roles.tl += r.tl || 0;
+        roles.hb += r.hb || 0;
+        roles.cb += r.cb || 0;
+      });
+
+      const warnings = [];
+      const hard = [];
+      if (filled.length < 6) hard.push(`${6-filled.length} empty slot${6-filled.length>1?'s':''}`);
+      if (roles.dispel < 1) hard.push('Missing Dispel');
+      if (roles.fma < 1) hard.push('Missing FMA');
+      if (roles.fma < 2 && roles.fma >= 1) warnings.push('Only 1 FMA');
+
+      const owners = {};
+      filled.forEach(c => { owners[c.owner] = (owners[c.owner]||0)+1; });
+      Object.entries(owners).forEach(([owner, count]) => {
+        if (count > 1) hard.push(`${owner} has >1 character`);
+      });
+
+      const hasSE = roles.se > 0;
+      const hasTH = roles.th > 0;
+      const hasCrit = hasSE || hasTH;
+      const hasSI = roles.si > 0 || roles.halfSI > 0;
+
+      filled.forEach(c => {
+        const r = ROLE[c.job] || {};
+        if (r.wantsSEOnly && !hasSE) hard.push(`${c.ign} needs SE`);
+        if (r.wantsCrit && !hasCrit) warnings.push(`${c.ign} wants SE/TH`);
+        if (r.wantsSI && !hasSI) warnings.push(`${c.ign} wants SI/EC`);
+      });
+
+      return {filled, roles, hard, warnings, valid: hard.length===0};
+    }
+
+    function scoreParty(party) {
+      const e = evaluateParty(party);
+      let score = 0;
+      if (e.valid) score += 10000;
+      score += Math.min(e.roles.fma,2) * 700;
+      score += e.roles.dispel * 1000;
+      score += e.roles.se * 650;
+      score += e.roles.th * 420;
+      score += e.roles.si * 350;
+      score += e.roles.mw40 * 150;
+      score += e.roles.smoke * 130;
+      score += e.roles.tl * 100;
+      score += e.roles.cb * 120;
+      score += e.roles.hb * 90;
+      score -= e.hard.length * 5000;
+      score -= e.warnings.length * 250;
+      party.filter(Boolean).forEach(c => score += (Number(c.level)||200)/15);
+      return score;
+    }
+
+    function autoPlan() {
+      clearPlan(false);
+      const usedIds = new Set();
+      const ownerUsedRounds = {};
+      const belle = chars.filter(c=>c.owner==='Belle');
+      const gillian = chars.filter(c=>c.owner==='Gillian');
+      const pub = chars.filter(c=>c.owner!=='Belle' && c.owner!=='Gillian');
+
+      const quotaFor = (owner) => owner === 'Belle' || owner === 'Gillian' ? 7 : (ownerQuota[owner] || 7);
+      const canUse = (c, round, partyOwners) => {
+        if (!c || usedIds.has(c.id)) return false;
+        if (!c.rounds.includes(round)) return false;
+        if (partyOwners.has(c.owner)) return false;
+        if ((ownerUsedRounds[c.owner] || 0) >= quotaFor(c.owner)) return false;
+        return true;
+      };
+
+      for (let round=1; round<=7; round++) {
+        let best = null;
+        let bestScore = -Infinity;
+        const belleChoices = belle.filter(c=>canUse(c, round, new Set()));
+        const gillianChoices = gillian.filter(c=>canUse(c, round, new Set()));
+        const basePairs = [];
+        belleChoices.forEach(b => gillianChoices.forEach(g => basePairs.push([b,g])));
+        if (!basePairs.length) basePairs.push([]);
+
+        for (const base of basePairs) {
+          const baseOwners = new Set(base.map(c=>c.owner));
+          const candidates = pub.filter(c=>canUse(c, round, baseOwners));
+          const combos = ownerSafeCombos(candidates, Math.min(6-base.length,candidates.length));
+          const lists = combos.length ? combos : [[]];
+          for (const combo of lists) {
+            const party = [...base, ...combo].slice(0,6);
+            while (party.length < 6) party.push(null);
+            const sc = scoreParty(party);
+            if (sc > bestScore) { bestScore = sc; best = party; }
+          }
+        }
+        if (!best) best = Array(6).fill(null);
+        plan[round-1] = best;
+        best.filter(Boolean).forEach(c => {
+          usedIds.add(c.id);
+          ownerUsedRounds[c.owner] = (ownerUsedRounds[c.owner] || 0) + 1;
+        });
+      }
+      renderAll();
+    }
+
+    function ownerSafeCombos(arr, maxK) {
+      const res = [];
+      function rec(start, combo, owners) {
+        res.push([...combo]);
+        if (combo.length >= maxK) return;
+        for (let i=start; i<arr.length; i++) {
+          if (owners.has(arr[i].owner)) continue;
+          owners.add(arr[i].owner);
+          combo.push(arr[i]);
+          rec(i+1, combo, owners);
+          combo.pop();
+          owners.delete(arr[i].owner);
+          if (res.length > 2500) return;
+        }
+      }
+      rec(0, [], new Set());
+      return res.sort((a,b)=>b.length-a.length).slice(0,1800);
+    }
+
+    function choose(arr, k) {
+      const res = [];
+      function rec(start, combo) {
+        if (combo.length === k) { res.push([...combo]); return; }
+        for (let i=start; i<arr.length; i++) rec(i+1, [...combo, arr[i]]);
+      }
+      if (k === 0) return [[]];
+      rec(0, []);
+      return res.slice(0, 1600);
+    }
+
+    function clearPlan(doRender=true) {
+      plan = Array.from({length:7}, () => Array(6).fill(null));
+      if (doRender) renderAll();
+    }
+
+    function setSlot(roundIdx, slotIdx, id) {
+      plan[roundIdx][slotIdx] = chars.find(c=>c.id===id) || null;
+      renderAll();
+    }
+
+    function removeChar(id) {
+      chars = chars.filter(c=>c.id!==id || c.locked);
+      plan = plan.map(round => round.map(c => c && c.id===id ? null : c));
+      renderAll();
+    }
+
+    function renderRounds() {
+      const grid = document.getElementById('roundGrid');
+      grid.innerHTML = '';
+      for (let r=0; r<7; r++) {
+        const e = evaluateParty(plan[r]);
+        const div = document.createElement('div');
+        div.className = 'round';
+        const badges = [
+          e.valid ? '<span class="pill ok">Valid</span>' : '<span class="pill bad">Needs Fix</span>',
+          `<span class="pill ${e.roles.dispel?'ok':'bad'}">Dispel ${e.roles.dispel}</span>`,
+          `<span class="pill ${e.roles.fma>=2?'ok':e.roles.fma>=1?'warn':'bad'}">FMA ${e.roles.fma}</span>`,
+          `<span class="pill ${e.roles.se?'ok':'warn'}">SE ${e.roles.se}</span>`,
+          `<span class="pill ${e.roles.th?'ok':'warn'}">TH ${e.roles.th}</span>`,
+          `<span class="pill ${e.roles.si||e.roles.halfSI?'ok':'warn'}">SI/EC ${e.roles.si+e.roles.halfSI}</span>`,
+          `<span class="pill lav">MW40 ${e.roles.mw40}</span>`
+        ].join('');
+        div.innerHTML = `<div class="round-head"><div><div class="round-title">Round ${r+1}</div><div>${badges}</div></div></div><div class="slots"></div><div class="warnings"></div>`;
+        const slots = div.querySelector('.slots');
+        for (let s=0; s<6; s++) {
+          const c = plan[r][s];
+          const slot = document.createElement('div');
+          slot.className = 'slot' + (c ? ' filled' : '');
+          const available = chars.filter(x => x.rounds.includes(r+1));
+          slot.innerHTML = `
+            <div>${c ? `<div class="char-name">${c.ign}</div><div class="char-meta">${c.owner} • ${c.job} • Lv ${c.level || '?'} ${c.mw40?'• MW40':''}</div>` : '<div class="char-meta">Empty slot</div>'}</div>
+            <select onchange="setSlot(${r},${s},this.value)">
+              <option value="">Empty</option>
+              ${available.map(x=>`<option value="${x.id}" ${c&&c.id===x.id?'selected':''}>${x.owner} - ${x.ign} (${x.job})</option>`).join('')}
+            </select>`;
+          slots.appendChild(slot);
+        }
+        const warn = div.querySelector('.warnings');
+        warn.innerHTML = [...e.hard.map(x=>`<span class="pill bad">${x}</span>`), ...e.warnings.map(x=>`<span class="pill warn">${x}</span>`)].join('');
+        grid.appendChild(div);
+      }
+    }
+
+    function renderRoster() {
+      const body = document.getElementById('rosterBody');
+      body.innerHTML = chars.map(c => `
+        <tr>
+          <td>${c.owner}</td><td><b>${c.ign}</b></td><td>${c.job}</td><td>${c.level||''}</td><td>${c.mw40?'Yes':'No'}</td><td>R${c.rounds.join('/')}</td>
+          <td>${charTags(c).map(t=>`<span class="pill info">${t}</span>`).join('')}</td>
+          <td>${c.locked?'<span class="tiny">locked</span>':`<button class="danger" onclick="removeChar('${c.id}')">Remove</button>`}</td>
+        </tr>`).join('');
+    }
+
+    function renderSummary() {
+      const evals = plan.map(evaluateParty);
+      document.getElementById('validRounds').textContent = evals.filter(e=>e.valid).length;
+      document.getElementById('missingDispel').textContent = evals.filter(e=>e.roles.dispel<1).length;
+      document.getElementById('missingFma').textContent = evals.filter(e=>e.roles.fma<1).length;
+      document.getElementById('warningsCount').textContent = evals.reduce((a,e)=>a+e.hard.length+e.warnings.length,0);
+    }
+
+    function renderAll() { renderRounds(); renderRoster(); renderSummary(); }
+
+    function copyPlan() {
+      const lines = [];
+      for (let r=0; r<7; r++) {
+        const e = evaluateParty(plan[r]);
+        lines.push(`# TOZ Round ${r+1} ${e.valid ? '✅' : '⚠️'}`);
+        plan[r].filter(Boolean).forEach((c,i)=> lines.push(`${i+1}. ${c.ign} — ${c.job} Lv${c.level||'?'} (${c.owner})${c.mw40?' MW40':''}`));
+        if (e.hard.length || e.warnings.length) lines.push(`Missing/Warnings: ${[...e.hard,...e.warnings].join(', ')}`);
+        lines.push('');
+      }
+      navigator.clipboard.writeText(lines.join('\n'));
+      alert('Copied TOZ summary to clipboard!');
+    }
+
+    init();
+  </script>
+</body>
+</html>
