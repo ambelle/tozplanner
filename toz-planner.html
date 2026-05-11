@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DreamMS TOZ Train Planner</title>
+<style>
+:root{
+  --bg:#f8f4ef;--panel:#fffdfa;--ink:#2f2a27;--muted:#8b8178;--line:#eadfd3;
+  --good:#dff1e8;--warn:#fff1c9;--bad:#ffe0df;--accent:#d8e8f6;--accent2:#eadff7;
+  --shadow:0 12px 30px rgba(80,63,45,.10);--radius:18px;
+}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(135deg,#f8f4ef,#f4f7fb);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{position:sticky;top:0;z-index:10;background:rgba(248,244,239,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:18px 24px;display:flex;gap:16px;align-items:center;justify-content:space-between}
+h1{margin:0;font-size:22px;letter-spacing:.2px}.sub{font-size:13px;color:var(--muted);margin-top:4px}.wrap{max-width:1480px;margin:0 auto;padding:22px}.grid{display:grid;grid-template-columns:390px 1fr;gap:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}.card h2{margin:0 0 12px;font-size:16px}.btns{display:flex;flex-wrap:wrap;gap:8px}.btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 13px;font-weight:700;font-size:13px;cursor:pointer}.btn.primary{background:#2f2a27;color:white;border-color:#2f2a27}.btn.danger{background:#fff1f1;color:#9b2d2d}.btn:hover{transform:translateY(-1px)}label{font-size:12px;font-weight:800;color:var(--muted);display:block;margin:8px 0 5px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff;font:inherit;color:var(--ink)}textarea{min-height:86px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tiny{font-size:12px;color:var(--muted);line-height:1.45}.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;border:1px solid var(--line);padding:4px 8px;background:#fff;font-size:11px;font-weight:800;color:#665c53}.pill.good{background:var(--good)}.pill.warn{background:var(--warn)}.pill.bad{background:var(--bad)}.tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}.tab{padding:8px 11px;border-radius:999px;background:#fff;border:1px solid var(--line);cursor:pointer;font-weight:800;font-size:12px}.tab.active{background:#2f2a27;color:#fff}.players{display:grid;gap:8px;max-height:460px;overflow:auto;padding-right:4px}.player{border:1px solid var(--line);background:#fff;border-radius:14px;padding:10px;display:grid;gap:6px}.playerTop{display:flex;justify-content:space-between;gap:8px}.name{font-weight:900}.meta{font-size:12px;color:var(--muted)}.rounds{display:grid;grid-template-columns:repeat(7,minmax(230px,1fr));gap:12px;overflow:auto;padding-bottom:10px}.round{background:rgba(255,255,255,.76);border:1px solid var(--line);border-radius:18px;padding:12px;min-width:230px}.round h3{margin:0 0 8px;font-size:15px;display:flex;justify-content:space-between;align-items:center}.slots{display:grid;gap:8px}.slot{border:1px dashed #d8c9ba;border-radius:14px;background:#fff;padding:8px}.slot.filled{border-style:solid}.slot select{padding:8px;font-size:13px}.status{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.score{font-size:12px;color:var(--muted)}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.metric{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px}.metric b{font-size:22px}.metric span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.legend{display:flex;gap:8px;flex-wrap:wrap}.sectionGap{height:12px}.hidden{display:none}.footer{color:var(--muted);font-size:12px;text-align:center;margin:20px}.copybox{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;white-space:pre-wrap;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;max-height:220px;overflow:auto}.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f3eee8;border:1px solid var(--line);border-radius:6px;padding:1px 5px}
+@media(max-width:1100px){.grid{grid-template-columns:1fr}.summary{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>DreamMS Tower of ToZ Train Planner</h1><div class="sub">7-round planner · strict role validation · auto-fill suggestions · local save only</div></div>
+  <div class="btns"><button class="btn primary" onclick="autoPlan()">Auto Plan</button><button class="btn" onclick="validateAll()">Validate</button><button class="btn" onclick="copyPlan()">Copy Plan</button><button class="btn danger" onclick="resetPlan()">Reset Slots</button></div>
+</header>
+<div class="wrap">
+  <div class="summary" id="summary"></div>
+  <div class="grid">
+    <aside class="card">
+      <h2>Player / Character Pool</h2>
+      <div class="tabs"><button class="tab active" onclick="showTab('add',this)">Add</button><button class="tab" onclick="showTab('pool',this)">Pool</button><button class="tab" onclick="showTab('rules',this)">Rules</button><button class="tab" onclick="showTab('export',this)">Export</button></div>
+      <div id="tab-add">
+        <div class="row"><div><label>IGN</label><input id="ign" placeholder="e.g. PublicSE" /></div><div><label>Owner</label><input id="owner" placeholder="e.g. Public / Belle / Gillian" /></div></div>
+        <div class="row"><div><label>Class</label><select id="job"></select></div><div><label>Level</label><input id="level" type="number" placeholder="250" /></div></div>
+        <div class="row"><div><label>Available From Round</label><select id="fromRound"></select></div><div><label>Available To Round</label><select id="toRound"></select></div></div>
+        <label><input id="mw40" type="checkbox" style="width:auto" /> Has Maple Warrior 40</label>
+        <label>Notes</label><input id="notes" placeholder="e.g. can only stay 3 rounds / j>th bm bsp" />
+        <div class="sectionGap"></div><button class="btn primary" onclick="addPlayer()">Add Character</button>
+        <div class="sectionGap"></div><div class="tiny">Tip: add every public character offered. Set availability range, then Auto Plan will choose the most useful ones.</div>
+      </div>
+      <div id="tab-pool" class="hidden"><div class="btns"><button class="btn" onclick="loadDefaultRoster()">Reload Belle + Gillian</button><button class="btn danger" onclick="clearPublic()">Clear Public</button></div><div class="sectionGap"></div><div class="players" id="players"></div></div>
+      <div id="tab-rules" class="hidden">
+        <div class="legend"><span class="pill bad">Hard missing</span><span class="pill warn">Improve if possible</span><span class="pill good">Satisfied</span></div>
+        <div class="sectionGap"></div>
+        <div class="tiny">
+          <b>Hard rules used by this planner:</b><br>
+          • 6 members per round.<br>• Every round needs Dispel: Bishop or Dark Knight.<br>• Gillian can only have 1 character per round.<br>• Belle can only have 1 character per round.<br>• Same IGN cannot appear twice in the same round.<br>• Availability range must be respected.<br>• If a class requires SE, the round must include SE source.<br>• If SI-dependent classes exist, planner strongly prioritizes SI.<br><br>
+          <b>Soft optimization:</b><br>• Prefer 2 FMA, minimum acceptable 1.<br>• Spread MW40 when possible.<br>• Pair SI with MM / WA / DRK / Aran / Paladin / Hero / Corsair.<br>• Keep BM and DB as self-reliant filler when role needs are already solved.
+        </div>
+      </div>
+      <div id="tab-export" class="hidden"><div class="copybox" id="copybox">Click Copy Plan after planning.</div></div>
+    </aside>
+    <main class="card"><h2>7 Rounds</h2><div class="rounds" id="rounds"></div></main>
+  </div>
+  <div class="footer">Community planner only • Not official server data • Values and class priorities may change with updates</div>
+</div>
+<script>
+const JOBS=['Bishop','Bowmaster','Marksman','Wind Archer','Buccaneer','Thunder Breaker','Dual Blade','Fire/Poison Mage','Ice/Lightning Mage','Blaze Wizard','Evan','Dawn Warrior','Paladin','Dark Knight','Aran','Hero','Shadower','Night Lord','Night Walker','Corsair'];
+const MAP={
+ 'Bishop':{dispel:1,fma:1,mwNeed:0,seNeed:1,thNeed:1,siNeed:0,label:'BSP'}, 'Dark Knight':{dispel:1,fma:0,seNeed:1,thNeed:1,siNeed:1,label:'DK'},
+ 'Bowmaster':{se:1,self:1,label:'BM'}, 'Marksman':{se:1,siNeed:1,label:'MM'}, 'Wind Archer':{se:1,siNeed:1,label:'WA'},
+ 'Buccaneer':{si:1,seNeed:1,thNeed:1,tl:1,label:'Bucc'}, 'Thunder Breaker':{si:1,seNeed:1,thNeed:1,label:'TB'}, 'Dual Blade':{th:1,self:1,label:'DB'},
+ 'Fire/Poison Mage':{fma:1,seNeed:1,thNeed:1,label:'FP'}, 'Ice/Lightning Mage':{fma:1,seNeed:1,thNeed:1,label:'IL'}, 'Blaze Wizard':{fma:1,seNeed:1,thNeed:1,label:'BW'}, 'Evan':{fma:1,seOnly:1,label:'Evan'},
+ 'Dawn Warrior':{ec:1,seNeed:1,thNeed:1,siHalf:1,label:'DW'}, 'Paladin':{threaten:1,seNeed:1,thNeed:1,siNeed:1,label:'Pala'}, 'Aran':{cb:1,seNeed:1,thNeed:1,siNeed:1,label:'Aran'}, 'Hero':{seNeed:1,thNeed:1,siNeed:1,label:'Hero'}, 'Shadower':{smoke:1,seNeed:1,thNeed:1,label:'Shad'}, 'Night Lord':{seOnly:1,label:'NL'}, 'Night Walker':{seOnly:1,label:'NW'}, 'Corsair':{seNeed:1,thNeed:1,siNeed:1,label:'Sair'}
+};
+let players=JSON.parse(localStorage.tozPlayers||'null')||[]; let plan=JSON.parse(localStorage.tozPlan||'null')||Array.from({length:7},()=>Array(6).fill(''));
+function defaultRoster(){return [
+ {ign:'Thocky',owner:'Belle',job:'Aran',level:291,mw40:true,from:1,to:7,notes:'MW40'}, {ign:'Tock',owner:'Belle',job:'Night Walker',level:263,mw40:false,from:1,to:7,notes:''}, {ign:'Tocki',owner:'Belle',job:'Bowmaster',level:254,mw40:false,from:1,to:7,notes:''}, {ign:'Tork',owner:'Belle',job:'Blaze Wizard',level:261,mw40:false,from:1,to:7,notes:''}, {ign:'Tokk',owner:'Belle',job:'Buccaneer',level:209,mw40:false,from:1,to:7,notes:''}, {ign:'Hell',owner:'Belle',job:'Fire/Poison Mage',level:276,mw40:true,from:1,to:7,notes:'MW40'}, {ign:'Tocky',owner:'Belle',job:'Bishop',level:265,mw40:false,from:1,to:7,notes:''},
+ {ign:'Gillian',owner:'Gillian',job:'Dual Blade',level:284,mw40:true,from:1,to:7,notes:'MW40'}, {ign:'ggil',owner:'Gillian',job:'Bowmaster',level:265,mw40:false,from:1,to:7,notes:''}, {ign:'ggill',owner:'Gillian',job:'Buccaneer',level:247,mw40:false,from:1,to:7,notes:''}, {ign:'Leaw',owner:'Gillian',job:'Aran',level:265,mw40:false,from:1,to:7,notes:''}, {ign:'Gill',owner:'Gillian',job:'Fire/Poison Mage',level:276,mw40:true,from:1,to:7,notes:'MW40'}, {ign:'Kaiko',owner:'Gillian',job:'Bishop',level:267,mw40:false,from:1,to:7,notes:''}, {ign:'Arun',owner:'Gillian',job:'Dawn Warrior',level:243,mw40:false,from:1,to:7,notes:''}
+]}
+function save(){localStorage.tozPlayers=JSON.stringify(players);localStorage.tozPlan=JSON.stringify(plan)}
+function init(){JOBS.forEach(j=>job.add(new Option(j,j)));for(let i=1;i<=7;i++){fromRound.add(new Option(i,i));toRound.add(new Option(i,i));}toRound.value=7;if(!players.length){players=defaultRoster();save()}render()}
+function showTab(t,el){document.querySelectorAll('[id^=tab-]').forEach(x=>x.classList.add('hidden'));document.getElementById('tab-'+t).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));el.classList.add('active'); if(t==='pool')renderPlayers()}
+function addPlayer(){if(!ign.value.trim())return alert('IGN required');players.push({ign:ign.value.trim(),owner:owner.value.trim()||'Public',job:job.value,level:+level.value||0,mw40:mw40.checked,from:+fromRound.value,to:+toRound.value,notes:notes.value.trim()});ign.value=owner.value=level.value=notes.value='';mw40.checked=false;save();render()}
+function loadDefaultRoster(){players=[...players.filter(p=>!['Belle','Gillian'].includes(p.owner)),...defaultRoster()];save();render()}
+function clearPublic(){players=players.filter(p=>['Belle','Gillian'].includes(p.owner));save();render()}
+function removePlayer(i){const gone=players[i].ign;players.splice(i,1);plan=plan.map(r=>r.map(x=>x===gone?'':x));save();render()}
+function renderPlayers(){players.sort((a,b)=>(a.owner+b.ign).localeCompare(b.owner+a.ign));playersEl=players.map((p,i)=>`<div class="player"><div class="playerTop"><div><div class="name">${p.ign}</div><div class="meta">${p.owner} · ${p.job} · Lv ${p.level||'-'} · R${p.from}-${p.to}</div></div><button class="btn danger" onclick="removePlayer(${i})">x</button></div><div>${badges(p)}</div><div class="tiny">${p.notes||''}</div></div>`).join('');document.getElementById('players').innerHTML=playersEl||'<div class="tiny">No characters yet.</div>'}
+function badges(p){let m=MAP[p.job]||{};let arr=[]; if(m.dispel)arr.push('Dispel');if(m.se)arr.push('SE');if(m.th)arr.push('TH');if(m.si)arr.push('SI');if(m.fma)arr.push('FMA');if(m.tl)arr.push('TL');if(m.smoke)arr.push('Smoke');if(m.cb)arr.push('CB');if(m.threaten)arr.push('Threaten');if(m.ec)arr.push('EC');if(p.mw40)arr.push('MW40');return arr.map(x=>`<span class="pill">${x}</span>`).join(' ')}
+function render(){renderSummary();renderRounds();renderPlayers();save()}
+function renderSummary(){let v=validateAll(false);summary.innerHTML=`<div class="metric"><b>${v.ok}</b><span>Rounds ready</span></div><div class="metric"><b>${v.hard}</b><span>Hard issues</span></div><div class="metric"><b>${v.warn}</b><span>Warnings</span></div><div class="metric"><b>${players.length}</b><span>Characters in pool</span></div>`}
+function renderRounds(){rounds.innerHTML=plan.map((r,ri)=>{let res=validateRound(ri);return `<section class="round"><h3>Round ${ri+1}<span class="score">${r.filter(Boolean).length}/6</span></h3><div class="status">${res.pills}</div><div class="slots">${r.map((ign,si)=>slotHtml(ri,si,ign)).join('')}</div></section>`}).join('')}
+function slotHtml(ri,si,ign){let opts='<option value="">Empty Slot</option>'+players.filter(p=>p.from<=ri+1&&p.to>=ri+1).map(p=>`<option value="${p.ign}" ${p.ign===ign?'selected':''}>${p.ign} · ${MAP[p.job]?.label||p.job} · ${p.owner}</option>`).join('');let p=players.find(x=>x.ign===ign);return `<div class="slot ${ign?'filled':''}"><select onchange="plan[${ri}][${si}]=this.value;render()">${opts}</select>${p?`<div class="tiny">${p.job} · Lv ${p.level||'-'} ${p.mw40?'· MW40':''}</div><div>${badges(p)}</div>`:''}</div>`}
+function validateRound(ri){let chars=plan[ri].filter(Boolean).map(x=>players.find(p=>p.ign===x)).filter(Boolean);let issues=[],warns=[],goods=[];let count=(k)=>chars.some(p=>MAP[p.job]?.[k]);let num=(k)=>chars.filter(p=>MAP[p.job]?.[k]).length;let owners={};chars.forEach(p=>owners[p.owner]=(owners[p.owner]||0)+1);let dup=chars.length!==new Set(chars.map(p=>p.ign)).size;if(chars.length<6)issues.push(`${6-chars.length} empty`);if(dup)issues.push('Duplicate IGN');if((owners.Gillian||0)>1)issues.push('Gillian >1');if((owners.Belle||0)>1)issues.push('Belle >1');if(!count('dispel'))issues.push('No Dispel'); else goods.push('Dispel');let needSE=chars.some(p=>MAP[p.job]?.seOnly);let needCrit=chars.some(p=>MAP[p.job]?.seNeed||MAP[p.job]?.thNeed);if(needSE&&!count('se'))issues.push('Needs SE');else if(needSE)goods.push('SE');if(needCrit&&!(count('se')||count('th')))issues.push('No SE/TH');else if(needCrit)goods.push('SE/TH');let siNeed=chars.some(p=>MAP[p.job]?.siNeed);if(siNeed&&!count('si'))warns.push('No SI');else if(siNeed)goods.push('SI');let fma=num('fma');if(fma<1)issues.push('No FMA');else if(fma<2)warns.push('Only 1 FMA');else goods.push('2 FMA');if(!chars.some(p=>p.mw40))warns.push('No MW40'); else goods.push('MW40');return {issues,warns,goods,pills:[...issues.map(x=>`<span class="pill bad">${x}</span>`),...warns.map(x=>`<span class="pill warn">${x}</span>`),...goods.map(x=>`<span class="pill good">${x}</span>`)].join('')||'<span class="pill">Empty</span>'}}
+function validateAll(show=true){let hard=0,warn=0,ok=0;for(let i=0;i<7;i++){let r=validateRound(i);hard+=r.issues.length;warn+=r.warns.length;if(!r.issues.length)ok++}if(show){render();alert(`${ok}/7 rounds pass hard validation. Hard issues: ${hard}. Warnings: ${warn}.`)}return{hard,warn,ok}}
+function scoreCandidate(roundIdx, chosen, p){let test=[...chosen,p];let s=0,m=MAP[p.job]||{}; if(m.dispel&&!test.some(x=>x!==p&&MAP[x.job]?.dispel))s+=1000;if(m.se&&!test.some(x=>x!==p&&MAP[x.job]?.se))s+=700;if(m.th&&!test.some(x=>x!==p&&MAP[x.job]?.th))s+=550;if(m.si&&!test.some(x=>x!==p&&MAP[x.job]?.si))s+=520;if(m.fma)s+=260;if(p.mw40&&!test.some(x=>x!==p&&x.mw40))s+=150;if(['Belle','Gillian'].includes(p.owner))s+=40;if(p.level)s+=Math.min(120,p.level/3);if(m.self)s+=80;return s}
+function autoPlan(){plan=Array.from({length:7},()=>Array(6).fill(''));for(let r=0;r<7;r++){let chosen=[];let available=players.filter(p=>p.from<=r+1&&p.to>=r+1);for(let step=0;step<6;step++){let cand=available.filter(p=>!chosen.some(c=>c.ign===p.ign)).filter(p=>!(['Belle','Gillian'].includes(p.owner)&&chosen.some(c=>c.owner===p.owner)));cand.sort((a,b)=>scoreCandidate(r,chosen,b)-scoreCandidate(r,chosen,a));if(cand[0])chosen.push(cand[0]);}plan[r]=chosen.map(p=>p.ign).concat(Array(6).fill('')).slice(0,6)}
+// repair pass: force Dispel if missing
+for(let r=0;r<7;r++){let chars=plan[r].filter(Boolean).map(x=>players.find(p=>p.ign===x));if(!chars.some(p=>MAP[p.job]?.dispel)){let rep=players.find(p=>p.from<=r+1&&p.to>=r+1&&MAP[p.job]?.dispel&&!chars.some(c=>c.owner===p.owner&&['Belle','Gillian'].includes(p.owner)));if(rep)plan[r][5]=rep.ign}}
+save();render();validateAll(false)}
+function resetPlan(){if(confirm('Clear all 7 round slots?')){plan=Array.from({length:7},()=>Array(6).fill(''));save();render()}}
+function copyPlan(){let out=plan.map((r,i)=>`# TOZ Round ${i+1}\n`+r.filter(Boolean).map((ign,n)=>{let p=players.find(x=>x.ign===ign);return `${n+1}. ${ign} — ${p?.job||''} Lv ${p?.level||'-'} ${p?.mw40?'(MW40)':''}`}).join('\n')+`\nValidation: ${validateRound(i).issues.concat(validateRound(i).warns).join(', ')||'Ready'}`).join('\n\n');copybox.textContent=out;navigator.clipboard?.writeText(out);document.querySelectorAll('.tab')[3].click()}
+init();
+</script>
+</body>
+</html>
