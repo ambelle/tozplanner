@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-12T13:31:59.723Z",
+  "updatedAt": "2026-05-12T19:26:45.054Z",
   "characters": [
     {
       "owner": "Belle",
@@ -145,7 +145,7 @@
       "owner": "Winst",
       "name": "Eerie",
       "job": "Bishop",
-      "level": 273,
+      "level": 274,
       "source": "https://dreamms.gg/index.php?stats=Eerie"
     },
     {
@@ -208,7 +208,7 @@
       "owner": "Thom",
       "name": "Cruller",
       "job": "Corsair",
-      "level": 236,
+      "level": 237,
       "source": "https://dreamms.gg/index.php?stats=Cruller"
     },
     {
@@ -362,7 +362,7 @@
       "owner": "Liss",
       "name": "Lissie",
       "job": "Dark Knight",
-      "level": 270,
+      "level": 271,
       "source": "https://dreamms.gg/index.php?stats=Lissie"
     },
     {
