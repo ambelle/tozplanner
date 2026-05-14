@@ -190,6 +190,18 @@ const characters = [
     "name": "Dimz"
   },
   {
+    "owner": "KC",
+    "name": "Altered"
+  },
+  {
+    "owner": "KC",
+    "name": "Curative"
+  },
+  {
+    "owner": "KC",
+    "name": "CaiPngnoFish"
+  },
+  {
     "owner": "Liss",
     "name": "Pinkberry"
   },
