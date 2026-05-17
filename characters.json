@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-16T18:44:58.566Z",
+  "updatedAt": "2026-05-17T01:49:09.830Z",
   "characters": [
     {
       "owner": "Belle",
@@ -208,7 +208,7 @@
       "owner": "Thom",
       "name": "Cruller",
       "job": "Corsair",
-      "level": 237,
+      "level": 238,
       "source": "https://dreamms.gg/index.php?stats=Cruller"
     },
     {
@@ -390,7 +390,7 @@
       "owner": "Liss",
       "name": "Hibana",
       "job": "Fire/Poison Mage",
-      "level": 235,
+      "level": 236,
       "source": "https://dreamms.gg/index.php?stats=Hibana"
     },
     {
@@ -537,7 +537,7 @@
       "owner": "Juls",
       "name": "resource",
       "job": "Marksman",
-      "level": 263,
+      "level": 264,
       "source": "https://dreamms.gg/index.php?stats=Resource"
     },
     {
