@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-17T01:49:09.830Z",
+  "updatedAt": "2026-05-17T08:05:58.740Z",
   "characters": [
     {
       "owner": "Belle",
@@ -131,7 +131,7 @@
       "owner": "Winst",
       "name": "Owie",
       "job": "Dark Knight",
-      "level": 262,
+      "level": 263,
       "source": "https://dreamms.gg/index.php?stats=Owie"
     },
     {
@@ -152,7 +152,7 @@
       "owner": "Winst",
       "name": "Doorie",
       "job": "Bishop",
-      "level": 234,
+      "level": 235,
       "source": "https://dreamms.gg/index.php?stats=Doorie"
     },
     {
@@ -439,7 +439,7 @@
       "owner": "Unk",
       "name": "UnknownBM",
       "job": "Bowmaster",
-      "level": 265,
+      "level": 266,
       "source": "https://dreamms.gg/index.php?stats=UnknownBM"
     },
     {
