@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-19T01:58:09.185Z",
+  "updatedAt": "2026-05-19T08:55:20.161Z",
   "characters": [
     {
       "owner": "Belle",
@@ -19,7 +19,7 @@
       "owner": "Belle",
       "name": "Tocki",
       "job": "Bowmaster",
-      "level": 255,
+      "level": 256,
       "source": "https://dreamms.gg/index.php?stats=Tocki"
     },
     {
@@ -33,7 +33,7 @@
       "owner": "Belle",
       "name": "Tokk",
       "job": "Buccaneer",
-      "level": 214,
+      "level": 215,
       "source": "https://dreamms.gg/index.php?stats=Tokk"
     },
     {
@@ -215,7 +215,7 @@
       "owner": "Thom",
       "name": "SaltBread",
       "job": "Evan",
-      "level": 216,
+      "level": 217,
       "source": "https://dreamms.gg/index.php?stats=Saltbread"
     },
     {
