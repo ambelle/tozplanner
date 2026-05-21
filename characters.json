@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-21T01:57:13.594Z",
+  "updatedAt": "2026-05-21T08:52:42.743Z",
   "characters": [
     {
       "owner": "Belle",
@@ -124,7 +124,7 @@
       "owner": "Winst",
       "name": "Quackie",
       "job": "Dual Blade",
-      "level": 273,
+      "level": 274,
       "source": "https://dreamms.gg/index.php?stats=Quackie"
     },
     {
@@ -341,7 +341,7 @@
       "owner": "KC",
       "name": "Curative",
       "job": "Bishop",
-      "level": 266,
+      "level": 267,
       "source": "https://dreamms.gg/index.php?stats=Curative"
     },
     {
@@ -453,7 +453,7 @@
       "owner": "Unk",
       "name": "BishopHS",
       "job": "Bishop",
-      "level": 240,
+      "level": 241,
       "source": "https://dreamms.gg/index.php?stats=Bishophs"
     },
     {
