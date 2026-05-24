@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-23T18:51:59.470Z",
+  "updatedAt": "2026-05-24T01:56:09.786Z",
   "characters": [
     {
       "owner": "Belle",
@@ -313,7 +313,7 @@
       "owner": "KC",
       "name": "Nocti",
       "job": "Dark Knight",
-      "level": 215,
+      "level": 216,
       "source": "https://dreamms.gg/index.php?stats=Nocti"
     },
     {
@@ -432,7 +432,7 @@
       "owner": "Liss",
       "name": "Lissea",
       "job": "Corsair",
-      "level": 176,
+      "level": 177,
       "source": "https://dreamms.gg/index.php?stats=Lissea"
     },
     {
@@ -523,7 +523,7 @@
       "owner": "Juls",
       "name": "Motive",
       "job": "Bowmaster",
-      "level": 283,
+      "level": 284,
       "source": "https://dreamms.gg/index.php?stats=Motive"
     },
     {
@@ -544,7 +544,7 @@
       "owner": "Juls",
       "name": "Gracee",
       "job": "Bishop",
-      "level": 275,
+      "level": 276,
       "source": "https://dreamms.gg/index.php?stats=Gracee"
     },
     {
@@ -614,7 +614,7 @@
       "owner": "Andy",
       "name": "Shibah",
       "job": "Dual Blade",
-      "level": 290,
+      "level": 291,
       "source": "https://dreamms.gg/index.php?stats=Shibah"
     },
     {
@@ -656,7 +656,7 @@
       "owner": "Lior",
       "name": "Ayara",
       "job": "Blaze Wizard",
-      "level": 254,
+      "level": 255,
       "source": "https://dreamms.gg/index.php?stats=Ayara"
     }
   ],
