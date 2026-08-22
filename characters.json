@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-08-22T12:13:55.471Z",
+  "updatedAt": "2026-08-22T18:11:41.006Z",
   "characters": [
     {
       "owner": "Belle",
-      "name": "Added Medal Designer tool to DreamLib",
-      "job": "Added medal endpoints to Assets API",
+      "name": "Thocky",
       "level": null,
-      "source": "https://dreamms.gg/index.php?stats=Thocky"
+      "job": "",
+      "error": "Thocky: HTTP 502"
     },
     {
       "owner": "Belle",
@@ -660,5 +660,11 @@
       "source": "https://dreamms.gg/index.php?stats=Ayara"
     }
   ],
-  "failures": []
+  "failures": [
+    {
+      "owner": "Belle",
+      "name": "Thocky",
+      "error": "Thocky: HTTP 502"
+    }
+  ]
 }
