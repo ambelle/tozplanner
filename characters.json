@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-22T02:03:05.829Z",
+  "updatedAt": "2026-09-22T10:26:42.273Z",
   "characters": [
     {
       "owner": "Belle",
@@ -346,10 +346,10 @@
     },
     {
       "owner": "KC",
-      "name": "CaiPngnoFish",
+      "name": "Fixed Fusion Anvil, Hair Color Blending, Lens Color Blending not being reflected in NPC Shop UI, Messenger UI, DP Shop cosmetics preview UI, player NPCs (thanks bow, nuit, Jeslyn)",
+      "job": "Fixed no string name for Ash Bubbly Hair (ID 61150) (thanks Jeslyn)",
       "level": null,
-      "job": "",
-      "error": "fetch failed"
+      "source": "https://dreamms.gg/index.php?stats=CaiPngnoFish"
     },
     {
       "owner": "Liss",
@@ -660,11 +660,5 @@
       "source": "https://dreamms.gg/index.php?stats=Ayara"
     }
   ],
-  "failures": [
-    {
-      "owner": "KC",
-      "name": "CaiPngnoFish",
-      "error": "fetch failed"
-    }
-  ]
+  "failures": []
 }
