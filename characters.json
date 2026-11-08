@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-11-07T21:09:03.059Z",
+  "updatedAt": "2026-11-08T02:54:23.778Z",
   "characters": [
     {
       "owner": "Belle",
-      "name": "Thocky",
+      "name": "Fixed a false positive autoban related to daylight savings (thanks mgrl)",
+      "job": "Fixed being unable to move for a brief period after getting up from a chair that supports custom actions (standing, prone etc)",
       "level": null,
-      "job": "",
-      "error": "Thocky: HTTP 502"
+      "source": "https://dreamms.gg/index.php?stats=Thocky"
     },
     {
       "owner": "Belle",
@@ -660,11 +660,5 @@
       "source": "https://dreamms.gg/index.php?stats=Ayara"
     }
   ],
-  "failures": [
-    {
-      "owner": "Belle",
-      "name": "Thocky",
-      "error": "Thocky: HTTP 502"
-    }
-  ]
+  "failures": []
 }
