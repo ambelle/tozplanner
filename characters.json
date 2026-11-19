@@ -1,19 +1,19 @@
 {
-  "updatedAt": "2026-11-19T14:47:47.946Z",
+  "updatedAt": "2026-11-19T23:57:51.290Z",
   "characters": [
     {
       "owner": "Belle",
-      "name": "Thocky",
+      "name": "Improved client startup time by ~65% when launched with 'Fast Startup' flag enabled (login screen now appears ~6x faster)",
+      "job": "Added new SE Asia routing server",
       "level": null,
-      "job": "",
-      "error": "Thocky: HTTP 522"
+      "source": "https://dreamms.gg/index.php?stats=Thocky"
     },
     {
       "owner": "Belle",
-      "name": "Tock",
+      "name": "Improved client startup time by ~65% when launched with 'Fast Startup' flag enabled (login screen now appears ~6x faster)",
+      "job": "Added new SE Asia routing server",
       "level": null,
-      "job": "",
-      "error": "Tock: HTTP 522"
+      "source": "https://dreamms.gg/index.php?stats=Tock"
     },
     {
       "owner": "Belle",
@@ -660,16 +660,5 @@
       "source": "https://dreamms.gg/index.php?stats=Ayara"
     }
   ],
-  "failures": [
-    {
-      "owner": "Belle",
-      "name": "Thocky",
-      "error": "Thocky: HTTP 522"
-    },
-    {
-      "owner": "Belle",
-      "name": "Tock",
-      "error": "Tock: HTTP 522"
-    }
-  ]
+  "failures": []
 }
