@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-23T04:18:39.298Z",
+  "updatedAt": "2026-11-23T16:38:44.758Z",
   "characters": [
     {
       "owner": "Belle",
@@ -59,10 +59,10 @@
     },
     {
       "owner": "Gillian",
-      "name": "Improved client startup time by ~65% when launched with 'Fast Startup' flag enabled (login screen now appears ~6x faster)",
-      "job": "Added new SE Asia routing server",
+      "name": "ggil",
       "level": null,
-      "source": "https://dreamms.gg/index.php?stats=ggil"
+      "job": "",
+      "error": "fetch failed"
     },
     {
       "owner": "Gillian",
@@ -660,5 +660,11 @@
       "source": "https://dreamms.gg/index.php?stats=Ayara"
     }
   ],
-  "failures": []
+  "failures": [
+    {
+      "owner": "Gillian",
+      "name": "ggil",
+      "error": "fetch failed"
+    }
+  ]
 }
